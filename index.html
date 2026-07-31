@@ -172,7 +172,7 @@ header{
 }
 body.home header{background:var(--hdr-home);border-bottom-color:transparent}
 #theme{
-  background:none;border:1px solid var(--edge);border-radius:99px;color:var(--muted);cursor:pointer;
+  align-self:center;background:none;border:1px solid var(--edge);border-radius:99px;color:var(--muted);cursor:pointer;
   font-family:var(--mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;
   padding:7px 13px;display:flex;align-items:center;gap:7px;transition:.25s;
 }
@@ -183,19 +183,19 @@ body.home header{background:var(--hdr-home);border-bottom-color:transparent}
 .brand{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
 .brand b{font-family:var(--display);font-weight:800;letter-spacing:-.04em;font-size:1.15rem}
 .brand span{font-family:var(--mono);font-size:11px;letter-spacing:.09em;color:var(--muted);text-transform:uppercase}
-nav{display:flex;gap:clamp(14px,2.4vw,30px);align-items:center}
-nav a{font-family:var(--mono);font-weight:500;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--frost);position:relative;padding:6px 2px}
+nav{display:flex;gap:clamp(14px,2.4vw,30px);align-items:stretch}
+nav a{display:flex;align-items:center;font-family:var(--mono);font-weight:500;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--frost);position:relative;padding:6px 2px}
 nav a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--halo);transition:width .3s}
 nav a:hover{color:var(--halo)} nav a:hover::after{width:100%}
 nav a.on{color:var(--charge)} nav a.on::after{width:100%;background:var(--charge)}
-.drop{position:relative}
+.drop{position:relative;display:flex;align-items:stretch}
 .drop .menu{
   position:absolute;top:calc(100% + 12px);left:-14px;min-width:210px;padding:6px 0;
   background:var(--deep);border:1px solid var(--edge);
   opacity:0;visibility:hidden;transform:translateY(-6px);transition:.22s;
 }
 .drop:hover .menu,.drop:focus-within .menu{opacity:1;visibility:visible;transform:none}
-.drop .menu a{display:block;padding:11px 18px;letter-spacing:.06em;font-size:12px}
+.drop .menu a{display:block;align-items:initial;padding:11px 18px;letter-spacing:.06em;font-size:12px}
 .drop .menu a::after{display:none}
 .drop .menu a:hover{background:var(--slab);color:var(--halo)}
 .subtabs{display:flex;gap:8px;flex-wrap:wrap;margin-top:26px}
