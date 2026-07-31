@@ -173,6 +173,11 @@ h2.sec{font-family:var(--display);font-weight:700;letter-spacing:-.035em;line-he
 .sub b{font-family:var(--display);font-weight:700;font-size:1.5rem;letter-spacing:-.03em;color:var(--frost);text-transform:none}
 
 .pi{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(26px,4vw,56px);margin-top:30px;align-items:start}
+.pi-head{display:flex;gap:clamp(20px,2.2vw,30px);align-items:flex-start}
+.pi-id{min-width:0}
+.pi-shot{flex:0 0 auto;width:150px;height:150px;border-radius:50%;overflow:hidden;margin-top:6px;
+  border:1px solid var(--edge);background:linear-gradient(150deg,var(--slab),var(--void))}
+.pi-shot img{width:100%;height:100%;object-fit:cover;display:block}
 .pi h3{font-family:var(--display);font-weight:700;font-size:clamp(2rem,3.6vw,3rem);letter-spacing:-.035em;line-height:1.02}
 .pi .role{font-family:var(--mono);font-size:11.5px;color:var(--halo);letter-spacing:.14em;text-transform:uppercase;margin-top:12px}
 .pi .lead{color:var(--muted);margin:18px 0 4px;max-width:56ch;font-size:1.05rem;line-height:1.7}
@@ -314,6 +319,7 @@ footer a:hover{color:var(--halo)}
   .rail{grid-template-columns:1fr 1fr}
   .pi{grid-template-columns:1fr}
   .contact-card{position:static}
+  .pi-shot{width:104px;height:104px;margin-top:2px}
   .pub{grid-template-columns:1fr;gap:6px}
   .doorway{grid-template-columns:1fr}
   .hero-col{max-width:100%}
@@ -462,9 +468,14 @@ footer a:hover{color:var(--halo)}
 
     <div class="pi">
       <div class="reveal">
+        <div class="pi-head">
+          <div class="pi-shot"><img src="img/kyoungmin-min.png" alt="Kyoungmin Min" onerror="this.parentNode.remove()"></div>
+          <div class="pi-id">
         <h3>Kyoungmin Min</h3>
         <div class="role">Associate Professor · School of Mechanical Engineering</div>
         <p class="lead">Kyoungmin Min has led the Computational Science and AI Lab since 2019, now at Yonsei University. His research joins first-principles simulation with machine learning to accelerate the discovery of energy and semiconductor materials.</p>
+          </div>
+        </div>
 
         <div class="cv-head">Appointments</div>
         <ul class="cv">
