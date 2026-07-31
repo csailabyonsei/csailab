@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CS-AI Lab · Yonsei University</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<style>
+:root{
+  --void:#05070E; --deep:#0A1226; --slab:#0E1830;
+  --edge:rgba(150,180,225,.13); --edge-2:rgba(150,180,225,.30);
+  --frost:#EAF0FA; --muted:#8FA2C0;
+  --halo:#5FD0E6; --charge:#FFB454;
+  --hdr:rgba(5,7,14,.72); --hdr-home:rgba(5,7,14,.30);
+  --veil-a:rgba(10,18,38,.90); --veil-b:rgba(5,7,14,.15);
+  --hover:rgba(95,208,230,.05);
+  --display:"Syne","Pretendard Variable",sans-serif;
+  --body:"IBM Plex Sans","Pretendard Variable",sans-serif;
+  --mono:"IBM Plex Mono",monospace;
+  --pad:clamp(20px,5vw,72px);
+}
+html[data-theme="medium"]{
+  --void:#18202F; --deep:#1F2839; --slab:#2A3549;
+  --edge:rgba(180,202,232,.16); --edge-2:rgba(180,202,232,.34);
+  --frost:#DEE6F3; --muted:#94A5BE;
+  --halo:#5AC4DC; --charge:#E8A24E;
+  --hdr:rgba(24,32,47,.78); --hdr-home:rgba(24,32,47,.34);
+  --veil-a:rgba(31,40,57,.90); --veil-b:rgba(24,32,47,.18);
+  --hover:rgba(90,196,220,.06);
+}
+html[data-theme="light"]{
+  --void:#F6F8FC; --deep:#ECF0F7; --slab:#E1E7F1;
+  --edge:rgba(18,38,74,.14); --edge-2:rgba(18,38,74,.32);
+  --frost:#0C1730; --muted:#55677F;
+  --halo:#0B7D96; --charge:#9A5B00;
+  --hdr:rgba(246,248,252,.82); --hdr-home:rgba(246,248,252,.45);
+  --veil-a:rgba(236,240,247,.92); --veil-b:rgba(246,248,252,.20);
+  --hover:rgba(11,125,150,.06);
+}
+html{transition:background-color .35s}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--void);color:var(--frost);font-family:var(--body);font-weight:300;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background-color .35s,color .35s}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--charge);color:#0A0A0A}
+:focus-visible{outline:2px solid var(--halo);outline-offset:3px}
+[hidden]{display:none!important}
+
+/* ---------- header ---------- */
+header{
+  position:fixed;inset:0 0 auto 0;z-index:60;display:flex;align-items:center;justify-content:space-between;
+  gap:16px;flex-wrap:wrap;padding:16px var(--pad);
+  backdrop-filter:blur(14px);background:var(--hdr);border-bottom:1px solid var(--edge);transition:background-color .35s;
+}
+body.home header{background:var(--hdr-home);border-bottom-color:transparent}
+#theme{
+  background:none;border:1px solid var(--edge);border-radius:99px;color:var(--muted);cursor:pointer;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  padding:7px 13px;display:flex;align-items:center;gap:7px;transition:.25s;
+}
+#theme:hover{border-color:var(--edge-2);color:var(--frost)}
+#theme .steps{display:flex;gap:3px;align-items:center}
+#theme .step{width:4px;height:9px;background:var(--edge-2);border-radius:1px;transition:background .25s}
+#theme .step.on{background:var(--charge)}
+.brand{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.brand b{font-family:var(--display);font-weight:800;letter-spacing:-.04em;font-size:1.15rem}
+.brand span{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+nav{display:flex;gap:clamp(14px,2.4vw,30px);align-items:center}
+nav a{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);position:relative;padding:5px 0}
+nav a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--halo);transition:width .3s}
+nav a:hover{color:var(--frost)} nav a:hover::after{width:100%}
+nav a.on{color:var(--frost)} nav a.on::after{width:100%;background:var(--charge)}
+.drop{position:relative}
+.drop .menu{
+  position:absolute;top:calc(100% + 12px);left:-14px;min-width:210px;padding:6px 0;
+  background:var(--deep);border:1px solid var(--edge);
+  opacity:0;visibility:hidden;transform:translateY(-6px);transition:.22s;
+}
+.drop:hover .menu,.drop:focus-within .menu{opacity:1;visibility:visible;transform:none}
+.drop .menu a{display:block;padding:10px 16px;letter-spacing:.1em;font-size:11px}
+.drop .menu a::after{display:none}
+.drop .menu a:hover{background:var(--slab);color:var(--halo)}
+.subtabs{display:flex;gap:8px;flex-wrap:wrap;margin-top:26px}
+.subtabs a{
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  padding:9px 18px;border:1px solid var(--edge);border-radius:99px;color:var(--muted);transition:.25s;
+}
+.subtabs a:hover{border-color:var(--edge-2);color:var(--frost)}
+.subtabs a.on{background:var(--frost);color:var(--void);border-color:var(--frost)}
+
+/* ---------- page shell ---------- */
+main{min-height:100svh}
+.page{animation:pageIn .55s cubic-bezier(.2,.7,.3,1) both}
+@keyframes pageIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.wrap{padding:clamp(104px,12vh,140px) var(--pad) clamp(52px,6vw,84px);max-width:1500px;margin:0 auto}
+.block{padding:0 0 clamp(38px,4.5vw,66px)}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:12px}
+.eyebrow::before{content:"";width:26px;height:1px;background:var(--edge-2)}
+h2.sec{font-family:var(--display);font-weight:700;letter-spacing:-.035em;line-height:1.04;font-size:clamp(2rem,4.6vw,3.3rem);margin:14px 0 0}
+.sec-lede{max-width:64ch;color:var(--muted);margin-top:14px;font-size:1.03rem}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.3,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* ---------- HOME ---------- */
+#p-home{position:relative;min-height:100svh;display:grid;align-items:stretch;isolation:isolate}
+#pes{position:absolute;inset:0;width:100%;height:100%;z-index:-2;
+  -webkit-mask-image:radial-gradient(125% 100% at 60% 42%,#000 30%,transparent 86%);
+  mask-image:radial-gradient(125% 100% at 60% 42%,#000 30%,transparent 86%)}
+#p-home::before{content:"";position:absolute;inset:0;z-index:-3;
+  background:linear-gradient(180deg,var(--veil-a),var(--veil-b) 45%,var(--void)),
+  repeating-linear-gradient(90deg,var(--edge) 0 1px,transparent 1px 96px)}
+.hero-inner{padding:clamp(104px,14vh,150px) var(--pad) 0;width:100%;max-width:1500px;margin:0 auto;display:flex;flex-direction:column}
+.hero-col{max-width:100%;flex:1;display:flex;flex-direction:column}
+.hero h1{font-family:var(--display);font-weight:800;letter-spacing:-.045em;line-height:.94;font-size:clamp(2.6rem,7.4vw,6.4rem);margin:24px 0 clamp(34px,6vh,72px);max-width:17ch}
+.hero h1 em{font-style:normal;color:var(--halo)}
+.hero p.lede{max-width:54ch;margin-top:26px;font-size:clamp(1rem,1.3vw,1.18rem);color:#C4D2E6}
+.hero p.ko{margin-top:10px;font-family:"Pretendard Variable",sans-serif;color:var(--muted);font-size:.95rem;letter-spacing:-.01em}
+.hud{display:flex;gap:16px clamp(20px,3vw,44px);flex-wrap:wrap;margin-top:auto;padding-top:18px;border-top:1px solid var(--edge);font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.hud b{color:var(--frost);font-weight:400}
+.hud i{font-style:normal;color:var(--charge)}
+.hud .dots{display:flex;gap:5px;align-items:center;margin-left:auto}
+.hud .dots i{width:14px;height:2px;background:var(--edge-2);border-radius:1px;transition:background .5s,width .5s}
+.hud .dots i.on{background:var(--charge);width:22px}
+.doorway{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--edge);border-top:1px solid var(--edge);margin-top:clamp(26px,4vh,44px)}
+.doorway a{background:var(--hdr);padding:20px clamp(16px,2vw,26px) 24px;transition:background .35s;display:block}
+.doorway a:hover{background:var(--slab)}
+.doorway .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--halo)}
+.doorway .v{font-family:var(--display);font-weight:600;font-size:1.05rem;margin-top:8px;letter-spacing:-.02em;line-height:1.25}
+.doorway .d{font-size:.82rem;color:var(--muted);margin-top:5px;line-height:1.4}
+
+/* ---------- scale rail ---------- */
+.rail{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--edge);margin-top:28px;border:1px solid var(--edge)}
+.rail .cell{background:var(--deep);padding:20px clamp(14px,2vw,22px);position:relative}
+.rail .cell::before{content:"";position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,var(--halo),transparent);opacity:.55}
+.rail .len{font-family:var(--mono);font-size:11px;color:var(--charge);letter-spacing:.12em}
+.rail h4{font-family:var(--display);font-weight:600;font-size:1.12rem;margin:10px 0 6px;letter-spacing:-.02em}
+.rail p{font-size:.87rem;color:var(--muted);line-height:1.5}
+
+/* ---------- research cards ---------- */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);margin-top:34px;border-left:1px solid var(--edge);border-top:1px solid var(--edge)}
+.card{background:var(--void);padding:clamp(22px,2.4vw,30px);transition:background .4s;position:relative;overflow:hidden;display:flex;flex-direction:column;border-right:1px solid var(--edge);border-bottom:1px solid var(--edge)}
+.card:hover{background:var(--slab)}
+.card .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;color:var(--halo);text-transform:uppercase}
+.card h3{font-family:var(--display);font-weight:700;font-size:1.32rem;letter-spacing:-.025em;margin:13px 0 10px;line-height:1.15}
+.card p{color:var(--muted);font-size:.93rem}
+.card ul{list-style:none;margin:16px 0 4px;display:flex;flex-wrap:wrap;gap:7px}
+.card li{font-family:var(--mono);font-size:10.5px;color:var(--muted);border:1px solid var(--edge);padding:4px 9px;border-radius:99px}
+.card::after{content:"";position:absolute;right:-40px;bottom:-40px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(95,208,230,.16),transparent 70%);opacity:0;transition:opacity .4s}
+.card:hover::after{opacity:1}
+.card[data-topic]{cursor:pointer}
+.card[data-topic]:focus-visible{outline:2px solid var(--halo);outline-offset:-3px}
+.card-more{margin-top:auto;padding-top:15px;border-top:1px solid var(--edge);
+  font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+  display:flex;justify-content:space-between;align-items:center;gap:10px;transition:color .25s}
+.card:hover .card-more{color:var(--halo)}
+.card-more b{color:var(--charge);font-weight:400;white-space:nowrap}
+.card figure{margin:0 0 18px;border:1px solid var(--edge);background:linear-gradient(155deg,var(--deep),transparent);aspect-ratio:5/2;overflow:hidden;transition:background .4s}
+.card:hover figure{background:linear-gradient(155deg,var(--slab),transparent)}
+.card figure svg{width:100%;height:100%;display:block}
+.card .ln{stroke:var(--halo);fill:none;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round}
+.card .ac{stroke:var(--charge);fill:none;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round}
+.card .dm{stroke:var(--edge-2);fill:none;stroke-width:1}
+.card .fl{fill:var(--halo)}
+.card .fa{fill:var(--charge)}
+.card .ft{fill:var(--muted);font-family:var(--mono);font-size:7.5px;letter-spacing:.14em}
+
+/* ---------- members ---------- */
+.sub{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);
+  margin-top:clamp(38px,4.5vw,60px);padding-bottom:9px;border-bottom:1px solid var(--edge-2)}
+.sub b{font-family:var(--display);font-weight:700;font-size:1.5rem;letter-spacing:-.03em;color:var(--frost);text-transform:none}
+
+.pi{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(26px,4vw,56px);margin-top:30px;align-items:start}
+.pi h3{font-family:var(--display);font-weight:700;font-size:clamp(2rem,3.6vw,3rem);letter-spacing:-.035em;line-height:1.02}
+.pi .role{font-family:var(--mono);font-size:11.5px;color:var(--halo);letter-spacing:.14em;text-transform:uppercase;margin-top:12px}
+.pi .lead{color:var(--muted);margin:18px 0 4px;max-width:56ch;font-size:1.05rem;line-height:1.7}
+.cv-head{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:28px;padding-bottom:9px;border-bottom:1px solid var(--edge-2)}
+.cv{list-style:none}
+.cv li{display:grid;grid-template-columns:104px 1fr;gap:20px;padding:11px 0;border-bottom:1px solid var(--edge);align-items:baseline}
+.cv .when{font-family:var(--mono);font-size:10.5px;color:var(--charge);letter-spacing:.1em;white-space:nowrap}
+.cv .what b{font-weight:500;font-size:1rem;display:block;letter-spacing:-.01em}
+.cv .what span{display:block;color:var(--muted);font-size:.88rem;margin-top:3px}
+.cv .what i{display:block;font-style:normal;font-size:.8rem;opacity:.72;margin-top:2px}
+.contact-card{border:1px solid var(--edge);background:var(--deep);padding:clamp(20px,2.2vw,26px);position:sticky;top:96px}
+.contact-card h6{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:18px;padding-bottom:9px;border-bottom:1px solid var(--edge)}
+.contact-card dl{display:grid;grid-template-columns:66px 1fr;gap:14px;font-size:.93rem;align-items:baseline}
+.contact-card dt{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.contact-card dd a:hover{color:var(--halo)}
+.contact-card .ko{display:block;color:var(--muted);font-size:.83rem;margin-top:3px}
+.teach{list-style:none}
+.teach li{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:10px 0;border-bottom:1px solid var(--edge)}
+.teach li:last-child{border-bottom:none;padding-bottom:0}
+.teach b{font-weight:400;font-size:.95rem}
+.teach span{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.people{display:grid;grid-template-columns:repeat(4,1fr);border-left:1px solid var(--edge);margin-top:0}
+.person{background:var(--deep);border-right:1px solid var(--edge);border-bottom:1px solid var(--edge);transition:background .35s;display:flex;flex-direction:column}
+.person .body{padding:18px;display:flex;flex-direction:column;flex:1}
+.head{display:flex;align-items:center;gap:13px;margin-bottom:13px}
+.head .id{min-width:0}
+.shot{position:relative;flex:0 0 auto;width:62px;height:62px;border-radius:50%;overflow:hidden;
+  border:1px solid var(--edge);background:linear-gradient(150deg,var(--slab),var(--void))}
+.shot img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
+.person:hover .shot img{transform:scale(1.06)}
+.shot .mono{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--display);
+  font-weight:800;font-size:.95rem;letter-spacing:-.03em;color:var(--edge-2)}
+.person:hover{background:var(--slab)}
+.person .ko{font-family:"Pretendard Variable",sans-serif;font-size:.82rem;color:var(--muted);letter-spacing:.02em}
+.person h5{font-family:var(--display);font-weight:600;font-size:1.05rem;letter-spacing:-.015em;margin-top:1px;line-height:1.2}
+.person .prog{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--halo)}
+.person .areas{list-style:none;margin-top:12px;display:flex;flex-wrap:wrap;gap:6px}
+.person .areas li{font-family:var(--mono);font-size:10px;color:var(--muted);border:1px solid var(--edge);padding:3px 8px;border-radius:99px;letter-spacing:.02em}
+.person .co{font-size:.8rem;color:var(--muted);margin-top:12px;line-height:1.45}
+.person .links{margin-top:auto;padding-top:16px;display:flex;flex-direction:column;gap:4px}
+.person .links a{font-family:var(--mono);font-size:10.5px;color:var(--muted);word-break:break-all;letter-spacing:.02em}
+.person .links a:hover{color:var(--halo)}
+.person.open{background:linear-gradient(150deg,rgba(255,180,84,.10),transparent)}
+html[data-theme="light"] .person.open{background:linear-gradient(150deg,rgba(154,91,0,.10),transparent)}
+.person.open .prog{color:var(--charge)}
+
+.alumni-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0 clamp(20px,3vw,48px);margin-top:4px}
+.al{padding:10px 0;border-bottom:1px solid var(--edge)}
+.al b{font-weight:500;font-size:.93rem;display:block;letter-spacing:-.01em}
+.al span{display:block;color:var(--muted);font-size:.81rem;margin-top:2px;line-height:1.4}
+.join{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;
+  border:1px solid var(--edge);border-top:none;margin-top:0;padding:20px clamp(18px,2.4vw,28px);
+  background:linear-gradient(120deg,rgba(255,180,84,.09),transparent 60%);transition:background .35s}
+html[data-theme="light"] .join{background:linear-gradient(120deg,rgba(154,91,0,.09),transparent 60%)}
+.join:hover{background:var(--slab)}
+.jk{font-family:var(--display);font-weight:700;font-size:1.35rem;letter-spacing:-.025em}
+.jv{color:var(--muted);margin-top:6px;font-size:.95rem}
+.jd{color:var(--muted);margin-top:3px;font-size:.85rem;opacity:.8}
+.ja{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--charge);white-space:nowrap}
+
+.ach{margin-top:14px;width:100%;background:none;border:1px solid var(--edge);color:var(--muted);
+  font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  padding:10px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;transition:.25s}
+.ach:hover{border-color:var(--halo);color:var(--halo)}
+.ach b{color:var(--charge);font-weight:400}
+.ach.none{opacity:.4;cursor:default;border-style:dashed}
+.ach.none:hover{border-color:var(--edge);color:var(--muted)}
+.ach.none b{color:var(--muted)}
+
+.modal{position:fixed;inset:0;z-index:200;display:grid;place-items:center;padding:clamp(16px,4vw,48px)}
+.modal-bg{position:absolute;inset:0;background:rgba(2,4,10,.72);backdrop-filter:blur(6px);animation:fade .25s both}
+html[data-theme="light"] .modal-bg{background:rgba(30,45,75,.42)}
+.modal-box{position:relative;background:var(--deep);border:1px solid var(--edge-2);
+  width:min(840px,100%);max-height:min(80vh,760px);overflow-y:auto;
+  padding:clamp(26px,3.5vw,44px);animation:pop .3s cubic-bezier(.2,.7,.3,1) both}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes pop{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:none}}
+.modal-x{position:absolute;top:14px;right:14px;background:none;border:1px solid var(--edge);color:var(--muted);
+  width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:13px;line-height:1;transition:.25s}
+.modal-x:hover{border-color:var(--halo);color:var(--halo)}
+.modal-box h3{font-family:var(--display);font-weight:700;font-size:clamp(1.5rem,2.6vw,2rem);letter-spacing:-.03em;margin-top:16px}
+.modal-sub{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--muted);margin-top:8px;text-transform:uppercase}
+.modal-list{margin-top:26px}
+.mrow{padding:16px 0;border-bottom:1px solid var(--edge)}
+.mrow .yr{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--charge)}
+.mrow h4{font-weight:400;font-size:.98rem;line-height:1.45;margin-top:6px}
+.mrow h4 a:hover{color:var(--halo)}
+.mrow .au{font-size:.83rem;color:var(--muted);margin-top:6px}
+.mrow .jr2{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-top:5px}
+.mrow .au em{font-style:normal;color:var(--frost)}
+
+/* ---------- publications ---------- */
+.metrics{display:flex;align-items:center;gap:clamp(18px,3vw,46px);flex-wrap:wrap;margin-top:22px;padding:15px 0;border-top:1px solid var(--edge);border-bottom:1px solid var(--edge);font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.metrics>div{display:flex;align-items:baseline;gap:8px}
+.metrics .src{margin-left:auto;align-self:center}
+.metrics b{color:var(--charge);font-weight:400;font-size:1.3rem;font-family:var(--display);letter-spacing:-.02em;line-height:1}
+.tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:22px}
+.chip{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:8px 15px;border:1px solid var(--edge);border-radius:99px;color:var(--muted);cursor:pointer;background:none;transition:.25s}
+.chip:hover{border-color:var(--edge-2);color:var(--frost)}
+.chip[aria-pressed="true"]{background:var(--frost);color:#05070E;border-color:var(--frost)}
+#q{flex:1 1 220px;min-width:180px;background:transparent;border:1px solid var(--edge);border-radius:99px;padding:9px 16px;color:var(--frost);font-family:var(--mono);font-size:11.5px;letter-spacing:.05em}
+#q::placeholder{color:var(--muted)}
+.note{font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.1em;margin-top:14px}
+.ygroup{margin-top:34px}
+.yhead{display:flex;align-items:baseline;gap:18px;padding-bottom:10px;border-bottom:1px solid var(--edge-2)}
+.yhead b{font-family:var(--display);font-weight:800;font-size:1.9rem;letter-spacing:-.04em}
+.yhead span{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.14em}
+.pub{display:grid;grid-template-columns:38px 1fr minmax(0,240px);gap:clamp(12px,2vw,26px);padding:16px 0;border-bottom:1px solid var(--edge);align-items:baseline;transition:background .25s,padding .25s}
+.pub:hover{background:var(--hover);padding-left:10px}
+.pub .n{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.pub h4{font-family:var(--body);font-weight:400;font-size:1.02rem;line-height:1.45;letter-spacing:-.005em}
+.pub h4 a{background-image:none}
+.pub h4 a:hover{color:var(--halo)}
+.pub .jr{display:flex;flex-direction:column;align-items:flex-start;gap:9px}
+.doi-btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;
+  letter-spacing:.14em;text-transform:uppercase;padding:6px 12px;border-radius:99px;
+  border:1px solid var(--charge);color:var(--charge);transition:.22s;white-space:nowrap}
+.doi-btn:hover{background:var(--charge);color:var(--void)}
+.doi-btn.find{border-color:var(--edge-2);color:var(--muted)}
+.doi-btn.find:hover{background:none;border-color:var(--halo);color:var(--halo)}
+.pub .auth{font-size:.85rem;color:var(--muted);margin-top:7px}
+.pub .jr{font-family:var(--mono);font-size:11px;color:var(--charge);letter-spacing:.03em;line-height:1.6}
+.empty{padding:40px 0;color:var(--muted);font-family:var(--mono);font-size:12px}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--edge);padding:clamp(40px,5vw,64px) var(--pad) 26px;background:var(--deep)}
+.f-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:28px;max-width:1500px;margin:0 auto}
+footer h6{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+footer p,footer a{font-size:.93rem;color:#C4D2E6;display:block;margin-bottom:6px}
+footer a:hover{color:var(--halo)}
+.f-base{max-width:1500px;margin:34px auto 0;display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;padding-top:20px;border-top:1px solid var(--edge);font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.1em}
+
+@media(max-width:1080px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:1180px){.people{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:880px){.people{grid-template-columns:repeat(2,1fr)}.alumni-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.people{grid-template-columns:1fr}.alumni-grid{grid-template-columns:1fr}}
+@media(max-width:700px){.grid{grid-template-columns:1fr}}
+@media(max-width:860px){
+  .rail{grid-template-columns:1fr 1fr}
+  .pi{grid-template-columns:1fr}
+  .contact-card{position:static}
+  .pub{grid-template-columns:1fr;gap:6px}
+  .doorway{grid-template-columns:1fr}
+  .hero-col{max-width:100%}
+}
+@media(max-width:520px){.rail{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){
+  .reveal{opacity:1;transform:none;transition:none}
+  .page{animation:none}
+}
+</style>
+</head>
+<body class="home">
+
+<header>
+  <a class="brand" href="#/">
+    <b>CS·AI LAB</b>
+    <span>Yonsei Univ. / Mechanical Engineering</span>
+  </a>
+  <nav>
+    <a href="#/research" data-r="research">Research</a>
+    <div class="drop">
+      <a href="#/team/pi" data-r="team" class="droptop">Team</a>
+      <div class="menu">
+        <a href="#/team/pi" data-r="team-pi">Principal Investigator</a>
+        <a href="#/team/researchers" data-r="team-researchers">Researchers</a>
+      </div>
+    </div>
+    <a href="#/publications" data-r="publications">Publications</a>
+    <button id="theme" type="button" aria-label="Switch colour theme"><span class="steps"><i class="step"></i><i class="step"></i><i class="step"></i></span><span id="theme-label">Dark</span></button>
+  </nav>
+</header>
+
+<main>
+
+<!-- ==================== HOME ==================== -->
+<section id="p-home" class="page hero">
+  <canvas id="pes"></canvas>
+  <div class="hero-inner">
+   <div class="hero-col">
+    <div class="eyebrow">Est. 2019 &nbsp;·&nbsp; Computational Science &amp; Artificial Intelligence</div>
+    <h1>From first principles to <em>foundation models</em></h1>
+    <div class="hud" id="hud"></div>
+    </div>
+    <div class="doorway">
+      <a href="#/research"><div class="k">01 / Research</div><div class="v">Six threads, one loop</div><div class="d">Potentials, agents, batteries, mechanics</div></a>
+      <a href="#/team/pi"><div class="k">02 / Team</div><div class="v">The people running it</div><div class="d">PI, graduate researchers, alumni</div></a>
+      <a href="#/publications"><div class="k">03 / Publications</div><div class="v">130+ papers</div><div class="d">2009 — present, searchable</div></a>
+    </div>
+   </div>
+  </div>
+</section>
+
+<!-- ==================== RESEARCH ==================== -->
+<section id="p-research" class="page" hidden>
+  <div class="wrap">
+    <div class="block">
+      <div class="eyebrow">Research</div>
+      <h2 class="sec">Simulate → learn → design → verify.</h2>
+      <p class="sec-lede">Every thread feeds the next. First-principles calculations generate data, machine-learned models compress it, agents search it, and our experimental collaborators close the loop.</p>
+    </div>
+
+    <div class="block">
+      <div class="eyebrow">One lab, four length scales</div>
+      <div class="rail">
+        <div class="cell reveal"><div class="len">10⁻¹⁰ m · Å</div><h4>Electrons</h4><p>DFT for formation energies, migration barriers, and the reference forces that train everything downstream.</p></div>
+        <div class="cell reveal"><div class="len">10⁻⁹ m · nm</div><h4>Atoms</h4><p>MLIP-driven molecular dynamics at near-DFT accuracy, millions of steps, active learning in the loop.</p></div>
+        <div class="cell reveal"><div class="len">10⁻⁷ m · sub-μm</div><h4>Microstructure</h4><p>Interfaces, grain boundaries, and degradation fronts — where real materials actually fail.</p></div>
+        <div class="cell reveal"><div class="len">10⁻³ m · mm</div><h4>Devices</h4><p>Continuum and FEM surrogates for cells, joints, and processes that engineers can build.</p></div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="grid">
+        <article class="card reveal" data-topic="foundation" data-label="Foundation models for materials" tabindex="0" role="button">
+          <figure><svg viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle class="ln" cx="28" cy="26" r="3.4" fill="none"/><circle class="ln" cx="39" cy="26" r="3.4" fill="none"/><circle class="ln" cx="50" cy="26" r="3.4" fill="none"/><circle class="ln" cx="61" cy="26" r="3.4" fill="none"/><circle class="fl" cx="28" cy="54" r="2"/><circle class="fl" cx="39" cy="54" r="2"/><circle class="fl" cx="50" cy="54" r="2"/><circle class="fl" cx="28" cy="65" r="2"/><circle class="fl" cx="39" cy="65" r="2"/><circle class="fl" cx="50" cy="65" r="2"/><circle class="fl" cx="28" cy="76" r="2"/><circle class="fl" cx="39" cy="76" r="2"/><circle class="fl" cx="50" cy="76" r="2"/><polyline class="ln" points="26,104 36,96 46,106 56,94 64,100"/><text class="ft" x="86" y="29">COMPOSITION</text><text class="ft" x="86" y="68">STRUCTURE</text><text class="ft" x="86" y="104">PROCESS</text><path class="dm" d="M78 26 C132 26 140 60 168 60" stroke-dasharray="2 4"/><path class="dm" d="M78 65 C132 65 140 60 168 60" stroke-dasharray="2 4"/><path class="dm" d="M78 100 C132 100 140 60 168 60" stroke-dasharray="2 4"/><rect class="dm" x="168" y="34" width="26" height="52" rx="2"/><path class="ln" d="M175 44 V76 M181 40 V80 M187 46 V74"/><path class="dm" d="M194 60 H212 M205 55 L212 60 L205 65"/><circle class="fl" cx="222" cy="34" r="2.2"/><circle class="fl" cx="237" cy="34" r="2.2"/><circle class="fl" cx="252" cy="34" r="2.2"/><circle class="fl" cx="267" cy="34" r="2.2"/><circle class="fa" cx="282" cy="34" r="3"/><circle class="fl" cx="222" cy="51" r="2.2"/><circle class="fa" cx="237" cy="51" r="3"/><circle class="fl" cx="252" cy="51" r="2.2"/><circle class="fl" cx="267" cy="51" r="2.2"/><circle class="fl" cx="282" cy="51" r="2.2"/><circle class="fl" cx="222" cy="68" r="2.2"/><circle class="fl" cx="237" cy="68" r="2.2"/><circle class="fl" cx="252" cy="68" r="2.2"/><circle class="fa" cx="267" cy="68" r="3"/><circle class="fl" cx="282" cy="68" r="2.2"/><circle class="fl" cx="222" cy="85" r="2.2"/><circle class="fl" cx="237" cy="85" r="2.2"/><circle class="fa" cx="252" cy="85" r="3"/><circle class="fl" cx="267" cy="85" r="2.2"/><circle class="fl" cx="282" cy="85" r="2.2"/></svg></figure>
+          <div class="tag">representation</div>
+          <h3>Foundation models for materials</h3>
+          <p>Multimodal representations carrying composition, structure and process in one embedding, so a model trained on one property transfers to the next — and generative models can run the design in reverse.</p>
+          <ul><li>multimodal featurizer</li><li>knowledge transfer</li><li>GCN</li><li>inverse design</li></ul>
+          <div class="card-more"><span>Related papers</span><b class="cnt">→</b></div>
+        </article>
+        <article class="card reveal" data-topic="agents" data-label="Autonomous discovery agents" tabindex="0" role="button">
+          <figure><svg viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path class="dm" d="M150 26 A34 34 0 0 1 184 60"/><path class="dm" d="M184 60 A34 34 0 0 1 150 94"/><path class="dm" d="M150 94 A34 34 0 0 1 116 60"/><path class="ln" d="M116 60 A34 34 0 0 1 150 26"/><path class="ln" d="M145 31 L150 24 L155 32"/><circle class="dm" cx="184" cy="60" r="8" fill="none"/><circle class="dm" cx="150" cy="94" r="8" fill="none"/><circle class="dm" cx="116" cy="60" r="8" fill="none"/><circle class="fa" cx="150" cy="26" r="8"/><text class="ft" x="150" y="14" text-anchor="middle">PLAN</text><text class="ft" x="198" y="63">RUN</text><text class="ft" x="150" y="114" text-anchor="middle">READ</text><text class="ft" x="102" y="63" text-anchor="end">DECIDE</text><path class="dm" d="M40 60 H104" stroke-dasharray="2 4"/><path class="dm" d="M196 60 H260" stroke-dasharray="2 4"/></svg></figure>
+          <div class="tag">agents · automation</div>
+          <h3>Autonomous discovery agents</h3>
+          <p>LLM-based agents and NLP pipelines that mine literature, build databases, plan simulation campaigns, and decide what to compute next — closing the discovery loop without a human at every step.</p>
+          <ul><li>LLM agents</li><li>active learning</li><li>text mining</li><li>high-throughput</li></ul>
+          <div class="card-more"><span>Related papers</span><b class="cnt">→</b></div>
+        </article>
+        <article class="card reveal" data-topic="potentials" data-label="Machine-learned interatomic potentials" tabindex="0" role="button">
+          <figure><svg viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle class="dm" cx="72" cy="60" r="40" stroke-dasharray="3 5"/><line class="ln" x1="72" y1="60" x2="44" y2="38"/><line class="ln" x1="72" y1="60" x2="102" y2="34"/><line class="ln" x1="72" y1="60" x2="38" y2="80"/><line class="ln" x1="72" y1="60" x2="100" y2="86"/><line class="ln" x1="72" y1="60" x2="74" y2="20"/><circle class="fa" cx="72" cy="60" r="5"/><circle class="fl" cx="44" cy="38" r="3.4"/><circle class="fl" cx="102" cy="34" r="3.4"/><circle class="fl" cx="38" cy="80" r="3.4"/><circle class="fl" cx="100" cy="86" r="3.4"/><circle class="fl" cx="74" cy="20" r="3.4"/><path class="dm" d="M126 60 H146 M139 55 L146 60 L139 65"/><rect class="ln" x="156" y="68" width="5" height="20"/><rect class="ln" x="166" y="54" width="5" height="34"/><rect class="ln" x="176" y="74" width="5" height="14"/><rect class="ln" x="186" y="46" width="5" height="42"/><rect class="ln" x="196" y="62" width="5" height="26"/><rect class="ln" x="206" y="57" width="5" height="31"/><path class="dm" d="M218 60 H238 M231 55 L238 60 L231 65"/><path class="ac" d="M246 38 Q267 100 288 42"/><circle class="fa" cx="267" cy="70" r="3.4"/><text class="ft" x="72" y="112" text-anchor="middle">ENVIRONMENT</text><text class="ft" x="181" y="112" text-anchor="middle">DESCRIPTOR</text><text class="ft" x="267" y="112" text-anchor="middle">ENERGY</text></svg></figure>
+          <div class="tag">Å · potentials</div>
+          <h3>Machine-learned interatomic potentials</h3>
+          <p>Domain-specialized and data-efficient MLIPs — fine-tuned for specific chemistries, validated on relaxation and interface adhesion, with uncertainty-driven active learning that calls DFT only where the model is wrong.</p>
+          <ul><li>foundation MLIP</li><li>data efficiency</li><li>steered MD</li><li>interface adhesion</li></ul>
+          <div class="card-more"><span>Related papers</span><b class="cnt">→</b></div>
+        </article>
+        <article class="card reveal" data-topic="simulation" data-label="Multiscale simulation &amp; surrogates" tabindex="0" role="button">
+          <figure><svg viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path class="dm" d="M22 100 H278"/><rect class="ln" x="30" y="88" width="12" height="12"/><text class="ft" x="36.0" y="113" text-anchor="middle">Å</text><rect class="ln" x="74" y="76" width="24" height="24"/><text class="ft" x="86.0" y="113" text-anchor="middle">nm</text><rect class="ln" x="132" y="64" width="36" height="36"/><text class="ft" x="150.0" y="113" text-anchor="middle">μm</text><rect class="ln" x="206" y="52" width="48" height="48"/><text class="ft" x="230.0" y="113" text-anchor="middle">mm</text><circle class="fa" cx="36" cy="94" r="2.2"/><circle class="fl" cx="81" cy="83" r="2"/><circle class="fl" cx="81" cy="93" r="2"/><circle class="fl" cx="91" cy="83" r="2"/><circle class="fl" cx="91" cy="93" r="2"/><path class="dm" d="M138 88 L162 64 M138 76 L150 64 M144 94 L168 70"/><path class="dm" d="M206 76 H254 M230 52 V100 M206 64 H254 M206 88 H254 M218 52 V100 M242 52 V100"/><path class="ac" d="M44 92 C60 92 62 80 88 80 M100 78 C118 78 124 68 144 68 M172 66 C190 66 194 60 208 60" stroke-dasharray="3 3"/></svg></figure>
+          <div class="tag">μm–mm · mechanics</div>
+          <h3>Multiscale simulation &amp; surrogates</h3>
+          <p>Bridging atomistic results to engineering scale: cohesive-zone models for multi-material interfaces, thermal surrogates for manufacturing, and safety models for cells under abuse.</p>
+          <ul><li>DFT → MD → FEM</li><li>CZM / interfaces</li><li>induction heating</li><li>thermal runaway</li></ul>
+          <div class="card-more"><span>Related papers</span><b class="cnt">→</b></div>
+        </article>
+        <article class="card reveal" data-topic="battery" data-label="Batteries by computation" tabindex="0" role="button">
+          <figure><svg viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect class="dm" x="52" y="24" width="196" height="18"/><text class="ft" x="44" y="37" text-anchor="end">CATHODE</text><rect class="dm" x="52" y="54" width="196" height="18"/><text class="ft" x="44" y="67" text-anchor="end">ELECTROLYTE</text><rect class="dm" x="52" y="84" width="196" height="18"/><text class="ft" x="44" y="97" text-anchor="end">ANODE</text><circle class="fl" cx="66" cy="33" r="2.2"/><circle class="fl" cx="88" cy="33" r="2.2"/><circle class="fl" cx="110" cy="33" r="2.2"/><circle class="fl" cx="132" cy="33" r="2.2"/><circle class="fl" cx="154" cy="33" r="2.2"/><circle class="fl" cx="176" cy="33" r="2.2"/><circle class="fl" cx="198" cy="33" r="2.2"/><circle class="fl" cx="220" cy="33" r="2.2"/><circle class="fl" cx="242" cy="33" r="2.2"/><circle class="fl" cx="66" cy="93" r="2.2"/><circle class="fl" cx="88" cy="93" r="2.2"/><circle class="fl" cx="110" cy="93" r="2.2"/><circle class="fl" cx="132" cy="93" r="2.2"/><circle class="fl" cx="154" cy="93" r="2.2"/><circle class="fl" cx="176" cy="93" r="2.2"/><circle class="fl" cx="198" cy="93" r="2.2"/><circle class="fl" cx="220" cy="93" r="2.2"/><circle class="fl" cx="242" cy="93" r="2.2"/><path class="ac" d="M88 88 C110 88 118 60 140 60 C162 60 170 32 196 32" stroke-dasharray="4 4"/><circle class="fa" cx="140" cy="60" r="4"/><path class="ac" d="M190 27 L197 32 L190 37"/></svg></figure>
+          <div class="tag">nm · energy materials</div>
+          <h3>Batteries by computation</h3>
+          <p>High-throughput screening of cathodes and solid electrolytes across Li, Na, Ca and Zn chemistries, plus atomistic models of the cathode/electrolyte interfaces that govern lifetime.</p>
+          <ul><li>Ni-rich NCM</li><li>Na-ion layered</li><li>NASICON</li><li>garnet / LGPS</li><li>high-entropy</li></ul>
+          <div class="card-more"><span>Related papers</span><b class="cnt">→</b></div>
+        </article>
+        <article class="card reveal" data-topic="semiconductor" data-label="Semiconductor &amp; process materials" tabindex="0" role="button">
+          <figure><svg viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle class="fa" cx="72" cy="22" r="4"/><line class="ac" x1="72" y1="22" x2="58" y2="12"/><circle class="fl" cx="58" cy="12" r="2.6"/><line class="ac" x1="72" y1="22" x2="86" y2="12"/><circle class="fl" cx="86" cy="12" r="2.6"/><line class="ac" x1="72" y1="22" x2="58" y2="32"/><circle class="fl" cx="58" cy="32" r="2.6"/><line class="ac" x1="72" y1="22" x2="86" y2="32"/><circle class="fl" cx="86" cy="32" r="2.6"/><path class="dm" d="M96 28 C124 30 130 40 146 46 M139 41 L147 47 L138 49" stroke-dasharray="3 3"/><rect class="ln" x="46" y="48" width="208" height="22"/><rect class="dm" x="46" y="82" width="208" height="24"/><line class="dm" x1="52" y1="106" x2="62" y2="82"/><line class="dm" x1="71" y1="106" x2="81" y2="82"/><line class="dm" x1="90" y1="106" x2="100" y2="82"/><line class="dm" x1="109" y1="106" x2="119" y2="82"/><line class="dm" x1="128" y1="106" x2="138" y2="82"/><line class="dm" x1="147" y1="106" x2="157" y2="82"/><line class="dm" x1="166" y1="106" x2="176" y2="82"/><line class="dm" x1="185" y1="106" x2="195" y2="82"/><line class="dm" x1="204" y1="106" x2="214" y2="82"/><line class="dm" x1="223" y1="106" x2="233" y2="82"/><line class="dm" x1="242" y1="106" x2="252" y2="82"/><path class="ac" d="M60 70 l6 6 -6 6 M96 70 l6 6 -6 6 M132 70 l6 6 -6 6 M168 70 l6 6 -6 6 M204 70 l6 6 -6 6 M240 70 l6 6 -6 6"/><text class="ft" x="40" y="62" text-anchor="end">FILM</text><text class="ft" x="40" y="97" text-anchor="end">SUB</text><path class="dm" d="M272 48 V32 M268 37 L272 30 L276 37 M272 106 V118"/></svg></figure>
+          <div class="tag">thin films · precursors</div>
+          <h3>Semiconductor &amp; process materials</h3>
+          <p>ALD and organometallic precursors, thin-film interfaces such as TaN–Cu, Ru–SiO₂ and W–TiN, 2D heterostructures and MXene / MAX-phase chemistries — the same simulate-and-learn loop applied to device fabrication.</p>
+          <ul><li>ALD precursors</li><li>thin-film adhesion</li><li>2D materials</li><li>MXene / MAX</li></ul>
+          <div class="card-more"><span>Related papers</span><b class="cnt">→</b></div>
+        </article>
+        <article class="card reveal" data-topic="metamaterials" data-label="Mechanical design of architected matter" tabindex="0" role="button">
+          <figure><svg viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect class="ln" x="48" y="20.0" width="52" height="38.0"/><path class="ln" d="M61 26.0 V52.0 M87 26.0 V52.0 M61 39.0 H87"/><rect class="ln" x="118" y="20.0" width="52" height="38.0"/><path class="ln" d="M131 26.0 V52.0 M157 26.0 V52.0 M131 39.0 H157"/><rect class="ac" x="188" y="25.3" width="52" height="27.4"/><path class="ac" d="M201 31.3 V46.7 M227 31.3 V46.7 M201 39.0 H227"/><rect class="ln" x="48" y="66.0" width="52" height="38.0"/><path class="ln" d="M61 72.0 V98.0 M87 72.0 V98.0 M61 85.0 H87"/><rect class="ln" x="118" y="66.0" width="52" height="38.0"/><path class="ln" d="M131 72.0 V98.0 M157 72.0 V98.0 M131 85.0 H157"/><rect class="ac" x="188" y="71.3" width="52" height="27.4"/><path class="ac" d="M201 77.3 V92.7 M227 77.3 V92.7 M201 85.0 H227"/><path class="dm" d="M258 30 V96 M254 92 L258 99 L262 92"/><text class="ft" x="272" y="66" text-anchor="middle" transform="rotate(90 272 66)">LOAD</text></svg></figure>
+          <div class="tag">structure · metamaterials</div>
+          <h3>Mechanical design of architected matter</h3>
+          <p>From zeolite frameworks to kirigami metamaterials — connecting atomistic stiffness to printed macro-structures, and searching design spaces too large to enumerate.</p>
+          <ul><li>metamaterials</li><li>zeolites</li><li>MOF mechanics</li><li>3D printing</li></ul>
+          <div class="card-more"><span>Related papers</span><b class="cnt">→</b></div>
+        </article>
+      </div>
+    </div>
+
+  </section>
+
+<!-- ==================== TEAM / PRINCIPAL INVESTIGATOR ==================== -->
+<section id="p-team-pi" class="page" hidden>
+  <div class="wrap">
+    <div class="block" style="padding-bottom:0">
+      <div class="eyebrow">Team</div>
+      <h2 class="sec">Principal Investigator</h2>
+      <div class="subtabs">
+        <a href="#/team/pi" class="on">Principal Investigator</a>
+        <a href="#/team/researchers">Researchers</a>
+      </div>
+    </div>
+
+    <div class="pi">
+      <div class="reveal">
+        <h3>Kyoungmin Min</h3>
+        <div class="role">Associate Professor · School of Mechanical Engineering</div>
+        <p class="lead">Kyoungmin Min has led the Computational Science and AI Lab since 2019, now at Yonsei University. His research joins first-principles simulation with machine learning to accelerate the discovery of energy and semiconductor materials.</p>
+
+        <div class="cv-head">Appointments</div>
+        <ul class="cv">
+          <li><div class="when">2025 — now</div><div class="what"><b>Associate Professor</b><span>School of Mechanical Engineering, Yonsei University<i>연세대학교 기계공학부</i></span></div></li>
+          <li><div class="when">2019 — 2025</div><div class="what"><b>Assistant / Associate Professor</b><span>School of Mechanical Engineering, Soongsil University<i>숭실대학교 기계공학부</i></span></div></li>
+          <li><div class="when">2014 — 2019</div><div class="what"><b>Research Staff Member</b><span>Samsung Advanced Institute of Technology, AI/SW Center<i>삼성전자 종합기술원</i></span></div></li>
+          <li><div class="when">Earlier</div><div class="what"><b>Assistant Engineer</b><span>Samsung Electronics<i>삼성전자 생산기술연구소</i></span></div></li>
+          <li><div class="when">Earlier</div><div class="what"><b>Research Intern</b><span>Sandia National Laboratories, NM, USA</span></div></li>
+        </ul>
+
+        <div class="cv-head">Education</div>
+        <ul class="cv">
+          <li><div class="when">Ph.D.</div><div class="what"><b>Mechanical Engineering</b><span>University of Illinois at Urbana-Champaign, IL, USA</span></div></li>
+        </ul>
+      </div>
+
+      <div class="contact-card reveal">
+        <h6>Contact</h6>
+        <dl>
+          <dt>Email</dt><dd><a href="mailto:kmin.min@yonsei.ac.kr">kmin.min@yonsei.ac.kr</a></dd>
+          <dt>Phone</dt><dd><a href="tel:+82221234464">+82-2-2123-4464</a></dd>
+          <dt>Office</dt><dd>Engineering Building #1, Room N201<span class="ko">연세대학교 제1공학관 N201호</span></dd>
+        </dl>
+        <h6 style="margin-top:30px">Teaching</h6>
+        <ul class="teach">
+          <li><b>컴퓨터응용기계설계</b><span>Undergraduate</span></li>
+          <li><b>컴퓨터해석기반설계</b><span>Undergraduate</span></li>
+          <li><b>최적설계공학</b><span>Graduate</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== TEAM / RESEARCHERS ==================== -->
+<section id="p-team-researchers" class="page" hidden>
+  <div class="wrap">
+    <div class="block" style="padding-bottom:0">
+      <div class="eyebrow">Team</div>
+      <h2 class="sec">Researchers</h2>
+      <div class="subtabs">
+        <a href="#/team/pi">Principal Investigator</a>
+        <a href="#/team/researchers" class="on">Researchers</a>
+      </div>
+    </div>
+
+    <div class="sub"><b>Graduate researchers</b><span id="c-phd">Ph.D. · M.S.–Ph.D.</span></div>
+    <div class="people" id="g-phd"></div>
+
+    <div class="sub"><b>Graduate researchers</b><span id="c-ms">M.S.</span></div>
+    <div class="people" id="g-ms"></div>
+
+    <div class="sub"><b>Undergraduate researchers</b><span id="c-ug">B.S.</span></div>
+    <div class="people" id="g-ug"></div>
+
+    <a class="join" href="mailto:kmin.min@yonsei.ac.kr">
+      <div><div class="jk">Open positions</div><div class="jv">We are recruiting graduate and undergraduate researchers.</div>
+      <div class="jd">Email a CV and a short note on what you want to compute. 신입 연구원을 상시 모집합니다.</div></div>
+      <div class="ja">kmin.min@yonsei.ac.kr &#8599;</div>
+    </a>
+
+    <div class="sub"><b>Alumni</b><span id="c-al">Where they went</span></div>
+    <div class="alumni-grid" id="alumni"></div>
+  </div>
+</section>
+
+<!-- ==================== PUBLICATIONS ==================== -->
+<section id="p-publications" class="page" hidden>
+  <div class="wrap">
+    <div class="block" style="padding-bottom:0">
+      <div class="eyebrow">Publications</div>
+      <h2 class="sec">Everything we have published.</h2>
+      <div class="metrics">
+        <div><b>5,617</b>citations</div>
+        <div><b>37</b>h-index</div>
+        <div><b id="m-count">0</b>papers listed</div>
+        <div class="src">Google Scholar &middot; 2026/05/31</div>
+      </div>
+      <div class="tools" id="tools">
+        <button class="chip" aria-pressed="true" data-f="all">All</button>
+        <button class="chip" aria-pressed="false" data-f="Submitted">Submitted</button>
+        <button class="chip" aria-pressed="false" data-f="2026">2026</button>
+        <button class="chip" aria-pressed="false" data-f="2025">2025</button>
+        <button class="chip" aria-pressed="false" data-f="2024">2024</button>
+        <button class="chip" aria-pressed="false" data-f="2023">2023</button>
+        <input id="q" type="search" placeholder="search title, author, journal…" aria-label="Search publications">
+      </div>
+      <div class="note">+ co-first author &nbsp;·&nbsp; * corresponding author &nbsp;·&nbsp; DOI = direct link to the paper &middot; Find = title lookup on Google Scholar</div>
+    </div>
+    <div id="publist"></div>
+  </div>
+</section>
+
+</main>
+
+<div id="modal" class="modal" hidden>
+  <div class="modal-bg" data-close></div>
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <button class="modal-x" data-close aria-label="Close">&#10005;</button>
+    <div class="eyebrow">Achievements</div>
+    <h3 id="modal-title"></h3>
+    <div id="modal-sub" class="modal-sub"></div>
+    <div id="modal-list" class="modal-list"></div>
+  </div>
+</div>
+
+<footer>
+  <div class="f-grid">
+    <div>
+      <h6>Contact</h6>
+      <a href="mailto:kmin.min@yonsei.ac.kr">kmin.min@yonsei.ac.kr</a>
+      <p>School of Mechanical Engineering<br>Yonsei University, Seoul, Korea</p>
+    </div>
+    <div>
+      <h6>Navigate</h6>
+      <a href="#/research">Research</a>
+      <a href="#/team/pi">Principal Investigator</a>
+      <a href="#/team/researchers">Researchers</a>
+      <a href="#/publications">Publications</a>
+    </div>
+    <div>
+      <h6>Elsewhere</h6>
+      <a href="#">Google Scholar</a>
+      <a href="#">GitHub</a>
+      <a href="#">Yonsei ME</a>
+    </div>
+    <div>
+      <h6>Join</h6>
+      <p>Graduate and undergraduate researchers are welcome year-round. Email with a CV and a short note on what you want to compute.</p>
+    </div>
+  </div>
+  <div class="f-base"><span>© 2026 CS-AI Lab, Yonsei University</span><span>Computational Science &amp; Artificial Intelligence</span></div>
+</footer>
+
+<script>
+let THEME='dark';   /* 'dark' | 'medium' | 'light' */
+
+/* ==================================================================
+   PUBLICATION DATA  [title, authors, venue]
+   ================================================================== */
+const PUBS = [
+["Submitted","Under review",[
+["Enhancing Energy Density and Structural Stability of Co-Free High-Ni Cathodes through Collective Dopant Interactions in High-Entropy Doping","Jaejung Park, Jinyoung Jeong, Minhyung Lee, Bumsoo Park, Kyoungmin Min*, and Seungchul Lee*","Submitted"],
+["AI-Based Early Warning of Thermal Runaway in Lithium-Ion Batteries: A Review of Data Sources, Model Architectures, and Prediction Objectives","Minseon Kim+, Junghyeon Kwon+, Woojin Shin, Jonghyuk Kim, and Kyoungmin Min*","Submitted"],
+["Thermal Runaway in Lithium-Ion Batteries: A Cross-Format Database and Unified Analysis of Chemistry, Architecture, and Operating Conditions","Woojin Shin+, Jonghyuk Kim+, Minseon Kim, Junghyeon Kwon and Kyoungmin Min*","Submitted"],
+["Supramolecularly driven segregated graphene networks in polymer composites for electrothermal self-healing and damage sensing","Ohnyoung Hur, Yeong Jun Yu, Ji-Hwan Ha, Kyoungmin Min, Prabhakar R. Bandaru, Jae Woo Chung*, Sung-Hoon Park*","Submitted"],
+["Designing High-Voltage Spinel LiNi0.5Mn1.5O4 Cathodes via Dual-Doping and Multi-Criteria Screening","Junghyeon Kwon, Jungjae Hwang, Woojin Shin, Yerim Jung, Jonghyuk Kim, Sanghyeon Song, and Kyoungmin Min*","Submitted"],
+["Domain-Specialized Machine Learning Interatomic Potentials for Reliable Structural Relaxation in Battery Cathodes","Jungjae Hwang+, Minseon Kim+, Woojin Shin, Jonghyuk Kim, Seungpyo Kang, and Kyoungmin Min*","Submitted"],
+["Heteroatom-Doped Porous Carbon Interphases Enable Stable Zinc Metal Anodes by Regulating Ion Transport and Parasitic Reactions","Sushanta K. Das, Su-Hwan Suk, Sanghyeon Song, Taehyeon Kim, Hye Gyu Cha, Chae-Eun Son, Myeong-Jun Song, JongWoo Hong, Muhaiminul Islam, Rajib Biswal, Kyoungmin Min*, Seong-Min Bak*, Seong Chan Jun*","Submitted"],
+["Engineered Multi-Phase Sulfide/Phosphide Heterostructures via MOF-Derived Ion Exchange for High-Performance Supercapacitor","Junghyun Joo+, Ling Kang+, Seungpyo Kang, Jongwoo Hong, Amar M. Patil, Arti A. Jadhav, Mingony Kim, Chanmin Lee, Hyun June Lee, Sushanta Kumar Das, Kyoungmin Min*, Kyung Yoon Chung* and Seong Chan Jun*","Submitted"],
+["Targeted Doping Strategy for Suppressing Mn-Induced SEI Breakdown and Gas Generation in High-Voltage LMFP/Gr Full-Cell Lithium-Ion Batteries","Youbean Lee, Taemin Kim, Hyemin Jeong, Kyoungmin Min*, and Kwangjin Park*","Submitted"]]],
+
+["2026","published & accepted",[
+["Unifying the Thermodynamic, Electronic, and Mechanical Landscapes of Double-Transition-Metal MXenes for Data-Driven Material Design","Sanghyeon Song, Junghyeon Kwon, Jonghyuk Kim, Woojin Shin, and Kyoungmin Min*","Journal of Materials Chemistry A, Accepted"],
+["Partially Reduced and Stabilized Phase-Changed MoS₂ Hybrids for Vapor Molecular Absorption at Defects in Edge Sites","Hye Gyu Cha+, Taeseo Ko+, Tae Hyeon Kim, Yun ji Hwang, Sushanta Kumar Das, Kyoungmin Min*, and Seong Chan Jun*","Small Science, 6, 5, e202500605, 2026/05/01"],
+["Data-Efficient Training of Machine Learning Interatomic Potential for MAX-Phase Synthesizability Prediction","Jonghyuk Kim, Woojin Shin, Jungjae Hwang, Junghyeon Kwon, Sanghyeon Song, and Kyoungmin Min*","Journal of Materials Chemistry A, 14, 15319, 2026/04/23"],
+["Scalable AI-Accelerated Design of Dual-Doped LGPS Electrolytes for Next-Generation Solid-State Batteries","Yerim Jung, Jiwon Sun, Juo Kim, Woojin Shin, and Kyoungmin Min*","eTransportation, 28, 100570, 2026/05/01"],
+["Machine Learning-Guided Screening of Phase-Stable High-Entropy Na Cathodes to Enable EVs and Low-Cost Charging Storage Systems","Ahhyun Jeong, Seungpyo Kang, Taeseo Ko, JunHo Song, Yerim Jung, Woojin Shin, Jiwon Sun, and Kyoungmin Min*","Journal of Materials Chemistry A, 14, 16693-16712, 2026/05/05"],
+["Machine Learning Interatomic Potential Enables Interface-Level Insights into Cathode/Solid Electrolyte Adhesion in Sodium-Ion Batteries","Woojin Shin and Kyoungmin Min*","Journal of Energy Storage, 154, Part B, 121104, 2026/04/10"],
+["Exploration of dopants for enhancing the ionic conductivity of LiTa₂PO₈ by first-principles calculations","Taeseo Ko+, Jiwon Sun+, Yerim Jung, Ahhyun Jeong, and Kyoungmin Min*","Journal of Power Sources, 670, 239441, 2026/04/01"],
+["Strain Engineering in Ti2CX2/WS2 van der Waals Heterostructures: First-principles calculations on Mechanical Robustness and Bandgap Tunability","Juo Kim, Jinyoung Jeong, and Kyoungmin Min*","Journal of Materials Science & Technology, 253, 166-178, 2026/05/10"]]],
+
+["2025","",[
+["Data-Driven Curation of Boiling Points in Organometallic Precursors via Natural Language Processing","Jungjae Hwang, Taehyun Park, Jinyoung Jeong, Seungpyo Kang, JunHo Song, Jonghyuk Kim, Ahhyun Jeong, Woojin Shin, Jungim Han, Joonghee Won*, and Kyoungmin Min*","Materials & Design, 260, 115253, 2025/12/01"],
+["Capillary-Driven, Superhydrophilic Microfluidic Retainer for Continuous Salivary Glucose Monitoring","Jimin Lee, JunHo Song, Juo Kim, Arianna Lee, Saewoong Oh, Beomjune Shin, Kyoungmin Min, and Woon-Hong Yeo*","Lab on a Chip, 26, 273-285, 2025/12/10"],
+["Evaluating Machine Learning Interatomic Potentials for Accurate and Scalable Modeling of Organometallic Precursor","Seungpyo Kang+, JunHo Song+, Jinyoung Jeong, Taehyun Park, Joonhee Won, Jungim Han*, and Kyoungmin Min*","ACS Applied Materials and Interfaces, 17, 41, 57226-57239, 2025/10/03"],
+["Face-wearable integrated bioelectronics for quantitative, automated diagnosis of blepharospasm","Hojoong Kim, Hoodam Kim, Seungpyo Kang, Gamze Kilic-Berkmen, Kyoungmin Min, H.A. Jinnah*, Woon-Hong Yeo*","Biosensors and Bioelectronics: X, 26, 100677, 2025/10/01"],
+["Cation Disordered High-Entropy Garnet Structures as Solid-State Electrolytes for All-Solid-State Batteries: Machine Learning-Driven Discovery","Jiwon Sun, JunHo Song, Juo Kim, Jinyoung Jeong, Eunsong Kim, Joonchul Kim, Taehyun Park, and Kyoungmin Min*","ACS Applied Materials and Interfaces, 17, 35, 49472-49484, 2025/08/25"],
+["Surface Orientation-Dependent Adhesion Behavior in Na-Cathode and Solid-state Electrolyte Interfaces Using Machine Learning Interatomic Potential","Woojin Shin+, Juo Kim+, Jiwon Sun, Jungjae Hwang, Jonghyuk Kim, and Kyoungmin Min*","Journal of Power Sources, 653, 237670, 2025/10/15"],
+["Machine Learning-Driven Discovery of Innovative Hybrid Solid Electrolytes for High-Performance All-solid-state Batteries","Ji-Hwan Kim+, Jiwon Sun+, Juo Kim, Ji-Min Hong, Seungpyo Kang, Jinyoung Jeong, Eunsong Kim, Deok-Hye Park, Jae-Sung Jang, Jong-Won Lim, Gang-In Lee, Kyoungmin Min*, and Kyung-Won Park*","Chemical Engineering Journal, 511, 161926, 2025/05/01"],
+["Design Strategies for Fast-Charging Multiphase Na-Ion Layered Cathodes: Dopant Selection via Computational High-Throughput Screening","Taehyun Park+, Juo Kim+, Yerim Jung, Jiwon Sun, Kyoungmin Min*","Journal of Energy Chemistry, 107, 103-113, 2025/08/01"],
+["Role of carbon nanotube film interlayer for Li-free all-solid-state battery","Nilüfer Çakmakçı Lee, Gyosik Kim, Jo Moon, Jihoon Ahn, Hosin Lee, Hyemin Kim, Junki Bang, Jison Sun, Ji Young Kim, Ki Yoon Bae, Samick Son, Kyoungmin Min, and Youngjin Jeong*","Electrochimica Acta, 528, 146284, 2025/07/10"],
+["Enhancing Structural Stability of Prussian White Cathodes via Dopant Effects: A Computational Study","Jinyoung Jeong, Seungpyo Kang, Taehyun Park, Jiwon Sun, Jonghyuk Kim, and Kyoungmin Min*","Materials Today Energy, 50, 101856, 2025/06/01"],
+["Atomistic Understanding of Ru/SiO2 Interfacial Adhesion Using Steered Molecular Dynamics and Machine Learning Potential","Eunseog Cho*, Won-Joon Son*, Seungmin Lee, Hyeon-Seok Do, Kyoungmin Min*, Dae Sin Kim","Journal of Materials Chemistry C, 13, 7772-7784, 2025/03/17"],
+["Revealing the Role of Dopants to Suppress Phase Transition in Biphasic Layered Transition Metal Oxide Cathodes for Sodium-Ion Batteries","Taehyun Park, Jinyoung Jeong, Seungpyo Kang, Jonghyuk Kim, and Kyoungmin Min*","Journal of Power Sources, 640, 236718, 2025/06/01"],
+["Unveiling unexpected mechanical softening/stiffening in carbon nanotube composites under cyclic deformation: experiments and predictive modeling","Dong-Kwan Lee+, Ohnyoung Hur+, Eunsong Kim+, Byung-Ho Kang, Sung Hoon Kang, Kyoungmin Min*, Sung-Hoon Park*","Advanced Composites and Hybrid Materials, 8, 194, 2025/03/03"],
+["Mitigating Bottleneck Effects of LiTa2PO8-Based Hybrid Solid Electrolyte through Boron Doping for Enhanced Electrochemical Performance in All-Solid-State Lithium Batteries","Ji-Min Hong, Ji-Hwan Kim, Jiwon Sun, Deok-Hye Park, Jae-Sung Jang, Gang-In Lee, Jong-Won Lim, Se-Jun Park, Min-Jae Kim, Se-Yeon Jang, Kyoungmin Min*, and Kyung-Won Park*","Materials Today Energy, 49, 101830, 2025/04/01"],
+["Unveiling Strain-Dependent Adhesion Behavior at TaN-Cu Interface Using Machine Learning Interatomic Potential","Jinyoung Jeong+, Jiwon Sun+, Eunseog Cho*, and Kyoungmin Min*","Applied Surface Science, 689, 162558, 2025/04/30"],
+["High-Throughput Computational Screening of Dopants for Improved Structural Stability in Overlithiated Layered Oxide Cathodes","Seungpyo Kang, Jinyoung Jeong, Taehyun Park, Woon-Hong Yeo, Kwangjin Park*, and Kyoungmin Min*","Journal of Power Sources, 629, 235981, 2025/02/15"],
+["Investigating the Compressive Behavior of Zeolite-based Porous Mechanical Metamaterials","Dosung Lee+, JunHo Song+, Kyoungmin Min*, and Namjung Kim*","Materials & Design, 249, 113541, 2025/01/01"]]],
+
+["2024","",[
+["Matini-Net: Versatile Material Informatics Research Framework for Feature Engineering and Deep Neural Network Design","Myeonghun Lee+, Taehyun Park+, and Kyoungmin Min*","Journal of Chemical Information and Modeling, 64, 23, 8770-8783, 2024/11/21"],
+["Molecular Dynamics and Machine Learning Insights into the Mechanical Behavior of Zeolites under Large Deformation","JunHo Song+, Dosung Lee+, Namjung Kim*, and Kyoungmin Min*","Materials Today Communications, 41, 110922, 2024/12/01"],
+["Enhancing Predictions of Experimental Band Gap Using Machine Learning and Knowledge Transfer","Taeseo Ko+, Taehyun Park+, Minseon Kim, and Kyoungmin Min*","Materials Today Communications, 41, 110717, 2024/12/01"],
+["Next-Generation Cathodes for Calcium-Ion Batteries: Leveraging NASICON Structures for Enhanced Stability and Energy Density","Minseon Kim, Jaejung Park, Heekyu Kim, Jaejun Lee, Inhyo Lee, Juo Kim, Seungchul Lee*, and Kyoungmin Min*","Energy Storage Materials, 73, 103827, 2024/11/01"],
+["Active Learning Framework for Expediting the Search of Thermodynamically Stable MXenes in the Extensive Chemical Space","Jaejung Park, Jongmok Lee, Jaejun Lee, Kyoungmin Min, Haesun Park*, and Seungchul Lee*","ACS Nano, 18, 43, 29678-29688, 2024/10/14"],
+["Enhancing Protein Aggregation Prediction: A Unified Analysis Leveraging Graph Convolutional Networks and Active Learning","Jiwon Sun+, JunHo Song+, Juo Kim+, Seungpyo Kang, Eunyoung Park, Seungwoo Seo*, and Kyoungmin Min*","RSC Advances, 14, 31439-31450, 2024/10/03"],
+["Integrating Data Mining and Natural Language Processing to Construct Melting Points Database for Organometallic Compounds","Jinyoung Jeong+, Taehyun Park+, JunHo Song, Seungpyo Kang, Joonghee Won, Jungim Han*, and Kyoungmin Min*","Journal of Chemical Information and Modeling, 64, 19, 7432-7446, 2024/10/01"],
+["Uncovering the Relationship between Metal Elements and Mechanical Stability in Metal-Organic Framework","Inhyo Lee+, Jaejun Lee+, Minseon Kim, Jaejung Park, Heekyu Kim, Seungchul Lee*, and Kyoungmin Min*","ACS Applied Materials and Interfaces, 16, 39, 52162-52178, 2024/09/22"],
+["Interpretable Machine Learning Boosting the Discovery of Targeted Organometallic Compounds with Optimal Bandgap","Taehyun Park+, JunHo Song+, Jinyoung Jeong, Seungpyo Kang, Joonchul Kim, Joonghee Won, Jungim Han*, and Kyoungmin Min*","Materials Today Advances, 23, 100520, 2024/08/01"],
+["Systematic Study on Anisotropic Lattice Volume Changes in Ni-Rich Layered Oxides: Role of Doping and Gradient Coating","Hyun Gyu Park, Kyoungmin Min*, and Kwangjin Park*","Journal of Energy Storage, 94, 112402, 2024/07/30"],
+["Machine Learning-Driven High-Throughput Screening for High-Energy Density and Stable NASICON Cathodes","Jinyoung Jeong, Juo Kim, Jiwon Sun, and Kyoungmin Min*","ACS Applied Materials and Interfaces, 16, 19, 24431, 2024/05/02"],
+["Co-free and Low strain Cathode Materials for Sodium-ion Batteries: Machine Learning-Based Materials Discovery","Minseon Kim, Woon-Hong Yeo, and Kyoungmin Min*","Energy Storage Materials, 69, 103405, 2024/05/01"],
+["Exploring the Large Chemical Space in Search of Thermodynamically Stable and Mechanically Robust MXenes via Machine Learning","Jaejung Park, Minseon Kim, Heekyu Kim, Jaejun Lee, Inhyo Lee, Haesun Park, Anna Lee, Kyoungmin Min*, and Seungchul Lee*","Physical Chemistry Chemical Physics, 26, 10769-10783, 2024/04/14"],
+["Omni-functional Simultanic Interfacial Treatment for Enhancing Stability and Outgassing Suppression of Lithium-Ion Batteries","Youbean Lee, Chanjoo Park, Kyoungmin Min*, and Kwangjin Park*","Journal of Energy Chemistry, 94, 677-687, 2024/07/01"],
+["Toward Fast and Accurate Machine Learning Interatomic Potentials for Atomic Layer Deposition Precursors","Seungpyo Kang+, Joonchul Kim+, Taehyun Park, Chul Baik, Joonghee Won, Jungim Han*, and Kyoungmin Min*","Materials Today Advances, 21, 100474, 2024/03/30"],
+["A Review of problems and solutions in Ni-rich Cathode-Based Li-ion batteries from two research aspects: Experimental Studies and Computational Insights","HyukHee Cho+, Joonchul Kim+, Minseon Kim, Hyunjin An, Kyoungmin Min*, and Kwangjin Park*","Journal of Power Sources, 597, 234132, 2024/03/30"],
+["Ameliorating Electrochemical Performance of Li-rich Mn-based cathodes for Li-ion batteries by Fe substitution","Won-Chan Kim, Juo Kim, Ji-Hwan Kim, Deok-Hye Park, Yu-Yeon Park, Jae-Sung Jang, So-Yeon Ahn, Kyoungmin Min*, and Kyung-Won Park*","Journal of Materials Chemistry A, 12, 1135-1144, 2024/01/14"],
+["Heterogeneous Double-Layered Hybrid Solid Electrolyte with a Concentration-Gradient Structure for High-Performance All-Solid-State Lithium Batteries","Ji-Hwan Kim, Jiwon Sun, Jae-Sung Jang, Deok-Hye Park, So-Yeon Ahn, Won-Chan Kim, Kyoungmin Min*, and Kyung-Won Park*","Energy Storage Materials, 64, 103080, 2024/01/01"]]],
+
+["2023","",[
+["Optimal Surrogate Models for Predicting Elastic Moduli of Metal-Organic Frameworks via Multiscale Features","Jaejun Lee+, Inhyo Lee+, Jaejung Park, Heekyu Kim, Minseon Kim, Kyoungmin Min*, and Seungchul Lee*","Chemistry of Materials, 35, 24, 10457-10475, 2023/12/12"],
+["Atomistic Insights into Adhesion Characteristics of Tungsten on Titanium Nitride using Steered Molecular Dynamics with Machine Learning Interatomic Potential","Eunseog Cho*, Won-Joon Son*, Eunae Cho, Inkook Jang, Dae Sin Kim, and Kyoungmin Min*","Scientific Reports, 13, 17145, 2023/10/10"],
+["Rapid Discovery of Promising Materials via Active Learning with Multi-Objective Optimization","Taehyun Park, Eunsong Kim, Jiwon Sun, Minseon Kim, Eunhwa Hong, and Kyoungmin Min*","Materials Today Communications, 37, 107245, 2023/12/01"],
+["Prediction of Protein Aggregation Propensity via Data-driven Approaches","Seungpyo Kang+, Minseon Kim+, Jiwon Sun+, Myeonghun Lee*, and Kyoungmin Min*","ACS Biomaterials Science & Engineering, 9, 11, 6451-6463, 2023/10/16"],
+["Discovery of Superionic Solid-State Electrolyte for Li-Ion Batteries via Machine Learning","Seungpyo Kang, Minseon Kim, and Kyoungmin Min*","The Journal of Physical Chemistry C, 127, 39, 19335-19343, 2023/10/05"],
+["Active Learning Platform for Accelerating the Search for High-Voltage Cathode Materials in an Extensive Chemical Space","Heekyu Kim, Jaejung Park, Minseon Kim, Jaejun Lee, Inhyo Lee, Kyoungmin Min*, and Seungchul Lee*","The Journal of Physical Chemistry C, 127, 38, 18902-18913, 2023/09/28"],
+["AmorProt: Amino Acid Molecular Fingerprints Repurposing-based Protein Fingerprint","Myeonghun Lee and Kyoungmin Min*","Biochemistry, 62, 18, 2700-2709, 2023/09/19"],
+["Correlating Atomistic Characteristics of Zeolites to their 3D-Printed Macro Structural Properties for Prediction of Mechanical Response","Joonchul Kim, Minseong Hong, JunHo Song, Namjung Kim*, and Kyoungmin Min*","Materials & Design, 233, 112189, 2023/09"],
+["Screening Platform for Promising Na Superionic Conductors for Na-ion Solid-state Electrolytes","Juo Kim, Seungpyo Kang, and Kyoungmin Min*","ACS Applied Materials and Interfaces, 15, 35, 41417-41425, 2023/09/06"],
+["Artificial Intelligence in the Design of Innovative Metamaterials: A Comprehensive Review","JunHo Song+, JaeHoon Lee+, Namjung Kim* and Kyoungmin Min*","International Journal of Precision Engineering and Manufacturing, 25, 225-244, 2023/08/07"],
+["Natural Language Processing Techniques for Advancing Materials Discovery: A Short Review","Joo Hyuk Lee+, Myeonghun Lee+, and Kyoungmin Min*","International Journal of Precision Engineering and Manufacturing-Green Technology, 10, 1337-1349, 2023/09/01"],
+["Predicting Mechanical Properties of Newly Generated Two-Dimensional Materials with Minimum Uncertainty","Inhyo Lee+, Joonchul Kim+, Taehyun Park, and Kyoungmin Min*","Materials Today Advances, 18, 100374, 2023/06/01"],
+["Enhanced hydrogen evolution performance at the lateral interface between two layered materials predicted with machine learning","Thi Hue Pham+, Eunsong Kim+, Kyoungmin Min* and Young-Han Shin*","ACS Applied Materials and Interfaces, 15, 23, 27995-28007, 2023/05/26"],
+["Data-Driven Methods for Predicting State of Health, State of Charge, and Remaining Useful Life of Li-Ion Batteries: A Comprehensive Review","Eunsong Kim+, Minseon Kim+, Juo Kim, Joonchul Kim, Jung-Hwan Park, Kyoung-Tak Kim, Joung-Hu Park, Taesic Kim, and Kyoungmin Min*","International Journal of Precision Engineering and Manufacturing, 24, 1281-1304, 2023/05/09"],
+["Extracting Chemical Information from Scientific Literature Using Text Mining: Building an Ionic Conductivity Database for Solid-state Electrolyte","Yea-Jin Shon and Kyoungmin Min*","ACS Omega, 8, 20, 18122-18127, 2023/05/08"],
+["Structural-Stability Study of Antiperovskite Na3OCl for Na-Rich Solid Electrolyte","Tan-Lien Pham, Woon Ih Choi, Aamir Shafique, Hye Jung Kim, Munbo Shim, Kyoungmin Min, Won-Joon Son, Inkook Jang, Dae Sin Kim, Mauro Boero, Carlo Massobrio, Guido Ori, Hyo Sug Lee, and Young-Han Shin","Physical Review Applied, 19, 034004, 2023/03/01"],
+["Impact of Data Preprocessing to Improve the Prediction Accuracy for the Remaining Useful Life of Li-ion Batteries","Joonchul Kim, Eunsong Kim, Jung-Hwan Park, Kyoung-Tak Kim, Joung-Hu Park*, Taesic Kim*, and Kyoungmin Min*","International Journal of Energy Research, 2023, 9305309, 2023/02/13"],
+["Accelerated Discovery of Novel Garnet-Type Solid-State Electrolyte Candidates via Machine Learning","Jiwon Sun, Seungpyo Kang, Joonchul Kim, and Kyoungmin Min*","ACS Applied Materials and Interfaces, 15, 4, 5049-5057, 2023/01/18"],
+["Maximizing the Energy Density and Stability of Ni-Rich Layered Cathode Materials with Multivalent Dopants via Machine Learning","Minseon Kim, Seungpyo Kang, Hyun Gyu Park, Kwangjin Park*, and Kyoungmin Min*","Chemical Engineering Journal, 452, 139254, 2023/01/15"],
+["Machine Learning Interatomic Potential to Investigate Fundamentals of Electrolytes for Li-ion Solid-State Batteries","Kyoungmin Min","International Journal of Precision Engineering and Manufacturing-Smart Technology, 1(1), 83-91, 2023/01/01"]]],
+
+["2022","",[
+["Optimal Machine Learning Feature Selection for Assessing the Mechanical Properties of a Zeolite Framework","Namjung Kim* and Kyoungmin Min*","Physical Chemistry Chemical Physics, 24, 27031, 2022/09/26 · Cover article"],
+["Evaluation of Principal Features for Predicting Bulk and Shear Modulus of Inorganic Solids with Machine Learning","Myeonghun Lee, Minseon Kim, and Kyoungmin Min*","Materials Today Communications, 33, 104208, 2022/08/09"],
+["MGCVAE: Multi-objective Inverse Design via Molecular Graph Conditional Variational Autoencoder","Myeonghun Lee and Kyoungmin Min*","Journal of Chemical Information and Modeling, 62, 12, 2943, 2022/06/06"],
+["Multifunctional surface modification with Co-free spinel structure on Ni-rich NCM for improved electrochemical performance","Sunwook Kim+, Sungmin Na+, Joonchul Kim, Tae Hwan Jun, Myoung Hwan Oh, Kyoungmin Min*, and Kwangjin Park*","Journal of Alloys and Compounds, 918, 165454, 2022/10/15"],
+["Dual Doping with Cation and Anion for Enhancing the Structural Stability of Sodium-Ion Layered Cathode","Kyoungmin Min*","Physical Chemistry Chemical Physics, 24, 13006, 2022/05/10"],
+["Data-driven Investigation of the Synthesizability and Bandgap of Double Perovskite Halides","Joonchul Kim and Kyoungmin Min*","Advanced Theory and Simulations, 2200068, 2022/05/11"],
+["Novel solubility prediction models: molecular fingerprints and physicochemical features vs. graph convolutional neural networks","Sumin Lee+, Myeonghun Lee+, Ki-Won Gyak, Sung Dug Kim, Mi-Jeong Kim*, and Kyoungmin Min*","ACS Omega, 7, 14, 12268-12277, 2022/04/04"],
+["Prediction of Dielectric Constants of ABO3-Type Perovskites Using Machine Learning and First-Principle Calculations","Eunsong Kim, Joonchul Kim, and Kyoungmin Min*","Physical Chemistry Chemical Physics, 24, 7050-7059, 2022/02/09"],
+["Synergistic effect of Na and Al dual doping on electrochemical performance and structural stability of LiNi0.88Co0.08Mn0.04O2 cathode for lithium-ion battery","HyunGyu Park, Kyoungmin Min*, and Kwangjin Park*","ACS Applied Materials and Interfaces, 14, 4, 5168-5176, 2022/01/18"],
+["A Comparative Study of the Performance for Predicting Biodegradability Classification: QSAR Model vs. Graph Convolutional Network","Myeonghun Lee and Kyoungmin Min*","ACS Omega, 7, 4, 3649-3655, 2022/01/14"]]],
+
+["2021","",[
+["Adaptive Learning Framework in Prediction and Validation of Gibbs Free Energy for Inorganic Crystalline Solids","Jonghoon Yoon, Eunseong Choi, and Kyoungmin Min*","Journal of Physical Chemistry A, 125, 46, 10103-10110, 2021/11/12"],
+["Synthesizable Double Perovskite Oxide Search via Machine Learning and High-Throughput Computational Screening","Joonchul Kim, Eunsong Kim, and Kyoungmin Min*","Advanced Theory and Simulations, 2100263, 2021/09/04"],
+["Searching for mechanically superior solid-state electrolytes in Li-ion batteries via data-driven approaches","Eunseong Choi, Junho Jo, Wonjin Kim, and Kyoungmin Min*","ACS Applied Materials and Interfaces, 13, 36, 42590-42597, 2021/09/02"],
+["Virtual Screening of Residual Sodium Reactive Coating Materials for the Enhancement of the Electrochemical Properties of a Sodium-ion Battery Cathode","Kyoungmin Min*","ACS Applied Energy Materials, 4, 9, 9923-9931, 2021/08/23"],
+["Machine learning aided materials design platform for predicting the mechanical properties of Na-ion solid-state electrolytes","Junho Jo, Eunseong Choi, Minseon Kim, and Kyoungmin Min*","ACS Applied Energy Materials, 4, 8, 7862-7869, 2021/08/05"],
+["Y-doped P2-type Na0.67Ni0.33Mn0.67O2: A sodium-ion battery cathode with fast charging and enhanced cyclic performance","Sunwook Kim, Kyoungmin Min*, and Kwangjin Park*","Journal of Alloys and Compounds, 874, 160027, 2021/09/05"],
+["High-Throughput Ab Initio Investigation of the Elastic Properties of Inorganic Electrolytes for All-Solid-State Na-ion Batteries","Kyoungmin Min*","Journal of The Electrochemical Society, 168, 030541, 2021/03/30"],
+["Accelerated discovery of zeolite structures with superior mechanical properties via active learning","Namjung Kim* and Kyoungmin Min*","Journal of Physical Chemistry Letters, 12, 2334-2399, 2021/03/02"],
+["Computational screening of dopants for mitigating degradation behaviors in sodium-ion layered oxide cathode material","Kyoungmin Min* and Kwangjin Park","Journal of Alloys and Compounds, 859, 157785, 2021/04/05"],
+["Revealing the role of dopants in mitigating degradation phenomena in sodium-ion layered cathodes","Kyoungmin Min* and Young-Han Shin","Physical Chemistry Chemical Physics, 23, 2038-2045, 2021/01/20"]]],
+
+["2020","",[
+["Accelerated discovery of novel inorganic materials with desired properties using active learning","Kyoungmin Min and Eunseog Cho","Journal of Physical Chemistry C, 124, 27, 14759-14767, 2020/06/15"],
+["Accelerated discovery of potential ferroelectric perovskite via active learning","Kyoungmin Min and Eunseog Cho","Journal of Materials Chemistry C, 8, 7866-7872, 2020/05/08"],
+["Neural Network Interatomic Potential for Predicting the Formation of Planar Defect in Nanocrystal","Kyoungmin Min and Eunseog Cho","Journal of Physical Chemistry C, 124, 17, 9424-9433, 2020/04/21"]]],
+
+["2016 – 2019","",[
+["Constructing surface models of silicate glasses using molecular dynamics to understand the effect of pH on the hydration properties","Ross Stewart, Sushmit Goyal, Sung Hoon Lee, Aravind Rammohan, Hyun Hang Park, Kyoungmin Min, Eunseog Cho, and Hendrik Heinz","Journal of Chemical Physics, 150, 174703, 2019/04/10"],
+["Optical Characteristics of the Surface Defects in InP Colloidal Quantum Dots for Highly Efficient Light-Emitting Applications","Eunseog Cho, Taehyung Kim, Seon-myeong Choi, Hyosook Jang, Kyoungmin Min, and Eunjoo Jang","ACS Applied Nano Materials, 1, 7106-7114, 2018/12/06"],
+["Machine learning assisted optimization of electrochemical properties for Ni-rich cathode materials","Kyoungmin Min*, Byungjin Choi, Kwangjin Park, Eunseog Cho","Scientific Reports, 8, 15778, 2018/10/25"],
+["Characterization of Mechanical Degradation in Perfluoropolyether Film for Its Application to Antifingerprint Coatings","Kyoungmin Min*, Jungim Han, Byungha Park, Eunseog Cho","ACS Applied Materials and Interfaces, 10, 37498-37506, 2018/10/19"],
+["Mechanistic understanding of intergranular cracking in NCM cathode material: mesoscale simulation with three-dimensional microstructure","Kyoungmin Min*, Eunseog Cho","Physical Chemistry Chemical Physics, 20, 27115-27124, 2018/10/04"],
+["Grafting Functional Groups in Polymeric Binder toward Enhancing Structural Integrity of LixSiO2 Anode during Electrochemical Cycling","Kyoungmin Min*, Aravind R Rammohan, Sung Hoon Lee, Sushmit Goyal, Hyunhang Park, Ross Stewart, Xiaoxia He, Eunseog Cho","Journal of Physical Chemistry C, 122, 30, 17190-17198, 2018/07/23"],
+["High-Performance and Industrially Feasible Ni-Rich Layered Cathode Materials by Integrating Coherent Interphase","Kyoungmin Min*, Changhoon Jung, Dong-Su Ko, Kihong Kim, Jaeduck Jang, Kwangjin Park, Eunseog Cho","ACS Applied Materials & Interfaces, 10, 24, 20599-20610, 2018/06/11"],
+["Residual Li Reactive Coating with Co3O4 for Superior Electrochemical Properties of LiNi0.91Co0.06Mn0.03O2 Cathode Material","Kyoungmin Min*, Kwangjin Park, Seong Yong Park, Seung-Woo Seo, Byungjin Choi, Eunseog Cho","Journal of The Electrochemical Society, 165, 2, A79-A85, 2018/01/01"],
+["Intrinsic origin of intra-granular cracking in Ni-rich layered oxide cathode materials","Kyoungmin Min*, Eunseog Cho","Physical Chemistry Chemical Physics, 20, 9045-9052, 2018 · Front cover"],
+["Effect of Nano-Scale Roughness on Adhesion between Glassy Silica and Polyimides: A Molecular Dynamics Study","Sung Hoon Lee, Ross J Stewart, Hyunhang Park, Sushmit Goyal, Venkatesh Botu, Hyunbin Kim, Kyoungmin Min, Eunseog Cho, Aravind Raghavan Rammohan, John C Mauro","Journal of Physical Chemistry C, 121, 24648-24656, 2017/11/08"],
+["Theoretical prediction of surface stability and morphology of LiNiO2 cathode for Li ion battery","Eunseog Cho, Seung-Woo Seo, Kyoungmin Min","ACS Applied Materials & Interfaces, 9, 38, 33257-33266, 2017/09/12"],
+["Overview of the Oxygen Behavior in the Degradation of Li2MnO3 Cathode Material","Eunseog Cho, Ki-Hong Kim, Changhoon Jung, Seung-Woo Seo, Kyoungmin Min, Hyo Sug Lee, Gyeong-Su Park, Jaikwang Shin","Journal of Physical Chemistry C, 121, 39, 21118-21127, 2017/09/07"],
+["Improved electrochemical properties of LiNi0.91Co0.06Mn0.03O2 cathode material via Li-reactive coating with metal phosphates","Kyoungmin Min*, Kwangjin Park, Seong Yong Park, Seung-Woo Seo, Byungjin Choi, Eunseog Cho","Scientific Reports, 7, 7151, 2017/08/02"],
+["Computational screening for design of optimal coating materials to suppress gas evolution in Li-ion battery cathodes","Kyoungmin Min*, Seung-Woo Seo, Byungjin Choi, Kwangjin Park, Eunseog Cho","ACS Applied Materials & Interfaces, 9, 21, 17822-17834, 2017/05/05"],
+["Antibody Subclass Detection Using Graphene Nanopores","Amir Barati Farimani, Mohammad Heiranian, Kyoungmin Min, Narayana R Aluru","Journal of Physical Chemistry Letters, 8, 7, 1670-1676, 2017/03/21"],
+["Computational approaches for investigating interfacial adhesion phenomena of polyimide on silica glass","Kyoungmin Min, Aravind R Rammohan, Hyo Sug Lee, Jaikwang Shin, Sung Hoon Lee, Sushmit Goyal, Hyunhang Park, John C Mauro, Ross Stewart, Venkatesh Botu, Hyunbin Kim, Eunseog Cho","Scientific Reports, 7, 10475, 2017/09/05"],
+["Re-construction layer effect of LiNi0.8Co0.15Mn0.05O2 with solvent evaporation process","Kwangjin Park, Jun-Ho Park, Suk-Gi Hong, Byungjin Choi, Sung Heo, Seung-Woo Seo, Kyoungmin Min*, Jin-Hwan Park","Scientific Reports, 7, 44557, 2017/03/20"],
+["A first-principles study of the preventive effects of Al and Mg doping on the degradation in LiNi0.8Co0.1Mn0.1O2 cathode materials","Kyoungmin Min*, Seung-Woo Seo, You Young Song, Hyo Sug Lee, Eunseog Cho","Physical Chemistry Chemical Physics, 19, 3, 2017"],
+["Adhesion of Organic Molecules on Silica Surfaces: A Density Functional Theory Study","Mathew E McKenzie, Sushmit Goyal, Sung Hoon Lee, Hyun-Hang Park, Elizabeth Savoy, Aravind R Rammohan, John C Mauro, Hyunbin Kim, Kyoungmin Min, Eunseog Cho","Journal of Physical Chemistry C, 121, 1, 392-401, 2016/11/29"],
+["Characterizing the Fundamental Adhesion of Polyimide Monomers on Crystalline and Glassy Silica Surfaces: A Molecular Dynamics Study","Sushmit Goyal, Hyun-Hang Park, Sung Hoon Lee, Elizabeth Savoy, Mathew E McKenzie, Aravind R Rammohan, John C Mauro, Hyunbin Kim, Kyoungmin Min, Eunseog Cho","Journal of Physical Chemistry C, 120, 41, 23631-23639, 2016/09/12"],
+["Enhancement in the electrochemical performance of zirconium/phosphate bi-functional coatings on LiNi0.8Co0.15Mn0.05O2 by the removal of Li residuals","Kwangjin Park, Jun-Ho Park, Suk-Gi Hong, Byungjin Choi, Seung-Woo Seo, Jin-Hwan Park, Kyoungmin Min*","Physical Chemistry Chemical Physics, 18, 42, 29076-29085, 2016/08/22 · Back cover"],
+["Interfacial adhesion behavior of polyimides on silica glass: a molecular dynamics study","Kyoungmin Min, Yaeji Kim, Sushmit Goyal, Sung Hoon Lee, Matt McKenzie, Hyunhang Park, Elizabeth S Savoy, Aravind R Rammohan, John C Mauro, Hyunbin Kim, Kyungchan Chae, Hyo Sug Lee, Jaikwang Shin, Eunseog Cho","Polymer, 98, 1-10, 2016/06/07"],
+["A comparative study of structural changes in lithium nickel cobalt manganese oxide as a function of Ni content during delithiation process","Kyoungmin Min, Kihong Kim, Changhoon Jung, Seung-Woo Seo, You Young Song, Hyo Sug Lee, Jaikwang Shin, Eunseog Cho","Journal of Power Sources, 315, 111-119, 2016/03/18"]]],
+
+["2009 – 2015","",[
+["Capacitive sensing of intercalated H2O molecules using graphene","Eric J Olson, Rui Ma, Tao Sun, Mona A Ebrish, Nazila Haratipour, Kyoungmin Min, Narayana R Aluru, Steven J Koester","ACS Applied Materials and Interfaces, 7, 46, 25804-25812, 2015/10/26"],
+["Mechanically modulated electronic properties of water-filled fullerenes","Kyoungmin Min, A. Barati Farimani, N. R. Aluru","MRS Communications, 5, 2, 305-310, 2015/05/08"],
+["Mechanisms for hydrolysis of silicon nanomembranes as used in bioresorbable electronics","L. Yin+, A. Barati Farimani+, Kyoungmin Min+, N. Vishal, J. Lam, Y. Lee, N. R. Aluru, J. Rogers","Advanced Materials, 27, 11, 1857-1864, 2015/01/27 · Front cover"],
+["DNA base detection using a single-layer MoS2","A. Barati Farimani+, Kyoungmin Min+, and N. R. Aluru","ACS Nano, 8, 7914-7922, 2014"],
+["Crosslinking PMMA: Molecular Dynamics Investigation of the Shear","Kyoungmin Min, M. N. Silberstein, and N. R. Aluru","Journal of Polymer Science Part B: Polymer Physics, 52, 444-449, 2014"],
+["Mechanical behavior of water filled C60","Kyoungmin Min, A. Barati Farimani, and N. R. Aluru","Applied Physics Letters, 103, 26, 263112, 2013"],
+["Modeling mechanophore activation within a crosslinked glassy matrix","M. N. Silberstein, Kyoungmin Min, L. D. Cremar, C. M. Degen, T. M. Martinez, N. R. Aluru, S. R. White and N. R. Sottos","Journal of Applied Physics, 114, 2, 023504, 2013"],
+["The Role of External Defects in Chemical Sensing of Graphene Field-Effect Transistors","B. Kumar+, Kyoungmin Min+, M. Bashirzadeh, A. Barati-Farimani, M.-H. Bae, D. Estrada, E. Pop, N. R. Aluru, A. Salehi-Khojin","Nano Letters, 13, 5, 1962-1968, 2013"],
+["Scanning tunneling spectroscopy and density functional calculation of silicon dangling bonds on the Si(100)-2x1:H surface","W. Ye, Kyoungmin Min, P. M. Martin, A. Rockett, N. R. Aluru and J. W. Lyding","Surface Science, 609, 147-151, 2013"],
+["Mechanical properties of graphene under shear deformation","Kyoungmin Min and N. R. Aluru","Applied Physics Letters, 98, 1, 013113, 2011"],
+["Size and chirality dependent elastic properties of graphene nanoribbons under uniaxial tension","H. Zhao, Kyoungmin Min and N. R. Aluru","Nano Letters, 9, 8, 3012-3015, 2009"]]]
+];
+
+/* ---------- render publications ---------- */
+const listEl=document.getElementById('publist');
+let idx=0, total=0;
+PUBS.forEach(g=>total+=g[2].length);
+document.getElementById('m-count').textContent=total;
+
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+
+function render(filter,query){
+  let html='',n=0;
+  const q=(query||'').trim().toLowerCase();
+  PUBS.forEach(g=>{
+    const [label,sublabel,items]=g;
+    if(filter!=='all' && filter!==label) return;
+    const rows=items.filter(it=>!q || (it[0]+' '+it[1]+' '+it[2]).toLowerCase().includes(q));
+    if(!rows.length) return;
+    html+='<div class="ygroup"><div class="yhead"><b>'+label+'</b><span>'+(sublabel||rows.length+' papers')+'</span></div>';
+    let k=0;
+    rows.forEach(it=>{
+      n++; k++;
+      const doi=it[3];
+      const submitted = label==='Submitted';
+      const href=doi?('https://doi.org/'+doi):('https://scholar.google.com/scholar?q='+encodeURIComponent(it[0]));
+      const btn = submitted ? ''
+        : '<a class="doi-btn'+(doi?'':' find')+'" href="'+href+'" target="_blank" rel="noopener">'+
+          (doi?'DOI':'Find')+' \u2197</a>';
+      const title = submitted ? esc(it[0])
+        : '<a href="'+href+'" target="_blank" rel="noopener">'+esc(it[0])+'</a>';
+      html+='<article class="pub"><div class="n">'+String(k).padStart(2,'0')+'</div>'+
+        '<div><h4>'+title+'</h4><div class="auth">'+esc(it[1])+'</div></div>'+
+        '<div class="jr"><span>'+esc(it[2])+'</span>'+btn+'</div></article>';
+    });
+    html+='</div>';
+  });
+  listEl.innerHTML = n? html : '<div class="empty">No publications match that search.</div>';
+}
+render('all','');
+
+let curF='all';
+document.getElementById('tools').addEventListener('click',e=>{
+  const b=e.target.closest('.chip'); if(!b)return;
+  document.querySelectorAll('#tools .chip').forEach(c=>c.setAttribute('aria-pressed',c===b));
+  curF=b.dataset.f; render(curF,document.getElementById('q').value);
+});
+document.getElementById('q').addEventListener('input',e=>render(curF,e.target.value));
+
+/* ==================================================================
+   MEMBERS DATA  (from the lab roster)
+   [ko, en, program, [areas], email, site, co-advisor]
+   ================================================================== */
+const PEOPLE=[
+/* group: "phd" = Graduate (PhD, MS/PhD) | "ms" = Graduate (MS) | "ug" = Undergraduate */
+["phd","강승표","Seungpyo Kang","Ph.D. program",["Machine-learned potentials", "Solid electrolytes", "Cathode dopant screening", "NLP data mining"],"seungpyo0501@yonsei.ac.kr","",""],
+["phd","김주오","Juo Kim","Ph.D. program",["Solid electrolytes", "NASICON cathodes", "Na-ion cathodes", "Interface adhesion"],"rlawndh14@yonsei.ac.kr","",""],
+["phd","김민선","Minseon Kim","Ph.D. program",["Active learning", "Cathode discovery", "Thermal runaway", "Property prediction"],"2025323078@yonsei.ac.kr","https://minsunny.framer.website/",""],
+["phd","송준호","JunHo Song","Graduate researcher",["Metamaterials", "Zeolite mechanics", "Organometallic precursors", "Machine-learned potentials"],"songpark11@naver.com","",""],
+["phd","정예림","Yerim Jung","Integrated M.S.–Ph.D. program",["High-voltage spinel", "Dual-doped electrolytes", "Na-ion cathodes", "Dopant screening"],"emma12027@gmail.com","",""],
+["phd","김승배","SeungBae Kim","Integrated M.S.–Ph.D. program",["AI-driven methodologies", "Inorganic materials"],"kimsb05127@yonsei.ac.kr","",""],
+
+["ms","고태서","Taeseo Ko","M.S. program",["2D materials", "Ionic conductivity", "Band gap prediction", "High-entropy cathodes"],"gts8638@yonsei.ac.kr","",""],
+["ms","신우진","Woojin Shin","M.S. program",["Machine-learned potentials", "Cathode/electrolyte interfaces", "Thermal runaway", "Na-ion batteries"],"wjs0426@yonsei.ac.kr","https://woojinshin.quv.kr",""],
+["ms","황정재","Jungjae Hwang","M.S. program",["Machine-learned potentials", "Data-efficient training", "Interface adhesion", "NLP data curation"],"hjungjae@yonsei.ac.kr","",""],
+["ms","김종혁","Jonghyuk Kim","M.S. program",["MAX phases & MXenes", "Machine-learned potentials", "Thermal runaway", "Cathode dopants"],"jonghyuk3572@yonsei.ac.kr","",""],
+["ms","정아현","Ahhyun Jeong","M.S. program",["High-entropy cathodes", "Dopant screening", "Ionic conductivity", "NLP data curation"],"jahhyun@yonsei.ac.kr","",""],
+["ms","송상현","Sanghyeon Song","M.S. program",["MXenes", "MAX phases", "High-voltage spinel", "Zinc metal anodes"],"hyeon4977@yonsei.ac.kr","",""],
+["ms","권중현","Junghyeon Kwon","M.S. program",["Thermal runaway", "High-voltage spinel", "MXenes", "MAX phases"],"kjunghyeon629@yonsei.ac.kr","",""],
+["ms","노수연","Sooyeon Noh","M.S. program",["AI-driven materials discovery", "Energy materials"],"wshine7@naver.com","",""],
+["ms","최송혁","Songhyeok Choi","M.S. program",["AI-driven additive manufacturing"],"thdgurmecha01@gmail.com","","Co-advised with Dr. Kyunghwan Jung and Dr. Inyong Moon (KITECH)"],
+["ms","안정환","Jung Hwan Ahn","M.S. program",["AI-driven additive manufacturing"],"hdj32d@naver.com","","Co-advised with Dr. Byoung Soo Lee (KITECH)"],
+["ms","노수연","Suyeon Ro","M.S. program",["AI-driven engineering design"],"07s129@kitech.re.kr","","Co-advised with Dr. Jongsu Kim and Dr. Jong-Sun Kim (KITECH)"],
+
+["ug","박재휘","Jaehui Park","Undergraduate researcher",["AI-driven materials discovery", "Energy materials"],"qkrwognl121@yonsei.ac.kr","",""]
+];
+
+const ALUMNI=[
+["Jiwon Sun","Northwestern University, Ph.D. program in Materials Science & Engineering"],
+["Inhyo Lee","KAIST, Ph.D. program in Mechanical Engineering"],
+["Eunseong Choi","POSTECH, Graduate Institute of Ferrous & Energy Materials Technology"],
+["Eunsong Kim","Korea Basic Science Institute"],
+["Jinyoung Jeong","Samsung SDI"],
+["Joonchul Kim","Samsung SDI"],
+["Taehyun Park","Samsung SDI"],
+["Junho Jo","Hyundai Motor Company, Electric Vehicle Development"],
+["Sumin Lee","Nike Korea, Data Scientist"],
+["Myeonghun Lee","HUINNO, AI Team"],
+["Jonghoon Yoon","—"]
+];
+
+/* ==================================================================
+   ACHIEVEMENTS — per-researcher publication lists, matched by author name
+   ================================================================== */
+function pubsFor(name){
+  const key=name.toLowerCase().replace(/\s+/g,' ').trim();
+  const out=[];
+  PUBS.forEach(g=>g[2].forEach(it=>{
+    const authors=it[1].toLowerCase().replace(/[+*]/g,'').replace(/\s+/g,' ');
+    if(authors.includes(key)) out.push([g[0],it]);
+  }));
+  return out;
+}
+function achButton(name){
+  const n=pubsFor(name).length;
+  return n
+    ? '<button class="ach" data-name="'+esc(name)+'">Achievements<b>\u2192</b></button>'
+    : '<span class="ach none" aria-disabled="true">Achievements<b>\u2014</b></span>';
+}
+const TOPICS={
+ foundation:/matini-net|feature engineering|feature selection|principal features|molecular fingerprint|protein fingerprint|amorprot|knowledge transfer|graph convolutional|deep neural network|surrogate model|band ?gap|bulk and shear modulus|dielectric constant|solubility|biodegrad|protein aggregation|variational autoencoder|inverse design|synthesizability|elastic moduli|informatics|predicting mechanical properties|multimodal/i,
+ agents:/active learning|adaptive learning|high-throughput|screening|natural language processing|text mining|data mining|database|curation|melting point|boiling point|multi-objective|accelerated discovery|rapid discovery|data preprocessing|data-driven method|autonomous/i,
+ potentials:/interatomic potential|machine learning potential|steered molecular dynamics|neural network interatomic/i,
+ simulation:/molecular dynamics|mesoscale|multiscale|cracking|adhesion|deformation|compressive behavior|cyclic|hydrolysis|nanomembrane|mechanical behavior|shear|metal-organic framework|fullerene|mechanophore|crosslink|first-principles|density functional/i,
+ battery:/cathode|anode|electrolyte|batter|li-ion|lithium|sodium|na-ion|zinc metal|calcium-ion|nasicon|garnet|lgps|spinel|prussian|thermal runaway|state of health|remaining useful life|supercapacitor|electrochemical|delithiation|ionic conductivity|ni-rich|lini0|superionic|dopant/i,
+ semiconductor:/organometallic|atomic layer deposition|precursor|tan-cu|ru\/sio2|titanium nitride|silica|polyimide|mxene|max-phase|van der waals|heterostructure|quantum dot|double perovskite|ferroelectric|dielectric constant|graphene|mos2|dangling bond|nanopore|two-dimensional|layered materials|antifingerprint|perfluoropolyether/i,
+ metamaterials:/metamaterial|zeolite|3d-printed|kirigami|architected/i };
+const deSub=t=>t.replace(/[\u2080-\u2089]/g,c=>String(c.charCodeAt(0)-0x2080));
+function pubsForTopic(key){
+  const re=TOPICS[key]; const out=[];
+  if(re) PUBS.forEach(g=>g[2].forEach(it=>{ if(re.test(deSub(it[0]))) out.push([g[0],it]); }));
+  return out;
+}
+
+(function papers(){
+  const box=document.getElementById('modal');
+  const open=(title,sub,rows,name)=>{
+    document.getElementById('modal-title').textContent=title;
+    document.getElementById('modal-sub').textContent=sub;
+    document.getElementById('modal-list').innerHTML=rows.map(([yr,it])=>{
+      const href=it[3]?('https://doi.org/'+it[3]):('https://scholar.google.com/scholar?q='+encodeURIComponent(it[0]));
+      const btn = yr==='Submitted' ? '' : '<a class="doi-btn'+(it[3]?'':' find')+'" href="'+href+'" target="_blank" rel="noopener">'+(it[3]?'DOI':'Find')+' \u2197</a>';
+      const au=name ? esc(it[1]).replace(new RegExp(esc(name)+'([+*]*)','g'),'<em>'+esc(name)+'$1</em>') : esc(it[1]);
+      return '<div class="mrow"><div class="yr">'+esc(yr)+'</div>'+
+        '<h4><a href="'+href+'" target="_blank" rel="noopener">'+esc(it[0])+'</a></h4>'+
+        '<div class="au">'+au+'</div><div class="jr2">'+esc(it[2])+'</div>'+(btn?'<div style="margin-top:10px">'+btn+'</div>':'')+'</div>';
+    }).join('');
+    box.hidden=false;
+    document.body.style.overflow='hidden';
+    box.querySelector('.modal-x').focus();
+  };
+  const close=()=>{box.hidden=true;document.body.style.overflow=''};
+  const byPerson=n=>{const r=pubsFor(n);open(n, r.length+' publication'+(r.length>1?'s':'')+' with the lab', r, n)};
+  const byTopic=c=>{const r=pubsForTopic(c.dataset.topic);
+    open(c.dataset.label.replace(/&amp;/g,'&'), r.length+' related publication'+(r.length>1?'s':''), r, null)};
+
+  document.addEventListener('click',e=>{
+    if(e.target.closest('[data-close]')){close();return}
+    const b=e.target.closest('.ach[data-name]');
+    if(b){byPerson(b.dataset.name);return}
+    const c=e.target.closest('.card[data-topic]');
+    if(c) byTopic(c);
+  });
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'&&!box.hidden){close();return}
+    const c=e.target.closest && e.target.closest('.card[data-topic]');
+    if(c && (e.key==='Enter'||e.key===' ')){e.preventDefault();byTopic(c)}
+  });
+
+  // paper counts on each research card
+  document.querySelectorAll('.card[data-topic] .cnt').forEach(el=>{
+    const n=pubsForTopic(el.closest('.card').dataset.topic).length;
+    el.textContent=n+' \u2192';
+  });
+})();
+
+(function renderMembers(){
+  const slug = n => n.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  const initials = n => { const w=n.trim().split(/\s+/); return (w[0][0]+(w[w.length-1][0]||'')).toUpperCase(); };
+
+  const shot = m =>
+    '<div class="shot"><span class="mono">'+initials(m[2])+'</span>'+
+    '<img src="img/'+slug(m[2])+'.png" alt="'+esc(m[2])+'" loading="lazy" onerror="this.remove()"></div>';
+
+  const card = m =>
+    '<div class="person reveal"><div class="body">'+
+    '<div class="head">'+shot(m)+'<div class="id">'+
+    '<div class="ko">'+esc(m[1])+'</div><h5>'+esc(m[2])+'</h5></div></div>'+
+    '<div class="prog">'+esc(m[3])+'</div>'+
+    '<ul class="areas">'+m[4].map(a=>'<li>'+esc(a)+'</li>').join('')+'</ul>'+
+    (m[7]?'<div class="co">'+esc(m[7])+'</div>':'')+
+    '<div class="links"><a href="mailto:'+m[5]+'">'+esc(m[5])+'</a>'+
+    (m[6]?'<a href="'+m[6]+'" target="_blank" rel="noopener">'+esc(m[6].replace(/^https?:\/\//,''))+' \u2197</a>':'')+
+    '</div>'+achButton(m[2])+'</div></div>';
+
+  [['phd','g-phd','c-phd','Ph.D. · M.S.–Ph.D.'],
+   ['ms','g-ms','c-ms','M.S.'],
+   ['ug','g-ug','c-ug','B.S.']].forEach(([key,gid,cid,label])=>{
+    const rows=PEOPLE.filter(m=>m[0]===key);
+    document.getElementById(gid).innerHTML = rows.map(card).join('');
+    document.getElementById(cid).textContent = label+' — '+rows.length;
+  });
+
+  document.getElementById('alumni').innerHTML =
+    ALUMNI.map(a=>'<div class="al"><b>'+esc(a[0])+'</b><span>'+esc(a[1])+'</span></div>').join('');
+  document.getElementById('c-al').textContent = ALUMNI.length+' alumni';
+})();
+
+/* ==================================================================
+   THEME
+   ================================================================== */
+(function theme(){
+  const ORDER=['dark','medium','light'];
+  const btn=document.getElementById('theme'), label=document.getElementById('theme-label');
+  const steps=btn.querySelectorAll('.step');
+  let saved=null;
+  try{saved=localStorage.getItem('csai-theme')}catch(e){}
+  set(ORDER.includes(saved)?saved:'dark');   /* dark is the default */
+
+  function set(mode){
+    THEME=mode;
+    document.documentElement.setAttribute('data-theme',mode);
+    label.textContent=mode.charAt(0).toUpperCase()+mode.slice(1);
+    const i=ORDER.indexOf(mode);
+    steps.forEach((el,k)=>el.classList.toggle('on',k<=i));
+    btn.setAttribute('aria-label','Colour theme: '+mode+'. Click for '+ORDER[(i+1)%3]+'.');
+    try{ buildBuckets(); }catch(e){ /* canvas not initialised yet */ }
+    try{localStorage.setItem('csai-theme',mode)}catch(e){}
+  }
+  btn.addEventListener('click',()=>set(ORDER[(ORDER.indexOf(THEME)+1)%3]));
+})();
+
+/* ==================================================================
+   ROUTER — one page at a time
+   ================================================================== */
+const ROUTES=['home','research','team-pi','team-researchers','publications'];
+const PATHS={'':'home','research':'research','team':'team-pi','team/pi':'team-pi','team/researchers':'team-researchers','publications':'publications'};
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+let onHome=true;
+
+function route(){
+  const raw=location.hash.replace(/^#\/?/,'').replace(/\/$/,'');
+  const h=PATHS[raw] || 'home';
+  ROUTES.forEach(r=>{document.getElementById('p-'+r).hidden = (r!==h)});
+  document.querySelectorAll('nav a').forEach(a=>{
+    const r=a.dataset.r;
+    a.classList.toggle('on', r===h || (r==='team' && h.startsWith('team')));
+  });
+  document.body.classList.toggle('home',h==='home');
+  onHome = (h==='home');
+  const pg=document.getElementById('p-'+h);
+  pg.style.animation='none'; void pg.offsetWidth; pg.style.animation='';
+  pg.querySelectorAll('.reveal').forEach((el,i)=>{el.classList.remove('in');el.style.transitionDelay=(i%8)*55+'ms';io.observe(el)});
+  window.scrollTo(0,0);
+  if(onHome) startPES();
+}
+addEventListener('hashchange',route);
+
+/* ==================================================================
+   HERO ANIMATION — three scenes on a loop
+     1  the learned potential energy surface
+     2  message passing across a crystal graph
+     3  molecular dynamics on a rotating slab
+   ================================================================== */
+let pesRunning=false;
+function startPES(){ size(); if(!pesRunning){pesRunning=true;requestAnimationFrame(loop);} }
+
+const cv=document.getElementById('pes'), ctx=cv.getContext('2d');
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let W=0,H=0,DPR=1,tmx=0,tmy=0,mx=0,my=0;
+
+function size(){DPR=Math.min(devicePixelRatio||1,2);W=cv.clientWidth;H=cv.clientHeight;cv.width=W*DPR;cv.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0)}
+addEventListener('resize',size); size();
+addEventListener('pointermove',e=>{tmx=e.clientX/innerWidth-.5;tmy=e.clientY/innerHeight-.5},{passive:true});
+
+const PALETTE={
+  dark:  {stops:[[95,208,230],[110,200,228],[140,190,220],[175,186,208],[205,182,180],[230,180,150],[248,180,116],[255,180,84]],
+          a:[0.16,0.30,0.52], ch:'255,180,84', ch2:'255,196,120', fr:'234,240,250', ha:'95,208,230'},
+  medium:{stops:[[90,196,220],[104,190,218],[132,182,212],[166,178,200],[196,174,172],[220,172,144],[236,172,110],[232,162,78]],
+          a:[0.18,0.32,0.56], ch:'232,162,78', ch2:'240,190,132', fr:'222,230,243', ha:'90,196,220'},
+  light: {stops:[[11,125,150],[40,118,142],[72,110,130],[102,102,116],[130,95,96],[152,88,70],[168,80,44],[154,91,0]],
+          a:[0.18,0.32,0.55], ch:'154,91,0', ch2:'176,110,20', fr:'12,23,48', ha:'11,125,150'}
+};
+const pal = () => PALETTE[THEME] || PALETTE.dark;
+
+/* ---------------- scene 1 · potential energy surface ---------------- */
+const N=42, PITCH=0.60;
+function f(x,y,t){
+  return 0.52*Math.sin(1.75*x+0.30*Math.sin(t*0.16))*Math.cos(1.95*y)
+       + 0.28*Math.sin(2.9*x+1.3)*Math.sin(2.35*y-0.7+t*0.10)
+       + 0.16*Math.cos(4.05*x-2.0)*Math.cos(3.75*y+1.1)
+       - 0.50*Math.exp(-((x-0.42)*(x-0.42)+(y+0.34)*(y+0.34))*3.0);
+}
+const BUCK=[];
+for(let i=0;i<24;i++) BUCK.push({style:'',seg:[]});
+function buildBuckets(){
+  const P=pal();
+  for(let hI=0;hI<8;hI++)for(let dI=0;dI<3;dI++){
+    const c=P.stops[hI];
+    BUCK[hI*3+dI].style='rgba('+c[0]+','+c[1]+','+c[2]+','+P.a[dI]+')';
+  }
+}
+buildBuckets();
+
+const walker={x:-0.4,y:0.3,trail:[],life:0};
+const samples=[]; let lastSample=0, sampleCount=0;
+
+function drawPES(ts){
+  const t=ts/1000, P=pal();
+  const yaw=t*0.075+mx*0.5, cy_=Math.cos(yaw), sy_=Math.sin(yaw);
+  const sc=Math.min(W*0.30,H*0.60), cx=W*0.60, cyc=H*0.48+my*30;
+  const zS=sc*0.42, sp=Math.sin(PITCH);
+  const proj=(x,y,z)=>{const X=x*cy_-y*sy_, Y=x*sy_+y*cy_, k=1+Y*0.14;
+    return [cx+X*sc*k, cyc+Y*sc*sp*k-z*zS, Y];};
+
+  const Pt=new Float32Array(N*N*3), Zn=new Float32Array(N*N);
+  for(let i=0;i<N;i++)for(let j=0;j<N;j++){
+    const x=-1+2*i/(N-1), y=-1+2*j/(N-1), z=f(x,y,t), q=proj(x,y,z), k=i*N+j;
+    Pt[k*3]=q[0];Pt[k*3+1]=q[1];Pt[k*3+2]=q[2];
+    Zn[k]=Math.max(0,Math.min(1,(z+1.15)/2.15));
+  }
+  BUCK.forEach(b=>b.seg.length=0);
+  const push=(k1,k2)=>{
+    const hB=Math.max(0,Math.min(7,Math.floor(((Zn[k1]+Zn[k2])/2)*8)));
+    const dB=Math.max(0,Math.min(2,Math.floor(((Pt[k1*3+2]+Pt[k2*3+2])/2+1.45)/2.9*3)));
+    BUCK[hB*3+dB].seg.push(Pt[k1*3],Pt[k1*3+1],Pt[k2*3],Pt[k2*3+1]);
+  };
+  for(let i=0;i<N;i++)for(let j=0;j<N;j++){
+    const k=i*N+j;
+    if(i<N-1) push(k,(i+1)*N+j);
+    if(j<N-1) push(k,i*N+j+1);
+  }
+  ctx.lineWidth=1;
+  for(const b of BUCK){
+    if(!b.seg.length)continue;
+    ctx.strokeStyle=b.style;ctx.beginPath();
+    for(let q=0;q<b.seg.length;q+=4){ctx.moveTo(b.seg[q],b.seg[q+1]);ctx.lineTo(b.seg[q+2],b.seg[q+3])}
+    ctx.stroke();
+  }
+
+  if(ts-lastSample>950){
+    lastSample=ts;
+    samples.push({x:-0.95+Math.random()*1.9,y:-0.95+Math.random()*1.9,born:ts});
+    if(samples.length>14) samples.shift();
+    sampleCount++;
+  }
+  for(const sm of samples){
+    const age=(ts-sm.born)/1000, z=f(sm.x,sm.y,t);
+    const q=proj(sm.x,sm.y,z), base=proj(sm.x,sm.y,-1.15), pulse=Math.max(0,1-age/1.1);
+    ctx.strokeStyle='rgba('+P.ch+','+(0.16+pulse*0.3)+')';
+    ctx.beginPath();ctx.moveTo(base[0],base[1]);ctx.lineTo(q[0],q[1]);ctx.stroke();
+    if(pulse>0){ctx.beginPath();ctx.arc(q[0],q[1],4+pulse*22,0,6.283);
+      ctx.strokeStyle='rgba('+P.ch+','+(pulse*0.45)+')';ctx.stroke();}
+    ctx.beginPath();ctx.arc(q[0],q[1],2.6,0,6.283);ctx.fillStyle='rgba('+P.ch2+',.95)';ctx.fill();
+  }
+
+  const e=0.02;
+  walker.x-=((f(walker.x+e,walker.y,t)-f(walker.x-e,walker.y,t))/(2*e))*0.028;
+  walker.y-=((f(walker.x,walker.y+e,t)-f(walker.x,walker.y-e,t))/(2*e))*0.028;
+  walker.life++;
+  if(walker.life>420||Math.abs(walker.x)>1||Math.abs(walker.y)>1){
+    walker.x=-0.9+Math.random()*1.8;walker.y=-0.9+Math.random()*1.8;walker.life=0;walker.trail.length=0;
+  }
+  const wz=f(walker.x,walker.y,t), wp=proj(walker.x,walker.y,wz);
+  walker.trail.push([wp[0],wp[1]]); if(walker.trail.length>60)walker.trail.shift();
+  ctx.beginPath();
+  walker.trail.forEach((q,i)=>i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1]));
+  ctx.strokeStyle='rgba('+P.fr+',.34)';ctx.lineWidth=1.4;ctx.stroke();ctx.lineWidth=1;
+  ctx.beginPath();ctx.arc(wp[0],wp[1],10,0,6.283);ctx.fillStyle='rgba('+P.ha+',.10)';ctx.fill();
+  ctx.beginPath();ctx.arc(wp[0],wp[1],3.4,0,6.283);ctx.fillStyle='rgb('+P.fr+')';ctx.fill();
+  live.a=String(sampleCount);
+  live.b=(0.041*Math.exp(-samples.length*0.02)+0.004).toFixed(3)+' eV/\u00c5';
+}
+
+/* ---------------- scene 2 · message passing on a crystal graph ---------------- */
+const GN=(function(){
+  let seed=20190401;
+  const rnd=()=>{seed=(seed*1103515245+12345)&0x7fffffff;return seed/0x7fffffff};
+  const nodes=[];
+  while(nodes.length<26){
+    const a=rnd()*6.283, r=Math.sqrt(rnd())*1.0;
+    const x=Math.cos(a)*r*1.35, y=Math.sin(a)*r;
+    if(nodes.every(n=>(n.x-x)**2+(n.y-y)**2>0.075)) nodes.push({x,y,ph:rnd()*6.283});
+  }
+  const edges=[];
+  nodes.forEach((n,i)=>{
+    nodes.map((m,j)=>({j,d:(m.x-n.x)**2+(m.y-n.y)**2})).filter(o=>o.j!==i)
+      .sort((p,q)=>p.d-q.d).slice(0,4)
+      .forEach(o=>{ if(!edges.some(([u,v])=>(u===i&&v===o.j)||(u===o.j&&v===i))) edges.push([i,o.j]); });
+  });
+  // breadth-first depth from the most central node = the message-passing layer index
+  const seedNode=nodes.reduce((b,n,i)=>(n.x*n.x+n.y*n.y)<(nodes[b].x**2+nodes[b].y**2)?i:b,0);
+  const depth=nodes.map(()=>-1); depth[seedNode]=0;
+  const queue=[seedNode];
+  while(queue.length){
+    const u=queue.shift();
+    edges.forEach(([a,b])=>{
+      const v = a===u?b : (b===u?a:-1);
+      if(v>=0 && depth[v]<0){depth[v]=depth[u]+1;queue.push(v)}
+    });
+  }
+  return {nodes,edges,depth,max:Math.max(...depth)};
+})();
+
+function drawGNN(ts,localT){
+  const t=ts/1000, P=pal();
+  const sc=Math.min(W*0.24,H*0.40), cx=W*0.60+mx*40, cyc=H*0.50+my*28;
+  const rot=t*0.05;
+  const cs=Math.cos(rot), sn=Math.sin(rot);
+  const pos=GN.nodes.map(n=>{
+    const bx=n.x+0.035*Math.sin(t*0.9+n.ph), by=n.y+0.035*Math.cos(t*1.1+n.ph);
+    return [cx+(bx*cs-by*sn)*sc, cyc+(bx*sn+by*cs)*sc*0.72];
+  });
+
+  const waves=GN.max+1;
+  const phase=Math.min(waves-0.001,(localT/SCENE_LEN)*waves*1.06);
+  const w=Math.floor(phase), q=phase-w;
+  const ease=q<.5?2*q*q:1-Math.pow(-2*q+2,2)/2;
+
+  ctx.lineWidth=1;
+  ctx.strokeStyle='rgba('+P.ha+',.20)';
+  ctx.beginPath();
+  GN.edges.forEach(([u,v])=>{ctx.moveTo(pos[u][0],pos[u][1]);ctx.lineTo(pos[v][0],pos[v][1])});
+  ctx.stroke();
+
+  let flying=0;
+  GN.edges.forEach(([u,v])=>{
+    [[u,v],[v,u]].forEach(([a,b])=>{
+      if(GN.depth[a]===w && GN.depth[b]===w+1){
+        flying++;
+        const x=pos[a][0]+(pos[b][0]-pos[a][0])*ease, y=pos[a][1]+(pos[b][1]-pos[a][1])*ease;
+        ctx.strokeStyle='rgba('+P.ch+',.55)';
+        ctx.beginPath();ctx.moveTo(pos[a][0],pos[a][1]);ctx.lineTo(x,y);ctx.stroke();
+        ctx.beginPath();ctx.arc(x,y,3,0,6.283);ctx.fillStyle='rgba('+P.ch2+',.95)';ctx.fill();
+      }
+    });
+  });
+
+  GN.nodes.forEach((n,i)=>{
+    const d=GN.depth[i], lit=d<=w;
+    const fresh = d===w ? 1-Math.min(1,q*1.6) : (d===w+1 ? Math.max(0,ease-0.7)*3 : 0);
+    if(fresh>0){
+      ctx.beginPath();ctx.arc(pos[i][0],pos[i][1],7+fresh*20,0,6.283);
+      ctx.strokeStyle='rgba('+P.ch+','+(fresh*0.4)+')';ctx.stroke();
+    }
+    ctx.beginPath();ctx.arc(pos[i][0],pos[i][1],lit?6:4.4,0,6.283);
+    ctx.fillStyle = lit ? 'rgba('+P.ch+',.85)' : 'rgba('+P.ha+',.30)';
+    ctx.fill();
+    ctx.beginPath();ctx.arc(pos[i][0],pos[i][1],lit?6:4.4,0,6.283);
+    ctx.strokeStyle='rgba('+P.fr+',.30)';ctx.stroke();
+  });
+
+  live.a=(w+1)+' / '+waves;
+  live.b=String(GN.edges.length*2*(w+1)+flying);
+}
+
+/* ---------------- scene 3 · molecular dynamics ---------------- */
+const MD=(function(){
+  const NX=8,NY=4,NZ=4,a=1,at=[];
+  for(let i=0;i<NX;i++)for(let j=0;j<NY;j++)for(let k=0;k<NZ;k++)
+    at.push({x:(i-(NX-1)/2)*a,y:(j-(NY-1)/2)*a,z:(k-(NZ-1)/2)*a,
+      sp:((i+j+k)%3===0)?1:0,
+      p:[Math.random()*6.28,Math.random()*6.28,Math.random()*6.28],
+      w:[0.9+Math.random()*0.6,0.8+Math.random()*0.7,1.0+Math.random()*0.5]});
+  return {at,CUT:1.18,AMP:0.085};
+})();
+let mdStep=0;
+
+function drawMD(ts){
+  const t=ts/1000, P=pal();
+  const unit=Math.min(W*0.075,H*0.135);
+  const cx=W*0.60+mx*40, cyc=H*0.50+my*28;
+  const ry=t*0.10+mx*0.5, rx=0.34+my*0.22;
+  const cY=Math.cos(ry),sY=Math.sin(ry),cX=Math.cos(rx),sX=Math.sin(rx);
+
+  const pts=[];
+  for(const A of MD.at){
+    const X0=A.x+MD.AMP*Math.sin(t*A.w[0]+A.p[0]);
+    const Y0=A.y+MD.AMP*Math.sin(t*A.w[1]+A.p[1]);
+    const Z0=A.z+MD.AMP*Math.sin(t*A.w[2]+A.p[2]);
+    const x1=X0*cY+Z0*sY, z1=-X0*sY+Z0*cY;
+    const y1=Y0*cX-z1*sX, z2=Y0*sX+z1*cX;
+    const persp=5.2/(5.2-z2*0.55);
+    pts.push({sx:cx+x1*unit*persp, sy:cyc+y1*unit*persp, d:z2, s:persp, sp:A.sp, X:X0,Y:Y0,Z:Z0});
+  }
+
+  ctx.lineWidth=1;
+  let bonds=0;
+  for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){
+    const u=pts[i],v=pts[j];
+    const dx=u.X-v.X,dy=u.Y-v.Y,dz=u.Z-v.Z, r2=dx*dx+dy*dy+dz*dz;
+    if(r2>MD.CUT*MD.CUT) continue;
+    bonds++;
+    const al=(1-Math.sqrt(r2)/MD.CUT)*0.5*Math.min(u.s,v.s);
+    ctx.strokeStyle='rgba('+P.ha+','+al+')';
+    ctx.beginPath();ctx.moveTo(u.sx,u.sy);ctx.lineTo(v.sx,v.sy);ctx.stroke();
+  }
+  pts.sort((u,v)=>u.d-v.d);
+  for(const q of pts){
+    const rad=(q.sp?3.6:2.5)*q.s;
+    ctx.beginPath();ctx.arc(q.sx,q.sy,rad,0,6.283);
+    ctx.fillStyle='rgba('+(q.sp?P.ch:P.ha)+','+Math.min(1,0.30+q.s*0.45)+')';ctx.fill();
+  }
+  mdStep+=2;
+  live.a=String(mdStep%1000000).padStart(6,'0');
+  live.b=(300+Math.sin(t*2.1)*2.6).toFixed(1)+' K';
+}
+
+/* ---------------- scene cycling ---------------- */
+const SCENES=[drawPES,drawGNN,drawMD];
+const HUDS=[
+  ['surface','learned PES','train samples','force MAE','active learning'],
+  ['graph','crystal, 26 nodes','layer','messages','message passing'],
+  ['ensemble','NVT','MD step','temperature','molecular dynamics']
+];
+const live={a:'0',b:'0'};
+const hudEl=document.getElementById('hud');
+let shownScene=-1;
+
+function paintHUD(i){
+  const h=HUDS[i];
+  hudEl.innerHTML =
+    '<div>'+h[0]+' <b>'+h[1]+'</b></div>'+
+    '<div>'+h[2]+' <b id="hv-a">'+live.a+'</b></div>'+
+    '<div>'+h[3]+' <b id="hv-b">'+live.b+'</b></div>'+
+    '<div>status <i>'+h[4]+'</i></div>'+
+    '<div class="dots">'+[0,1,2].map(k=>'<i class="'+(k===i?'on':'')+'"></i>').join('')+'</div>';
+}
+const SCENE_LEN=9000, FADE=1500;
+
+function loop(ts){
+  if(!onHome){pesRunning=false;return;}
+  mx+=(tmx-mx)*.04; my+=(tmy-my)*.04;
+  ctx.clearRect(0,0,W,H);
+
+  const cycle=SCENES.length*SCENE_LEN;
+  const tt=ts%cycle, i=Math.floor(tt/SCENE_LEN), localT=tt-i*SCENE_LEN;
+  const nxt=(i+1)%SCENES.length;
+  const into=localT-(SCENE_LEN-FADE);
+
+  if(into>0){
+    const r=into/FADE, p=r<.5?2*r*r:1-Math.pow(-2*r+2,2)/2;
+    ctx.globalAlpha=1-p; SCENES[i](ts,localT);
+    ctx.globalAlpha=p;   SCENES[nxt](ts,localT-(SCENE_LEN-FADE));
+    ctx.globalAlpha=1;
+    if(p>0.5 && shownScene!==nxt){shownScene=nxt;paintHUD(nxt)}
+  } else {
+    SCENES[i](ts,localT);
+    if(shownScene!==i){shownScene=i;paintHUD(i)}
+  }
+
+  const ea=document.getElementById('hv-a'), eb=document.getElementById('hv-b');
+  if(ea) ea.textContent=live.a;
+  if(eb) eb.textContent=live.b;
+
+  if(!reduced) requestAnimationFrame(loop); else pesRunning=false;
+}
+paintHUD(0);
+
+/* boot — after every declaration above is initialised */
+route();
+</script>
+</body>
+</html>
