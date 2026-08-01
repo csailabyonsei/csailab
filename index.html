@@ -229,7 +229,7 @@ h2.sec{font-family:var(--display);font-weight:700;letter-spacing:-.035em;line-he
   repeating-linear-gradient(90deg,var(--edge) 0 1px,transparent 1px 96px)}
 .hero-inner{padding:clamp(104px,14vh,150px) var(--pad) 0;width:100%;max-width:1500px;margin:0 auto;display:flex;flex-direction:column}
 .hero-col{max-width:100%;flex:1;display:flex;flex-direction:column}
-.hero h1{font-family:var(--display);font-weight:800;letter-spacing:-.045em;line-height:.94;font-size:clamp(2.6rem,7.4vw,6.4rem);margin:24px 0 clamp(34px,6vh,72px);max-width:17ch}
+.hero h1{font-family:var(--display);font-weight:800;letter-spacing:-.045em;line-height:.94;font-size:clamp(2.4rem,6.8vw,5.8rem);margin:24px 0 clamp(34px,6vh,72px);max-width:100%}
 .hero h1 em{font-style:normal;color:var(--accent)}
 .hero p.lede{max-width:54ch;margin-top:26px;font-size:clamp(1rem,1.3vw,1.18rem);color:#C4D2E6}
 .scene-cap{max-width:56ch;margin-top:20px;color:var(--muted);font-size:clamp(.92rem,1.05vw,1.02rem);
@@ -319,6 +319,8 @@ h2.sec{font-family:var(--display);font-weight:700;letter-spacing:-.035em;line-he
 .contact-card dt{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .contact-card dd a:hover{color:var(--halo)}
 .contact-card .ko{display:block;color:var(--muted);font-size:.83rem;margin-top:3px}
+.contact-card dd a.map{display:block}
+.contact-card dd a.map:hover .ko{color:var(--halo)}
 .teach{list-style:none}
 .teach li{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:10px 0;border-bottom:1px solid var(--edge)}
 .teach li:last-child{border-bottom:none;padding-bottom:0}
@@ -394,7 +396,9 @@ html[data-theme="light"] .modal-bg{background:rgba(30,45,75,.42)}
 /* ---------- publications ---------- */
 .metrics{display:flex;align-items:center;gap:clamp(18px,3vw,46px);flex-wrap:wrap;margin-top:22px;padding:15px 0;border-top:1px solid var(--edge);border-bottom:1px solid var(--edge);font-family:var(--mono);font-size:12px;color:var(--muted)}
 .metrics>div{display:flex;align-items:baseline;gap:8px}
-.metrics .src{margin-left:auto;align-self:center}
+.metrics .src{margin-left:auto;align-self:center;color:var(--muted);border:1px solid var(--edge-2);
+  border-radius:99px;padding:7px 14px;transition:.22s;white-space:nowrap}
+.metrics .src:hover{border-color:var(--halo);color:var(--halo)}
 .metrics b{color:var(--charge);font-weight:400;font-size:1.3rem;font-family:var(--display);letter-spacing:-.02em;line-height:1}
 .tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:22px}
 .chip{font-family:var(--mono);font-weight:500;font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;padding:8px 15px;border:1px solid var(--edge);border-radius:99px;color:var(--muted);cursor:pointer;background:none;transition:.25s}
@@ -563,7 +567,7 @@ footer a:hover{color:var(--halo)}
   <div class="hero-inner">
    <div class="hero-col">
     <div class="eyebrow">Est. 2019 &nbsp;·&nbsp; Computational Science &amp; Artificial Intelligence</div>
-    <h1>From first principles to <em>foundation models</em></h1>
+    <h1>From first principles to <em>foundation<br>models</em></h1>
     <p class="scene-cap" id="cap"></p>
     <div class="hud" id="hud"></div>
     </div>
@@ -701,7 +705,7 @@ footer a:hover{color:var(--halo)}
         <dl>
           <dt>Email</dt><dd><a href="mailto:kmin.min@yonsei.ac.kr">kmin.min@yonsei.ac.kr</a></dd>
           <dt>Phone</dt><dd><a href="tel:+82221234464">+82-2-2123-4464</a></dd>
-          <dt>Office</dt><dd>Engineering Building #1, Room N201<span class="ko">연세대학교 제1공학관 N201호</span></dd>
+          <dt>Office</dt><dd><a class="map" href="https://engineering.yonsei.ac.kr/engineering/intro/location01.do" target="_blank" rel="noopener">Engineering Building #1, Room N201 &#8599;<span class="ko">연세대학교 제1공학관 N201호</span></a></dd>
         </dl>
         <h6 style="margin-top:30px">Teaching</h6>
         <ul class="teach">
@@ -753,10 +757,10 @@ footer a:hover{color:var(--halo)}
       <div class="eyebrow">Publications</div>
       <h2 class="sec">Everything we have published.</h2>
       <div class="metrics">
-        <div><b>5,617</b>citations</div>
-        <div><b>37</b>h-index</div>
+        <div><b>5,959</b>citations</div>
+        <div><b>38</b>h-index</div>
         <div><b id="m-count">0</b>papers listed</div>
-        <div class="src">Google Scholar &middot; 2026/05/31</div>
+        <a class="src" href="https://scholar.google.com/citations?user=V8RaXJ0AAAAJ&amp;hl=en" target="_blank" rel="noopener">Google Scholar &middot; updated 2026/08/01 &#8599;</a>
       </div>
       <div class="tools" id="tools">
         <button class="chip" aria-pressed="true" data-f="all">All</button>
@@ -802,9 +806,9 @@ footer a:hover{color:var(--halo)}
     </div>
     <div>
       <h6>Elsewhere</h6>
-      <a href="#">Google Scholar</a>
+      <a href="https://scholar.google.com/citations?user=V8RaXJ0AAAAJ&amp;hl=en" target="_blank" rel="noopener">Google Scholar &#8599;</a>
       <a href="#">GitHub</a>
-      <a href="#">Yonsei ME</a>
+      <a href="https://me.yonsei.ac.kr/me/index.do" target="_blank" rel="noopener">Yonsei ME &#8599;</a>
     </div>
     <div>
       <h6>Join</h6>
