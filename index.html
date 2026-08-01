@@ -390,7 +390,7 @@ html[data-theme="light"] .modal-bg{background:rgba(30,45,75,.42)}
 .mrow h4{font-weight:400;font-size:1.02rem;line-height:1.5;margin-top:7px}
 .mrow h4 a:hover{color:var(--halo)}
 .mrow .au{font-size:.87rem;color:var(--muted);margin-top:7px;line-height:1.55}
-.mrow .jr2{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:6px}
+.mrow .jr2{font-family:var(--mono);font-size:11px;color:var(--charge);margin-top:6px}
 .mrow .au em{font-style:normal;color:var(--frost)}
 
 /* ---------- publications ---------- */
@@ -426,6 +426,8 @@ html[data-theme="light"] .modal-bg{background:rgba(30,45,75,.42)}
 .doi-btn.find:hover{background:none;border-color:var(--halo);color:var(--halo)}
 .pub .auth{font-size:.89rem;color:var(--muted);margin-top:8px;line-height:1.55}
 .pub .jr{font-family:var(--mono);font-size:11px;color:var(--charge);letter-spacing:.03em;line-height:1.6}
+.pub .venue b,.mrow .jr2 b{font-weight:400;color:var(--charge)}
+.pub .venue span,.mrow .jr2 span{color:var(--muted)}
 .empty{padding:40px 0;color:var(--muted);font-family:var(--mono);font-size:12px}
 
 /* ---------- footer ---------- */
@@ -982,6 +984,11 @@ PUBS.forEach(g=>total+=g[2].length);
 document.getElementById('m-count').textContent=total;
 
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+function venue(v){                       /* journal name, then volume / pages / date */
+  const i=v.indexOf(',');
+  return i<0 ? '<b>'+esc(v)+'</b>'
+             : '<b>'+esc(v.slice(0,i))+'</b><span>'+esc(v.slice(i))+'</span>';
+}
 
 function render(filter,query){
   let html='',n=0;
@@ -1005,7 +1012,7 @@ function render(filter,query){
         : '<a href="'+href+'" target="_blank" rel="noopener">'+esc(it[0])+'</a>';
       html+='<article class="pub"><div class="n">'+String(k).padStart(2,'0')+'</div>'+
         '<div><h4>'+title+'</h4><div class="auth">'+esc(it[1])+'</div></div>'+
-        '<div class="jr"><span>'+esc(it[2])+'</span>'+btn+'</div></article>';
+        '<div class="jr"><span class="venue">'+venue(it[2])+'</span>'+btn+'</div></article>';
     });
     html+='</div>';
   });
@@ -1102,12 +1109,13 @@ function pubsForTopic(key){
     document.getElementById('modal-title').textContent=title;
     document.getElementById('modal-sub').textContent=sub;
     document.getElementById('modal-list').innerHTML=rows.map(([yr,it])=>{
+      const submitted = yr==='Submitted';
       const href=it[3]?('https://doi.org/'+it[3]):('https://scholar.google.com/scholar?q='+encodeURIComponent(it[0]));
-      const btn = yr==='Submitted' ? '' : '<a class="doi-btn'+(it[3]?'':' find')+'" href="'+href+'" target="_blank" rel="noopener">'+(it[3]?'DOI':'Find')+' \u2197</a>';
+      const btn = submitted ? '' : '<a class="doi-btn'+(it[3]?'':' find')+'" href="'+href+'" target="_blank" rel="noopener">'+(it[3]?'DOI':'Find')+' \u2197</a>';
       const au=name ? esc(it[1]).replace(new RegExp(esc(name)+'([+*]*)','g'),'<em>'+esc(name)+'$1</em>') : esc(it[1]);
       return '<div class="mrow"><div class="yr">'+esc(yr)+'</div>'+
-        '<h4><a href="'+href+'" target="_blank" rel="noopener">'+esc(it[0])+'</a></h4>'+
-        '<div class="au">'+au+'</div><div class="jr2">'+esc(it[2])+'</div>'+(btn?'<div style="margin-top:10px">'+btn+'</div>':'')+'</div>';
+        '<h4>'+(submitted ? esc(it[0]) : '<a href="'+href+'" target="_blank" rel="noopener">'+esc(it[0])+'</a>')+'</h4>'+
+        '<div class="au">'+au+'</div><div class="jr2">'+venue(it[2])+'</div>'+(btn?'<div style="margin-top:10px">'+btn+'</div>':'')+'</div>';
     }).join('');
     box.hidden=false;
     document.body.style.overflow='hidden';
