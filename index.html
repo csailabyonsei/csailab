@@ -722,12 +722,14 @@ footer a:hover{color:var(--halo)}
 <!-- GoatCounter (site code: csailab) -->
 <script>
   window.goatcounter = {
-    path: function(p){ return (location.hash || '#/').replace(/^#\/?/,'/') || '/'; }
-    // allow_local: true   // uncomment only while testing from a local file
+    path: function(p){ return (location.hash || '#/').replace(/^#\/?/,'/') || '/'; },
+    allow_local: true      // also record when served from localhost / a local file
   };
 </script>
 <script data-goatcounter="https://csailab.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
+        async src="https://gc.zgo.at/count.js"
+        onload="console.info('[visitor counter] tracking script loaded')"
+        onerror="console.warn('[visitor counter] gc.zgo.at was blocked - an ad blocker or network filter is stopping it')"></script>
 
 <div id="modal" class="modal" hidden>
   <div class="modal-bg" data-close></div>
@@ -1169,6 +1171,13 @@ function pubsForTopic(key){
    ================================================================== */
 const GC_CODE='csailab';                    // <- your GoatCounter code
 
+window.gcTest=function(){                 // type gcTest() in the console to force one hit
+  if(!window.goatcounter||!window.goatcounter.count)
+    return console.warn('[visitor counter] count.js never loaded - it is being blocked.');
+  window.goatcounter.count({path:'/console-test', title:'manual test', event:false});
+  console.info('[visitor counter] test hit sent. It should appear in the dashboard within a minute.');
+};
+
 (function visitors(){
   const el=document.getElementById('hits');
   if(!el||!GC_CODE) return;
@@ -1177,7 +1186,8 @@ const GC_CODE='csailab';                    // <- your GoatCounter code
   const say=m=>console.info('[visitor counter] '+m);
 
   // 404 simply means nothing has been recorded yet -> that is a zero, not a failure
-  const grab=url=>fetch(url,{cache:'no-store'}).then(r=>{
+  const bust=u=>u+(u.includes('?')?'&':'?')+'_='+Date.now();
+  const grab=url=>fetch(bust(url),{cache:'no-store'}).then(r=>{
     if(r.ok) return r.json().then(d=>d.count);
     if(r.status===404) return '0';
     return Promise.reject(r.status);
@@ -1185,6 +1195,9 @@ const GC_CODE='csailab';                    // <- your GoatCounter code
 
   grab(base)
     .then(total=>{
+      if(String(total).replace(/[^0-9]/g,'')==='0')
+        say('reachable, but nothing recorded yet. Check the dashboard at https://'+GC_CODE+
+            '.goatcounter.com - if it is empty too, the visit is not being sent.');
       document.getElementById('hits-total').textContent=total;
       el.hidden=false;
       return grab(base+'?start='+today).catch(()=>null);
