@@ -1184,37 +1184,33 @@ window.gcTest=function(){                 // type gcTest() in the console to for
   const base='https://'+GC_CODE+'.goatcounter.com/counter/TOTAL.json';
   const today=new Date().toISOString().slice(0,10);
   const say=m=>console.info('[visitor counter] '+m);
-
-  // 404 simply means nothing has been recorded yet -> that is a zero, not a failure
   const bust=u=>u+(u.includes('?')?'&':'?')+'_='+Date.now();
-  const grab=url=>fetch(bust(url),{cache:'no-store'}).then(r=>{
-    if(r.ok) return r.json().then(d=>d.count);
-    if(r.status===404) return '0';
-    return Promise.reject(r.status);
-  });
 
-  grab(base)
-    .then(total=>{
-      if(String(total).replace(/[^0-9]/g,'')==='0')
-        say('reachable, but nothing recorded yet. Check the dashboard at https://'+GC_CODE+
-            '.goatcounter.com - if it is empty too, the visit is not being sent.');
-      document.getElementById('hits-total').textContent=total;
-      el.hidden=false;
-      return grab(base+'?start='+today).catch(()=>null);
-    })
-    .then(day=>{
-      const t=document.getElementById('hits-today');
-      if(!t) return;
-      if(day!=null) t.textContent=day;
-      else { const wrap=t.closest('i'); if(wrap) wrap.remove(); }
-    })
-    .catch(err=>{
-      if(err===403) say('GoatCounter is refusing to share the figure. Turn on '+
-        '"Allow adding visitor counts on your website" in Settings.');
-      else if(location.protocol==='file:') say('opened from a local file - '+
-        'counts only work once the page is served over http(s).');
-      else say('could not reach '+base+' ('+err+')');
-    });
+  // report the status rather than quietly turning every failure into a zero
+  const grab=url=>fetch(bust(url),{cache:'no-store'}).then(r=>{
+    if(r.ok) return r.json().then(d=>({count:d.count,status:200}));
+    return {count:null,status:r.status};
+  }).catch(()=>({count:null,status:'network'}));
+
+  Promise.all([grab(base), grab(base+'?start='+today)]).then(([tot,day])=>{
+    if(tot.count==null){
+      if(tot.status===404) say('the counter endpoint returned 404. In GoatCounter go to '+
+        'Settings and tick "Allow adding visitor counts on your website", then reload. '+
+        '(Pageviews are still being recorded either way - check the dashboard.)');
+      else if(tot.status===403) say('the counter endpoint returned 403 - the same setting is off.');
+      else say('the counter endpoint returned '+tot.status+' for '+base);
+      return;                                   // leave the block hidden
+    }
+    document.getElementById('hits-total').textContent=tot.count;
+    const t=document.getElementById('hits-today');
+    if(t){
+      if(day.count!=null) t.textContent=day.count;
+      else { const w=t.closest('i'); if(w) w.remove(); }
+    }
+    el.hidden=false;
+    say('total '+tot.count+', today '+(day.count!=null?day.count:'n/a')+
+        ' (GoatCounter caches this figure, so it can lag a few hours)');
+  });
 })();
 
 /* ==================================================================
