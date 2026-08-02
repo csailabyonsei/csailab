@@ -721,10 +721,7 @@ footer a:hover{color:var(--halo)}
 
 <!-- GoatCounter (site code: csailab) -->
 <script>
-  window.goatcounter = {
-    path: function(p){ return (location.hash || '#/').replace(/^#\/?/,'/') || '/'; },
-    allow_local: true      // also record when served from localhost / a local file
-  };
+  window.goatcounter = { allow_local: true };   // also record from localhost / a local file
 </script>
 <script data-goatcounter="https://csailab.goatcounter.com/count"
         async src="https://gc.zgo.at/count.js"
@@ -1224,7 +1221,17 @@ let onHome=true;
 /* count.js records the first load; hash routes need to be sent by hand */
 let firstView=true;
 function countView(page){
-  if(firstView){firstView=false;return;}          // already counted on load
+  if(firstView){
+    firstView=false;
+    setTimeout(function(){
+      try{
+        const d=window.goatcounter && window.goatcounter.get_data && window.goatcounter.get_data();
+        if(d) console.info('[visitor counter] first hit sent as path "'+d.p+'"');
+        else console.warn('[visitor counter] count.js has not loaded - the hit was never sent.');
+      }catch(e){console.warn('[visitor counter] count.js error: '+e.message);}
+    },1500);
+    return;                                       // count.js already recorded this one
+  }
   try{
     if(window.goatcounter && window.goatcounter.count)
       window.goatcounter.count({path:'/'+page, title:'CS-AI Lab \u2014 '+page, event:false});
