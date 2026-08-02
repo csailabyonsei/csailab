@@ -746,14 +746,18 @@ footer a:hover{color:var(--halo)}
 
 </main>
 
-<!-- GoatCounter (site code: csailab) -->
-<script>
-  window.goatcounter = { allow_local: true };   // also record from localhost / a local file
-</script>
+<!-- ================= GoatCounter (site code: csailab) ================= -->
 <script data-goatcounter="https://csailab.goatcounter.com/count"
-        async src="https://gc.zgo.at/count.js"
-        onload="console.info('[visitor counter] tracking script loaded')"
-        onerror="console.warn('[visitor counter] gc.zgo.at was blocked - an ad blocker or network filter is stopping it')"></script>
+        async src="//gc.zgo.at/count.js"></script>
+
+<!-- If count.js is blocked or JS is off, this 1x1 image still records the visit.
+     It talks to csailab.goatcounter.com directly, so blocklists that only carry
+     gc.zgo.at do not stop it. -->
+<noscript>
+  <img src="https://csailab.goatcounter.com/count?p=/noscript&t=CS-AI+Lab" alt="" style="position:absolute">
+</noscript>
+
+
 
 <div id="modal" class="modal" hidden>
   <div class="modal-bg" data-close></div>
@@ -1257,55 +1261,66 @@ function pubsForTopic(key){
 })();
 
 /* ==================================================================
-   VISITOR COUNTER  ·  GoatCounter
-   1. sign up at goatcounter.com and note your site code
-   2. put that code in GC_CODE below
-   3. in GoatCounter: Settings -> tick "Allow adding visitor counts
-      on your website"  (off by default, the figures stay hidden without it)
-   The block hides itself if the service can't be reached.
+   VISITOR COUNTER  ·  GoatCounter (site code: csailab)
+   count.js records the visit. If an ad blocker stops it, sendPixel()
+   quietly does the same job with a plain image request.
    ================================================================== */
-const GC_CODE='csailab';                    // <- your GoatCounter code
+const GC='csailab';
+const GC_COUNT='https://'+GC+'.goatcounter.com/count';
+const GC_TOTAL='https://'+GC+'.goatcounter.com/counter/TOTAL.json';
+const say=m=>console.info('[visitors] '+m);
 
-window.gcTest=function(){                 // type gcTest() in the console to force one hit
-  if(!window.goatcounter||!window.goatcounter.count)
-    return console.warn('[visitor counter] count.js never loaded - it is being blocked.');
-  window.goatcounter.count({path:'/console-test', title:'manual test', event:false});
-  console.info('[visitor counter] test hit sent. It should appear in the dashboard within a minute.');
-};
+function sendPixel(path,title){
+  const i=new Image();
+  i.referrerPolicy='no-referrer-when-downgrade';
+  i.src=GC_COUNT+'?p='+encodeURIComponent(path)+'&t='+encodeURIComponent(title||document.title)+
+        '&r='+encodeURIComponent(document.referrer||'')+'&rnd='+Math.random().toString(36).slice(2);
+}
 
-(function visitors(){
+/* record a page view however we can */
+let scriptWorks=false;
+function record(path,title){
+  if(window.goatcounter && typeof window.goatcounter.count==='function'){
+    scriptWorks=true;
+    window.goatcounter.count({path:path,title:title,event:false});
+  } else {
+    sendPixel(path,title);
+  }
+}
+
+/* count.js loads asynchronously; give it a moment, then fall back */
+addEventListener('load',()=>setTimeout(()=>{
+  if(window.goatcounter && typeof window.goatcounter.count==='function'){
+    scriptWorks=true; say('count.js is running - the visit was recorded.');
+  } else {
+    sendPixel(location.pathname,document.title);
+    say('count.js was blocked - the visit was sent as an image instead.');
+  }
+},2500));
+
+/* hash routes are not page loads, so they are sent by hand */
+let firstView=true;
+function countView(page){
+  if(firstView){firstView=false;return;}
+  record('/'+page,'CS-AI Lab \u2014 '+page);
+}
+
+(function showTotal(){
   const el=document.getElementById('hits');
-  if(!el||!GC_CODE) return;
-  const base='https://'+GC_CODE+'.goatcounter.com/counter/TOTAL.json';
+  if(!el) return;
   const today=new Date().toISOString().slice(0,10);
-  const say=m=>console.info('[visitor counter] '+m);
-  const bust=u=>u+(u.includes('?')?'&':'?')+'_='+Date.now();
+  const grab=u=>fetch(u+(u.includes('?')?'&':'?')+'_='+Date.now(),{cache:'no-store'})
+    .then(r=>r.ok?r.json().then(d=>d.count):Promise.reject(r.status));
 
-  // report the status rather than quietly turning every failure into a zero
-  const grab=url=>fetch(bust(url),{cache:'no-store'}).then(r=>{
-    if(r.ok) return r.json().then(d=>({count:d.count,status:200}));
-    return {count:null,status:r.status};
-  }).catch(()=>({count:null,status:'network'}));
-
-  Promise.all([grab(base), grab(base+'?start='+today)]).then(([tot,day])=>{
-    if(tot.count==null){
-      if(tot.status===404) say('the counter endpoint returned 404. In GoatCounter go to '+
-        'Settings and tick "Allow adding visitor counts on your website", then reload. '+
-        '(Pageviews are still being recorded either way - check the dashboard.)');
-      else if(tot.status===403) say('the counter endpoint returned 403 - the same setting is off.');
-      else say('the counter endpoint returned '+tot.status+' for '+base);
-      return;                                   // leave the block hidden
-    }
-    document.getElementById('hits-total').textContent=tot.count;
-    const t=document.getElementById('hits-today');
-    if(t){
-      if(day.count!=null) t.textContent=day.count;
-      else { const w=t.closest('i'); if(w) w.remove(); }
-    }
+  grab(GC_TOTAL).then(total=>{
+    document.getElementById('hits-total').textContent=total;
     el.hidden=false;
-    say('total '+tot.count+', today '+(day.count!=null?day.count:'n/a')+
-        ' (GoatCounter caches this figure, so it can lag a few hours)');
-  });
+    return grab(GC_TOTAL+'?start='+today).catch(()=>null);
+  }).then(day=>{
+    const t=document.getElementById('hits-today');
+    if(!t) return;
+    if(day!=null) t.textContent=day; else { const w=t.closest('i'); if(w) w.remove(); }
+  }).catch(err=>say('could not read the total ('+err+') - the figure is cached for up to 4 hours.'));
 })();
 
 /* ==================================================================
@@ -1315,26 +1330,6 @@ const ROUTES=['home','research','team-pi','team-researchers','publications'];
 const PATHS={'':'home','research':'research','team':'team-pi','team/pi':'team-pi','team/researchers':'team-researchers','publications':'publications'};
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
 let onHome=true;
-
-/* count.js records the first load; hash routes need to be sent by hand */
-let firstView=true;
-function countView(page){
-  if(firstView){
-    firstView=false;
-    setTimeout(function(){
-      try{
-        const d=window.goatcounter && window.goatcounter.get_data && window.goatcounter.get_data();
-        if(d) console.info('[visitor counter] first hit sent as path "'+d.p+'"');
-        else console.warn('[visitor counter] count.js has not loaded - the hit was never sent.');
-      }catch(e){console.warn('[visitor counter] count.js error: '+e.message);}
-    },1500);
-    return;                                       // count.js already recorded this one
-  }
-  try{
-    if(window.goatcounter && window.goatcounter.count)
-      window.goatcounter.count({path:'/'+page, title:'CS-AI Lab \u2014 '+page, event:false});
-  }catch(e){}
-}
 
 function route(){
   const raw=location.hash.replace(/^#\/?/,'').replace(/\/$/,'');
