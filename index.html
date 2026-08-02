@@ -206,8 +206,8 @@ h2.sec{font-family:var(--display);font-weight:700;letter-spacing:-.035em;line-he
 /* ---------- members ---------- */
 .sub{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;
   font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);
-  margin-top:clamp(38px,4.5vw,60px);padding-bottom:9px;border-bottom:1px solid var(--edge-2);font-weight:500;letter-spacing:.13em}
-.sub b{font-family:var(--display);font-weight:700;font-size:1.5rem;letter-spacing:-.03em;color:var(--frost);text-transform:none}
+  margin-top:clamp(38px,4.5vw,60px);padding-bottom:10px;border-bottom:1px solid var(--edge-2);font-weight:500;letter-spacing:.13em}
+.sub b{font-family:var(--display);font-weight:700;font-size:clamp(1.6rem,2.4vw,2rem);letter-spacing:-.03em;color:var(--frost);text-transform:none;line-height:1.1}
 
 .pi{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(26px,4vw,56px);margin-top:30px;align-items:start}
 .pi-head{display:flex;gap:clamp(20px,2.2vw,30px);align-items:flex-start}
@@ -649,13 +649,13 @@ footer a:hover{color:var(--halo)}
       </div>
     </div>
 
-    <div class="sub"><b>Graduate researchers</b><span id="c-phd">Ph.D. · M.S.–Ph.D.</span></div>
+    <div class="sub"><b id="h-phd">Ph.D. &middot; M.S.–Ph.D.</b><span id="c-phd"></span></div>
     <div class="people" id="g-phd"></div>
 
-    <div class="sub"><b>Graduate researchers</b><span id="c-ms">M.S.</span></div>
+    <div class="sub"><b id="h-ms">M.S.</b><span id="c-ms"></span></div>
     <div class="people" id="g-ms"></div>
 
-    <div class="sub"><b>Undergraduate researchers</b><span id="c-ug">B.S.</span></div>
+    <div class="sub"><b id="h-ug">B.S.</b><span id="c-ug"></span></div>
     <div class="people" id="g-ug"></div>
 
     <a class="join" href="mailto:kmin.min@yonsei.ac.kr">
@@ -664,7 +664,7 @@ footer a:hover{color:var(--halo)}
       <div class="ja">kmin.min@yonsei.ac.kr &#8599;</div>
     </a>
 
-    <div class="sub"><b>Alumni</b><span id="c-al">Where they went</span></div>
+    <div class="sub"><b>Alumni</b><span id="c-al"></span></div>
     <div class="alumni-grid" id="alumni"></div>
   </div>
 </section>
@@ -697,6 +697,16 @@ footer a:hover{color:var(--halo)}
 </section>
 
 </main>
+
+<!-- GoatCounter (site code: csailab) -->
+<script>
+  window.goatcounter = {
+    path: function(p){ return (location.hash || '#/').replace(/^#\/?/,'/') || '/'; }
+    // allow_local: true   // uncomment only while testing from a local file
+  };
+</script>
+<script data-goatcounter="https://csailab.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
 
 <div id="modal" class="modal" hidden>
   <div class="modal-bg" data-close></div>
@@ -1091,17 +1101,17 @@ function pubsForTopic(key){
     (m[6]?'<a href="'+m[6]+'" target="_blank" rel="noopener">'+esc(m[6].replace(/^https?:\/\//,''))+' \u2197</a>':'')+
     '</div>'+achButton(m[2])+'</div></div>';
 
-  [['phd','g-phd','c-phd','Ph.D. · M.S.–Ph.D.'],
-   ['ms','g-ms','c-ms','M.S.'],
-   ['ug','g-ug','c-ug','B.S.']].forEach(([key,gid,cid,label])=>{
+  [['phd','g-phd','c-phd'],
+   ['ms','g-ms','c-ms'],
+   ['ug','g-ug','c-ug']].forEach(([key,gid,cid])=>{
     const rows=PEOPLE.filter(m=>m[0]===key);
     document.getElementById(gid).innerHTML = rows.map(card).join('');
-    document.getElementById(cid).textContent = label+' — '+rows.length;
+    document.getElementById(cid).textContent = rows.length+(rows.length>1?' researchers':' researcher');
   });
 
   document.getElementById('alumni').innerHTML =
     ALUMNI.map(a=>'<div class="al"><b>'+esc(a[0])+'</b><span>'+esc(a[1])+'</span></div>').join('');
-  document.getElementById('c-al').textContent = ALUMNI.length+' alumni';
+  document.getElementById('c-al').textContent = ALUMNI.length+' people';
 })();
 
 /* ==================================================================
@@ -1129,51 +1139,34 @@ function pubsForTopic(key){
 })();
 
 /* ==================================================================
-   VISITOR COUNTER
-   A static page can't count on its own, so this asks a hosted counter.
-   Set NAMESPACE/KEY to something unique to this site, then it just works.
-   If the service is unreachable the whole block stays hidden.
+   VISITOR COUNTER  ·  GoatCounter
+   1. sign up at goatcounter.com and note your site code
+   2. put that code in GC_CODE below
+   3. in GoatCounter: Settings -> tick "Allow adding visitor counts
+      on your website"  (off by default, the figures stay hidden without it)
+   The block hides itself if the service can't be reached.
    ================================================================== */
+const GC_CODE='csailab';                    // <- your GoatCounter code
+
 (function visitors(){
-  const NAMESPACE='csai-lab-yonsei';     // change if you ever reset the count
-  const KEY='site';
   const el=document.getElementById('hits');
-  if(!el) return;
+  if(!el||!GC_CODE) return;
+  const base='https://'+GC_CODE+'.goatcounter.com/counter/TOTAL.json';
+  const today=new Date().toISOString().slice(0,10);
 
-  const fmt=n=>Number(n).toLocaleString('en-US');
-  const todayKey='csai-hits-day';
-  const seenKey='csai-hits-seen';
-
-  // count a visit once per browser per day
-  let firstToday=true;
-  try{
-    const today=new Date().toISOString().slice(0,10);
-    firstToday = localStorage.getItem(todayKey)!==today;
-    if(firstToday) localStorage.setItem(todayKey,today);
-  }catch(e){}
-
-  const base='https://api.counterapi.dev/v1/'+NAMESPACE+'/'+KEY;
-  fetch(base+(firstToday?'/up':''),{cache:'no-store'})
+  const grab=url=>fetch(url,{cache:'no-store'})
     .then(r=>r.ok?r.json():Promise.reject(r.status))
-    .then(d=>{
-      const total=d.count ?? d.value;
-      if(total==null) throw new Error('no count field');
-      document.getElementById('hits-total').textContent=fmt(total);
+    .then(d=>d.count);
 
-      // today's figure is kept locally — the free counter has no per-day view
-      let today='—';
-      try{
-        const store=JSON.parse(localStorage.getItem(seenKey)||'{}');
-        const day=new Date().toISOString().slice(0,10);
-        if(store.day!==day){store.day=day;store.start=total;}
-        store.last=total;
-        localStorage.setItem(seenKey,JSON.stringify(store));
-        today=fmt(Math.max(1,total-store.start+1));
-      }catch(e){}
-      document.getElementById('hits-today').textContent=today;
+  Promise.all([grab(base), grab(base+'?start='+today).catch(()=>null)])
+    .then(([total,day])=>{
+      if(total==null) throw new Error('no count');
+      document.getElementById('hits-total').textContent=total;
+      const t=document.getElementById('hits-today');
+      if(day!=null) t.textContent=day; else t.closest('i').remove();
       el.hidden=false;
     })
-    .catch(()=>{ /* counter unavailable — leave it out rather than show a broken figure */ });
+    .catch(()=>{ /* not reachable yet - show nothing rather than a broken figure */ });
 })();
 
 /* ==================================================================
@@ -1183,6 +1176,16 @@ const ROUTES=['home','research','team-pi','team-researchers','publications'];
 const PATHS={'':'home','research':'research','team':'team-pi','team/pi':'team-pi','team/researchers':'team-researchers','publications':'publications'};
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
 let onHome=true;
+
+/* count.js records the first load; hash routes need to be sent by hand */
+let firstView=true;
+function countView(page){
+  if(firstView){firstView=false;return;}          // already counted on load
+  try{
+    if(window.goatcounter && window.goatcounter.count)
+      window.goatcounter.count({path:'/'+page, title:'CS-AI Lab \u2014 '+page, event:false});
+  }catch(e){}
+}
 
 function route(){
   const raw=location.hash.replace(/^#\/?/,'').replace(/\/$/,'');
@@ -1198,6 +1201,7 @@ function route(){
   pg.style.animation='none'; void pg.offsetWidth; pg.style.animation='';
   pg.querySelectorAll('.reveal').forEach((el,i)=>{el.classList.remove('in');el.style.transitionDelay=(i%8)*55+'ms';io.observe(el)});
   window.scrollTo(0,0);
+  countView(h);
   if(onHome) startPES();
 }
 addEventListener('hashchange',route);
