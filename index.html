@@ -217,8 +217,7 @@ h2.sec{font-family:var(--display);font-weight:700;letter-spacing:-.035em;line-he
 .pi h3{font-family:var(--display);font-weight:700;font-size:clamp(2rem,3.6vw,3rem);letter-spacing:-.035em;line-height:1.02}
 .pi .role{font-family:var(--mono);font-weight:500;font-size:11.5px;color:var(--halo);letter-spacing:.14em;text-transform:uppercase;margin-top:12px}
 .pi .lead{color:var(--muted);margin:18px 0 4px;max-width:56ch;font-size:1.05rem;line-height:1.7}
-.cv-head{font-family:var(--mono);font-weight:500;font-size:11.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-top:28px;padding-bottom:9px;border-bottom:1px solid var(--edge-2)}
-.cv{list-style:none}
+.cv{list-style:none;margin-top:24px;border-top:1px solid var(--edge-2)}
 .cv li{display:grid;grid-template-columns:104px 1fr;gap:20px;padding:11px 0;border-bottom:1px solid var(--edge);align-items:baseline}
 .cv .when{font-family:var(--mono);font-weight:500;font-size:11.5px;color:var(--charge);letter-spacing:.05em;white-space:nowrap}
 .cv .what b{font-weight:500;font-size:1rem;display:block;letter-spacing:-.01em}
@@ -233,7 +232,25 @@ h2.sec{font-family:var(--display);font-weight:700;letter-spacing:-.035em;line-he
 .contact-card dd a.map{display:block}
 .contact-card dd a.map:hover .ko{color:var(--halo)}
 .teach{list-style:none}
-.teach li{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:10px 0;border-bottom:1px solid var(--edge)}
+.teach li{padding:12px 0;border-bottom:1px solid var(--edge)}
+.teach .row{display:flex;justify-content:space-between;align-items:baseline;gap:14px}
+.teach .tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
+.tg{display:inline-flex;align-items:center;gap:5px;font-style:normal;font-family:var(--mono);
+  font-weight:500;font-size:10.5px;letter-spacing:.02em;padding:4px 10px 4px 8px;border-radius:99px;
+  border:1px solid var(--edge-2);color:var(--muted);white-space:nowrap}
+.tg::before{content:"";width:11px;height:11px;flex:0 0 auto;
+  background-color:currentColor;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+  -webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain}
+.tg.cad{color:var(--halo);border-color:color-mix(in srgb,var(--halo) 45%,transparent)}
+.tg.fem{color:var(--halo);border-color:color-mix(in srgb,var(--halo) 45%,transparent)}
+.tg.agent,.tg.ml,.tg.dl,.tg.llm,.tg.act{color:var(--charge);border-color:color-mix(in srgb,var(--charge) 45%,transparent)}
+.tg.agent::before{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cg%20stroke%3D%22%23000%22%20stroke-width%3D%221.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%224%22%20y%3D%227.5%22%20width%3D%2212%22%20height%3D%229%22%20rx%3D%222.2%22%2F%3E%3Cpath%20d%3D%22M10%203.4v4.1%22%2F%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%222.6%22%20r%3D%221.2%22%2F%3E%3Cpath%20d%3D%22M7.6%2011.2v1.6M12.4%2011.2v1.6%22%2F%3E%3Cpath%20d%3D%22M1.8%2010.5v3M18.2%2010.5v3%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cg%20stroke%3D%22%23000%22%20stroke-width%3D%221.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%224%22%20y%3D%227.5%22%20width%3D%2212%22%20height%3D%229%22%20rx%3D%222.2%22%2F%3E%3Cpath%20d%3D%22M10%203.4v4.1%22%2F%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%222.6%22%20r%3D%221.2%22%2F%3E%3Cpath%20d%3D%22M7.6%2011.2v1.6M12.4%2011.2v1.6%22%2F%3E%3Cpath%20d%3D%22M1.8%2010.5v3M18.2%2010.5v3%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E")}
+.tg.act::before{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cg%20stroke%3D%22%23000%22%20stroke-width%3D%221.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M16.2%207.2A6.6%206.6%200%201%200%2017%2011%22%2F%3E%3Cpath%20d%3D%22M13.6%207.4h3v-3%22%2F%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%2210%22%20r%3D%221.4%22%2F%3E%3Cpath%20d%3D%22M10%203.6v2.4%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cg%20stroke%3D%22%23000%22%20stroke-width%3D%221.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M16.2%207.2A6.6%206.6%200%201%200%2017%2011%22%2F%3E%3Cpath%20d%3D%22M13.6%207.4h3v-3%22%2F%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%2210%22%20r%3D%221.4%22%2F%3E%3Cpath%20d%3D%22M10%203.6v2.4%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E")}
+.tg.cad::before{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cg%20stroke%3D%22%23000%22%20stroke-width%3D%221.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M3%205h9l5%205v5H3z%22%2F%3E%3Cpath%20d%3D%22M12%205v5h5%22%2F%3E%3Cpath%20d%3D%22M3%2018h14%22%2F%3E%3Cpath%20d%3D%22M3%2016.6v2.8M17%2016.6v2.8%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cg%20stroke%3D%22%23000%22%20stroke-width%3D%221.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M3%205h9l5%205v5H3z%22%2F%3E%3Cpath%20d%3D%22M12%205v5h5%22%2F%3E%3Cpath%20d%3D%22M3%2018h14%22%2F%3E%3Cpath%20d%3D%22M3%2016.6v2.8M17%2016.6v2.8%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E")}
+.tg.fem::before{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cg%20stroke%3D%22%23000%22%20stroke-width%3D%221.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M3%203h14v14H3z%22%2F%3E%3Cpath%20d%3D%22M3%2010h14M10%203v14M3%203l7%207M17%203l-7%207M3%2017l7-7M17%2017l-7-7%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cg%20stroke%3D%22%23000%22%20stroke-width%3D%221.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M3%203h14v14H3z%22%2F%3E%3Cpath%20d%3D%22M3%2010h14M10%203v14M3%203l7%207M17%203l-7%207M3%2017l7-7M17%2017l-7-7%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E")}
+.tg.ml::before{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cg%20stroke%3D%22%23000%22%20stroke-width%3D%221.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M3%2016.5C6.5%2016.5%207.5%205.5%2017%205.5%22%2F%3E%3Ccircle%20cx%3D%225.4%22%20cy%3D%2214.6%22%20r%3D%221.5%22%2F%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%229.4%22%20r%3D%221.5%22%2F%3E%3Ccircle%20cx%3D%2214.6%22%20cy%3D%226.6%22%20r%3D%221.5%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cg%20stroke%3D%22%23000%22%20stroke-width%3D%221.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M3%2016.5C6.5%2016.5%207.5%205.5%2017%205.5%22%2F%3E%3Ccircle%20cx%3D%225.4%22%20cy%3D%2214.6%22%20r%3D%221.5%22%2F%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%229.4%22%20r%3D%221.5%22%2F%3E%3Ccircle%20cx%3D%2214.6%22%20cy%3D%226.6%22%20r%3D%221.5%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E")}
+.tg.dl::before{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cg%20stroke%3D%22%23000%22%20stroke-width%3D%221.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%224%22%20cy%3D%226%22%20r%3D%221.5%22%2F%3E%3Ccircle%20cx%3D%224%22%20cy%3D%2214%22%20r%3D%221.5%22%2F%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%224%22%20r%3D%221.5%22%2F%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%2210%22%20r%3D%221.5%22%2F%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%2216%22%20r%3D%221.5%22%2F%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2210%22%20r%3D%221.5%22%2F%3E%3Cpath%20d%3D%22M5.4%206.6L8.7%209.3M5.4%205.3L8.8%204.3M5.4%2013.4L8.7%2010.7M5.4%2014.7L8.8%2015.7M11.4%204.6L14.8%209.2M11.5%2010h3M11.4%2015.4l3.4-4.6%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cg%20stroke%3D%22%23000%22%20stroke-width%3D%221.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%224%22%20cy%3D%226%22%20r%3D%221.5%22%2F%3E%3Ccircle%20cx%3D%224%22%20cy%3D%2214%22%20r%3D%221.5%22%2F%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%224%22%20r%3D%221.5%22%2F%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%2210%22%20r%3D%221.5%22%2F%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%2216%22%20r%3D%221.5%22%2F%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2210%22%20r%3D%221.5%22%2F%3E%3Cpath%20d%3D%22M5.4%206.6L8.7%209.3M5.4%205.3L8.8%204.3M5.4%2013.4L8.7%2010.7M5.4%2014.7L8.8%2015.7M11.4%204.6L14.8%209.2M11.5%2010h3M11.4%2015.4l3.4-4.6%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E")}
+.tg.llm::before{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cg%20stroke%3D%22%23000%22%20stroke-width%3D%221.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M3%204h14v9H8.5L5%2016.5V13H3z%22%2F%3E%3Cpath%20d%3D%22M6%207.2h8M6%2010h5%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cg%20stroke%3D%22%23000%22%20stroke-width%3D%221.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M3%204h14v9H8.5L5%2016.5V13H3z%22%2F%3E%3Cpath%20d%3D%22M6%207.2h8M6%2010h5%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E")}
 .teach li:last-child{border-bottom:none;padding-bottom:0}
 .teach b{font-weight:400;font-size:.95rem}
 .teach span{font-family:var(--mono);font-weight:500;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
@@ -345,15 +362,15 @@ html[data-theme="dark"] .modal-bg{background:rgba(6,11,22,.70)}
 .empty{padding:40px 0;color:var(--muted);font-family:var(--mono);font-weight:500;font-size:12px}
 
 /* ---------- footer ---------- */
-footer{border-top:1px solid var(--edge);padding:clamp(30px,3.4vw,44px) var(--pad) 18px;background:var(--slab)}
-.f-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px 28px;max-width:1500px;margin:0 auto}
-footer h6{font-family:var(--mono);font-weight:500;font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-bottom:11px}
-footer p,footer a{font-size:.94rem;color:var(--frost);display:block;margin-bottom:5px;line-height:1.55}
+footer{border-top:1px solid var(--edge);padding:clamp(26px,2.6vw,34px) var(--pad) 14px;background:var(--slab)}
+.f-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px 26px;max-width:1500px;margin:0 auto}
+footer h6{font-family:var(--mono);font-weight:500;font-size:11px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+footer p,footer a{font-size:.89rem;color:var(--frost);display:block;margin-bottom:3px;line-height:1.5}
 footer a:hover{color:var(--halo)}
 .hits{display:inline-flex;align-items:center;gap:10px;color:var(--muted)}
 .hits b{color:var(--frost);font-weight:500;font-variant-numeric:tabular-nums}
 .hits i{font-style:normal;padding-left:10px;border-left:1px solid var(--edge-2)}
-.f-base{max-width:1500px;margin:20px auto 0;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px 20px;padding-top:14px;border-top:1px solid var(--edge);font-family:var(--mono);font-weight:500;font-size:11.5px;color:var(--muted);letter-spacing:.05em}
+.f-base{max-width:1500px;margin:16px auto 0;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px 20px;padding-top:12px;border-top:1px solid var(--edge);font-family:var(--mono);font-weight:500;font-size:11.5px;color:var(--muted);letter-spacing:.05em}
 
 @media(max-width:1080px){.grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:1180px){.people{grid-template-columns:repeat(3,1fr)}}
@@ -440,7 +457,7 @@ footer a:hover{color:var(--halo)}
   .modal{padding:0}
   .modal-box{width:100%;max-height:100vh;height:100%;padding:56px 20px 28px;border:0}
   .modal-x{top:12px;right:12px;width:38px;height:38px}
-  footer{padding:28px var(--pad) 16px}
+  footer{padding:24px var(--pad) 14px}
 }
 
 /* touch devices never hover, so show those cues by default */
@@ -604,17 +621,12 @@ footer a:hover{color:var(--halo)}
           </div>
         </div>
 
-        <div class="cv-head">Appointments</div>
         <ul class="cv">
           <li><div class="when">2025 — now</div><div class="what"><b>Associate Professor</b><span>School of Mechanical Engineering, Yonsei University<i>연세대학교 기계공학부</i></span></div></li>
           <li><div class="when">2019 — 2025</div><div class="what"><b>Assistant / Associate Professor</b><span>School of Mechanical Engineering, Soongsil University<i>숭실대학교 기계공학부</i></span></div></li>
           <li><div class="when">2014 — 2019</div><div class="what"><b>Research Staff Member</b><span>Samsung Advanced Institute of Technology, AI/SW Center<i>삼성전자 종합기술원</i></span></div></li>
           <li><div class="when">Earlier</div><div class="what"><b>Assistant Engineer</b><span>Samsung Electronics<i>삼성전자 생산기술연구소</i></span></div></li>
           <li><div class="when">Earlier</div><div class="what"><b>Research Intern</b><span>Sandia National Laboratories, NM, USA</span></div></li>
-        </ul>
-
-        <div class="cv-head">Education</div>
-        <ul class="cv">
           <li><div class="when">Ph.D.</div><div class="what"><b>Mechanical Engineering</b><span>University of Illinois at Urbana-Champaign, IL, USA</span></div></li>
         </ul>
       </div>
@@ -628,9 +640,18 @@ footer a:hover{color:var(--halo)}
         </dl>
         <h6 style="margin-top:30px">Teaching</h6>
         <ul class="teach">
-          <li><b>컴퓨터응용기계설계</b><span>Undergraduate</span></li>
-          <li><b>컴퓨터해석기반설계</b><span>Undergraduate</span></li>
-          <li><b>최적설계공학</b><span>Graduate</span></li>
+          <li>
+            <div class="row"><b>컴퓨터응용기계설계</b><span>Undergraduate</span></div>
+            <div class="tags"><i class="tg cad">CAD</i><i class="tg agent">AI Agent</i></div>
+          </li>
+          <li>
+            <div class="row"><b>컴퓨터해석기반설계</b><span>Undergraduate</span></div>
+            <div class="tags"><i class="tg fem">FEM</i><i class="tg ml">Machine Learning</i><i class="tg dl">Deep Learning</i></div>
+          </li>
+          <li>
+            <div class="row"><b>최적설계공학</b><span>Graduate</span></div>
+            <div class="tags"><i class="tg ml">Machine Learning</i><i class="tg dl">Deep Learning</i><i class="tg llm">LLM</i><i class="tg act">Active Learning</i></div>
+          </li>
         </ul>
       </div>
     </div>
@@ -741,7 +762,7 @@ footer a:hover{color:var(--halo)}
     </div>
     <div>
       <h6>Join</h6>
-      <p>Graduate and undergraduate researchers are welcome year-round. Email with a CV and a short note on what you want to compute.</p>
+      <p>Researchers welcome year-round — email a CV and a note on what you want to compute.</p>
     </div>
   </div>
   <div class="f-base">
@@ -1153,20 +1174,34 @@ const GC_CODE='csailab';                    // <- your GoatCounter code
   if(!el||!GC_CODE) return;
   const base='https://'+GC_CODE+'.goatcounter.com/counter/TOTAL.json';
   const today=new Date().toISOString().slice(0,10);
+  const say=m=>console.info('[visitor counter] '+m);
 
-  const grab=url=>fetch(url,{cache:'no-store'})
-    .then(r=>r.ok?r.json():Promise.reject(r.status))
-    .then(d=>d.count);
+  // 404 simply means nothing has been recorded yet -> that is a zero, not a failure
+  const grab=url=>fetch(url,{cache:'no-store'}).then(r=>{
+    if(r.ok) return r.json().then(d=>d.count);
+    if(r.status===404) return '0';
+    return Promise.reject(r.status);
+  });
 
-  Promise.all([grab(base), grab(base+'?start='+today).catch(()=>null)])
-    .then(([total,day])=>{
-      if(total==null) throw new Error('no count');
+  grab(base)
+    .then(total=>{
       document.getElementById('hits-total').textContent=total;
-      const t=document.getElementById('hits-today');
-      if(day!=null) t.textContent=day; else t.closest('i').remove();
       el.hidden=false;
+      return grab(base+'?start='+today).catch(()=>null);
     })
-    .catch(()=>{ /* not reachable yet - show nothing rather than a broken figure */ });
+    .then(day=>{
+      const t=document.getElementById('hits-today');
+      if(!t) return;
+      if(day!=null) t.textContent=day;
+      else { const wrap=t.closest('i'); if(wrap) wrap.remove(); }
+    })
+    .catch(err=>{
+      if(err===403) say('GoatCounter is refusing to share the figure. Turn on '+
+        '"Allow adding visitor counts on your website" in Settings.');
+      else if(location.protocol==='file:') say('opened from a local file - '+
+        'counts only work once the page is served over http(s).');
+      else say('could not reach '+base+' ('+err+')');
+    });
 })();
 
 /* ==================================================================
