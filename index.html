@@ -234,6 +234,7 @@ h2.sec{font-family:var(--display);font-weight:700;letter-spacing:-.035em;line-he
 .teach{list-style:none}
 .teach li{padding:12px 0;border-bottom:1px solid var(--edge)}
 .teach .row{display:flex;justify-content:space-between;align-items:baseline;gap:14px}
+.teach .ko-sub{font-family:"Pretendard Variable",sans-serif;font-size:.84rem;color:var(--muted);margin-top:3px}
 .teach .tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
 .tg{display:inline-flex;align-items:center;gap:5px;font-style:normal;font-family:var(--mono);
   font-weight:500;font-size:10.5px;letter-spacing:.02em;padding:4px 10px 4px 8px;border-radius:99px;
@@ -241,7 +242,8 @@ h2.sec{font-family:var(--display);font-weight:700;letter-spacing:-.035em;line-he
 .tg::before{content:"";width:11px;height:11px;flex:0 0 auto;
   background-color:currentColor;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
   -webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain}
-.tg.cad{color:var(--halo);border-color:color-mix(in srgb,var(--halo) 45%,transparent)}
+.tg.cad,.tg.cae{color:var(--halo);border-color:color-mix(in srgb,var(--halo) 45%,transparent)}
+.tg.cae::before{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cg%20stroke%3D%22%23000%22%20stroke-width%3D%221.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M3.4%2013.4V6.6l6.6-3.2%206.6%203.2v6.8L10%2016.6z%22%2F%3E%3Cpath%20d%3D%22M3.4%206.6L10%209.8l6.6-3.2M10%209.8v6.8%22%2F%3E%3Cpath%20d%3D%22M6.7%205l6.6%203.2%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cg%20stroke%3D%22%23000%22%20stroke-width%3D%221.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M3.4%2013.4V6.6l6.6-3.2%206.6%203.2v6.8L10%2016.6z%22%2F%3E%3Cpath%20d%3D%22M3.4%206.6L10%209.8l6.6-3.2M10%209.8v6.8%22%2F%3E%3Cpath%20d%3D%22M6.7%205l6.6%203.2%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E")}
 .tg.fem{color:var(--halo);border-color:color-mix(in srgb,var(--halo) 45%,transparent)}
 .tg.agent,.tg.ml,.tg.dl,.tg.llm,.tg.act{color:var(--charge);border-color:color-mix(in srgb,var(--charge) 45%,transparent)}
 .tg.agent::before{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cg%20stroke%3D%22%23000%22%20stroke-width%3D%221.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%224%22%20y%3D%227.5%22%20width%3D%2212%22%20height%3D%229%22%20rx%3D%222.2%22%2F%3E%3Cpath%20d%3D%22M10%203.4v4.1%22%2F%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%222.6%22%20r%3D%221.2%22%2F%3E%3Cpath%20d%3D%22M7.6%2011.2v1.6M12.4%2011.2v1.6%22%2F%3E%3Cpath%20d%3D%22M1.8%2010.5v3M18.2%2010.5v3%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cg%20stroke%3D%22%23000%22%20stroke-width%3D%221.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%224%22%20y%3D%227.5%22%20width%3D%2212%22%20height%3D%229%22%20rx%3D%222.2%22%2F%3E%3Cpath%20d%3D%22M10%203.4v4.1%22%2F%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%222.6%22%20r%3D%221.2%22%2F%3E%3Cpath%20d%3D%22M7.6%2011.2v1.6M12.4%2011.2v1.6%22%2F%3E%3Cpath%20d%3D%22M1.8%2010.5v3M18.2%2010.5v3%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E")}
@@ -252,7 +254,7 @@ h2.sec{font-family:var(--display);font-weight:700;letter-spacing:-.035em;line-he
 .tg.dl::before{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cg%20stroke%3D%22%23000%22%20stroke-width%3D%221.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%224%22%20cy%3D%226%22%20r%3D%221.5%22%2F%3E%3Ccircle%20cx%3D%224%22%20cy%3D%2214%22%20r%3D%221.5%22%2F%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%224%22%20r%3D%221.5%22%2F%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%2210%22%20r%3D%221.5%22%2F%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%2216%22%20r%3D%221.5%22%2F%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2210%22%20r%3D%221.5%22%2F%3E%3Cpath%20d%3D%22M5.4%206.6L8.7%209.3M5.4%205.3L8.8%204.3M5.4%2013.4L8.7%2010.7M5.4%2014.7L8.8%2015.7M11.4%204.6L14.8%209.2M11.5%2010h3M11.4%2015.4l3.4-4.6%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cg%20stroke%3D%22%23000%22%20stroke-width%3D%221.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%224%22%20cy%3D%226%22%20r%3D%221.5%22%2F%3E%3Ccircle%20cx%3D%224%22%20cy%3D%2214%22%20r%3D%221.5%22%2F%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%224%22%20r%3D%221.5%22%2F%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%2210%22%20r%3D%221.5%22%2F%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%2216%22%20r%3D%221.5%22%2F%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2210%22%20r%3D%221.5%22%2F%3E%3Cpath%20d%3D%22M5.4%206.6L8.7%209.3M5.4%205.3L8.8%204.3M5.4%2013.4L8.7%2010.7M5.4%2014.7L8.8%2015.7M11.4%204.6L14.8%209.2M11.5%2010h3M11.4%2015.4l3.4-4.6%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E")}
 .tg.llm::before{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cg%20stroke%3D%22%23000%22%20stroke-width%3D%221.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M3%204h14v9H8.5L5%2016.5V13H3z%22%2F%3E%3Cpath%20d%3D%22M6%207.2h8M6%2010h5%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cg%20stroke%3D%22%23000%22%20stroke-width%3D%221.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M3%204h14v9H8.5L5%2016.5V13H3z%22%2F%3E%3Cpath%20d%3D%22M6%207.2h8M6%2010h5%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E")}
 .teach li:last-child{border-bottom:none;padding-bottom:0}
-.teach b{font-weight:400;font-size:.95rem}
+.teach b{font-weight:500;font-size:.95rem;letter-spacing:-.01em}
 .teach span{font-family:var(--mono);font-weight:500;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
 .people{display:grid;grid-template-columns:repeat(4,1fr);border-left:1px solid var(--edge);margin-top:0}
 .person{background:var(--deep);border-right:1px solid var(--edge);border-bottom:1px solid var(--edge);transition:background .35s;display:flex;flex-direction:column}
@@ -265,6 +267,18 @@ h2.sec{font-family:var(--display);font-weight:700;letter-spacing:-.035em;line-he
 .person:hover{background:var(--slab)}
 .person .ko{font-family:"Pretendard Variable",sans-serif;font-size:.9rem;color:var(--muted);letter-spacing:0}
 .person h5{font-family:var(--display);font-weight:600;font-size:1.05rem;letter-spacing:-.015em;margin-top:1px;line-height:1.2}
+.who{display:flex;align-items:center;gap:7px;margin-top:1px}
+.who h5{margin-top:0}
+.ext-links{display:flex;gap:5px;flex:0 0 auto}
+.ext-links a{width:19px;height:19px;border:1px solid var(--edge-2);border-radius:50%;
+  display:grid;place-items:center;transition:.2s}
+.ext-links a::before{content:"";width:11px;height:11px;background-color:var(--muted);
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;
+  -webkit-mask-size:contain;mask-size:contain;transition:background-color .2s}
+.ext-links a:hover{border-color:var(--halo)}
+.ext-links a:hover::before{background-color:var(--halo)}
+.ext-links a.gs::before{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cg%20stroke%3D%22%23000%22%20stroke-width%3D%221.7%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M10%203.6L18%207.4l-8%203.8-8-3.8z%22%2F%3E%3Cpath%20d%3D%22M5.4%209.2v4.2c0%201.4%202.1%202.6%204.6%202.6s4.6-1.2%204.6-2.6V9.2%22%2F%3E%3Cpath%20d%3D%22M17.4%207.8v4.4%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cg%20stroke%3D%22%23000%22%20stroke-width%3D%221.7%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M10%203.6L18%207.4l-8%203.8-8-3.8z%22%2F%3E%3Cpath%20d%3D%22M5.4%209.2v4.2c0%201.4%202.1%202.6%204.6%202.6s4.6-1.2%204.6-2.6V9.2%22%2F%3E%3Cpath%20d%3D%22M17.4%207.8v4.4%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E")}
+.ext-links a.web::before{-webkit-mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cg%20stroke%3D%22%23000%22%20stroke-width%3D%221.7%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%2210%22%20r%3D%227.2%22%2F%3E%3Cpath%20d%3D%22M2.8%2010h14.4%22%2F%3E%3Cpath%20d%3D%22M10%202.8c2%202.2%203%204.6%203%207.2s-1%205-3%207.2c-2-2.2-3-4.6-3-7.2s1-5%203-7.2z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");mask-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cg%20stroke%3D%22%23000%22%20stroke-width%3D%221.7%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%2210%22%20cy%3D%2210%22%20r%3D%227.2%22%2F%3E%3Cpath%20d%3D%22M2.8%2010h14.4%22%2F%3E%3Cpath%20d%3D%22M10%202.8c2%202.2%203%204.6%203%207.2s-1%205-3%207.2c-2-2.2-3-4.6-3-7.2s1-5%203-7.2z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E")}
 .person .prog{font-family:var(--mono);font-weight:500;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--halo)}
 .person .areas{list-style:none;margin-top:12px;display:flex;flex-wrap:wrap;gap:6px}
 .person .areas li{font-family:var(--mono);font-weight:500;font-size:11.5px;color:var(--muted);border:1px solid var(--edge-2);padding:3px 9px;border-radius:99px;letter-spacing:.01em}
@@ -668,15 +682,18 @@ footer a:hover{color:var(--halo)}
         <h6 style="margin-top:30px">Teaching</h6>
         <ul class="teach">
           <li>
-            <div class="row"><b>컴퓨터응용기계설계</b><span>Undergraduate</span></div>
+            <div class="row"><b>Computer-Aided Design</b><span>Undergraduate</span></div>
+            <div class="ko-sub">컴퓨터응용기계설계</div>
             <div class="tags"><i class="tg cad">CAD</i><i class="tg agent">AI Agent</i></div>
           </li>
           <li>
-            <div class="row"><b>컴퓨터해석기반설계</b><span>Undergraduate</span></div>
-            <div class="tags"><i class="tg fem">FEM</i><i class="tg ml">Machine Learning</i><i class="tg dl">Deep Learning</i></div>
+            <div class="row"><b>Computer-Aided Engineering Design</b><span>Undergraduate</span></div>
+            <div class="ko-sub">컴퓨터해석기반설계</div>
+            <div class="tags"><i class="tg cae">CAE</i><i class="tg fem">FEM</i><i class="tg ml">Machine Learning</i><i class="tg dl">Deep Learning</i></div>
           </li>
           <li>
-            <div class="row"><b>최적설계공학</b><span>Graduate</span></div>
+            <div class="row"><b>Design Optimization</b><span>Graduate</span></div>
+            <div class="ko-sub">최적설계공학</div>
             <div class="tags"><i class="tg ml">Machine Learning</i><i class="tg dl">Deep Learning</i><i class="tg llm">LLM</i><i class="tg act">Active Learning</i></div>
           </li>
         </ul>
@@ -743,6 +760,7 @@ footer a:hover{color:var(--halo)}
     <div id="publist"></div>
   </div>
 </section>
+
 
 </main>
 
@@ -1092,17 +1110,17 @@ document.getElementById('q').addEventListener('input',e=>{paintKW();render(curF,
    ================================================================== */
 const PEOPLE=[
 /* group: "phd" = Graduate (PhD, MS/PhD) | "ms" = Graduate (MS) | "ug" = Undergraduate */
-["phd","강승표","Seungpyo Kang","Ph.D. program",["Machine-learned potentials", "Solid electrolytes", "Cathode dopant screening", "NLP data mining"],"seungpyo0501@yonsei.ac.kr","",""],
-["phd","김주오","Juo Kim","Ph.D. program",["Solid electrolytes", "NASICON cathodes", "Na-ion cathodes", "Interface adhesion"],"rlawndh14@yonsei.ac.kr","",""],
+["phd","강승표","Seungpyo Kang","Ph.D. program",["Machine-learned potentials", "Solid electrolytes", "Cathode dopant screening", "NLP data mining"],"seungpyo0501@yonsei.ac.kr","","","https://scholar.google.com/citations?user=wnc4I8YAAAAJ&hl=en"],
+["phd","김주오","Juo Kim","Ph.D. program",["Solid electrolytes", "Quantum computing", "Na-ion cathodes", "Interface adhesion"],"rlawndh14@yonsei.ac.kr","","","https://scholar.google.com/citations?user=lDRVeIwAAAAJ&hl=en"],
 ["phd","김민선","Minseon Kim","Ph.D. program",["Active learning", "Cathode discovery", "Thermal runaway", "Property prediction"],"2025323078@yonsei.ac.kr","https://minsunny.framer.website/",""],
-["phd","송준호","JunHo Song","Graduate researcher",["Metamaterials", "Zeolite mechanics", "Organometallic precursors", "Machine-learned potentials"],"songpark11@naver.com","",""],
+["phd","송준호","JunHo Song","Graduate researcher",["Metamaterials", "Zeolite mechanics", "Organometallic precursors", "Machine-learned potentials"],"songpark11@naver.com","","","https://scholar.google.com/citations?user=9mfyLOkAAAAJ&hl=en"],
 ["phd","정예림","Yerim Jung","Integrated M.S.–Ph.D. program",["High-voltage spinel", "Dual-doped electrolytes", "Na-ion cathodes", "Dopant screening"],"emma12027@gmail.com","",""],
 ["phd","김승배","SeungBae Kim","Integrated M.S.–Ph.D. program",["AI-driven methodologies", "Inorganic materials"],"kimsb05127@yonsei.ac.kr","",""],
 
 ["ms","고태서","Taeseo Ko","M.S. program",["2D materials", "Ionic conductivity", "Band gap prediction", "High-entropy cathodes"],"gts8638@yonsei.ac.kr","",""],
 ["ms","신우진","Woojin Shin","M.S. program",["Machine-learned potentials", "Cathode/electrolyte interfaces", "Thermal runaway", "Na-ion batteries"],"wjs0426@yonsei.ac.kr","https://woojinshin.quv.kr",""],
 ["ms","황정재","Jungjae Hwang","M.S. program",["Machine-learned potentials", "Data-efficient training", "Interface adhesion", "NLP data curation"],"hjungjae@yonsei.ac.kr","",""],
-["ms","김종혁","Jonghyuk Kim","M.S. program",["MAX phases & MXenes", "Machine-learned potentials", "Thermal runaway", "Cathode dopants"],"jonghyuk3572@yonsei.ac.kr","",""],
+["ms","김종혁","Jonghyuk Kim","M.S. program",["MAX phases & MXenes", "Machine-learned potentials", "Thermal runaway", "Cathode dopants"],"jonghyuk3572@yonsei.ac.kr","","","https://scholar.google.com/citations?user=-zlmjcwAAAAJ&hl=en"],
 ["ms","정아현","Ahhyun Jeong","M.S. program",["High-entropy cathodes", "Dopant screening", "Ionic conductivity", "NLP data curation"],"jahhyun@yonsei.ac.kr","",""],
 ["ms","송상현","Sanghyeon Song","M.S. program",["MXenes", "MAX phases", "High-voltage spinel", "Zinc metal anodes"],"hyeon4977@yonsei.ac.kr","",""],
 ["ms","권중현","Junghyeon Kwon","M.S. program",["Thermal runaway", "High-voltage spinel", "MXenes", "MAX phases"],"kjunghyeon629@yonsei.ac.kr","",""],
@@ -1111,7 +1129,7 @@ const PEOPLE=[
 ["ms","안정환","Jung Hwan Ahn","M.S. program",["AI-driven additive manufacturing"],"hdj32d@naver.com","","Co-advised with Dr. Byoung Soo Lee (KITECH)"],
 ["ms","노수연","Suyeon Ro","M.S. program",["AI-driven engineering design"],"07s129@kitech.re.kr","","Co-advised with Dr. Jongsu Kim and Dr. Jong-Sun Kim (KITECH)"],
 
-["ug","박재휘","Jaehui Park","Undergraduate researcher",["AI-driven materials discovery", "Energy materials"],"qkrwognl121@yonsei.ac.kr","",""]
+["ug","박재휘","Jaehui Park","Undergraduate researcher",["AI-driven materials discovery", "Quantum computing", "Energy materials"],"qkrwognl121@yonsei.ac.kr","",""]
 ];
 
 const ALUMNI=[
@@ -1182,6 +1200,7 @@ function pubsForTopic(key){
   };
   const close=()=>{box.hidden=true;document.body.style.overflow=''};
   const byPerson=n=>{const r=pubsFor(n);open(n, r.length+' publication'+(r.length>1?'s':'')+' with the lab', r, n)};
+  window.openPapersFor=byPerson;
   const byTopic=c=>{const r=pubsForTopic(c.dataset.topic);
     open(c.dataset.label.replace(/&amp;/g,'&'), r.length+' related publication'+(r.length>1?'s':''), r, null)};
 
@@ -1212,16 +1231,23 @@ function pubsForTopic(key){
     '<div class="shot"><img src="img/'+slug(m[2])+'.png" alt="'+esc(m[2])+
     '" loading="lazy" onerror="this.parentNode.remove()"></div>';
 
+  const extLinks = m => {
+    const out=[];
+    if(m[8]) out.push('<a class="gs" href="'+m[8]+'" target="_blank" rel="noopener" title="Google Scholar" aria-label="'+esc(m[2])+' on Google Scholar"></a>');
+    if(m[6]) out.push('<a class="web" href="'+m[6]+'" target="_blank" rel="noopener" title="Personal site" aria-label="'+esc(m[2])+' personal site"></a>');
+    return out.length ? '<span class="ext-links">'+out.join('')+'</span>' : '';
+  };
+
   const card = m =>
     '<div class="person reveal"><div class="body">'+
     '<div class="head">'+shot(m)+'<div class="id">'+
-    '<div class="ko">'+esc(m[1])+'</div><h5>'+esc(m[2])+'</h5></div></div>'+
+    '<div class="ko">'+esc(m[1])+'</div>'+
+    '<div class="who"><h5>'+esc(m[2])+'</h5>'+extLinks(m)+'</div></div></div>'+
     '<div class="prog">'+esc(m[3])+'</div>'+
     '<ul class="areas">'+m[4].map(a=>'<li>'+esc(a)+'</li>').join('')+'</ul>'+
     (m[7]?'<div class="co">'+esc(m[7])+'</div>':'')+
-    '<div class="links"><a href="mailto:'+m[5]+'">'+esc(m[5])+'</a>'+
-    (m[6]?'<a href="'+m[6]+'" target="_blank" rel="noopener">'+esc(m[6].replace(/^https?:\/\//,''))+' \u2197</a>':'')+
-    '</div>'+achButton(m[2])+'</div></div>';
+    '<div class="links"><a href="mailto:'+m[5]+'">'+esc(m[5])+'</a></div>'+
+    achButton(m[2])+'</div></div>';
 
   [['phd','g-phd','c-phd'],
    ['ms','g-ms','c-ms'],
