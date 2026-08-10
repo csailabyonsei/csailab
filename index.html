@@ -836,10 +836,10 @@ const PUBS = [
 ["Designing High-Voltage Spinel LiNi0.5Mn1.5O4 Cathodes via Dual-Doping and Multi-Criteria Screening","Junghyeon Kwon, Jungjae Hwang, Woojin Shin, Yerim Jung, Jonghyuk Kim, Sanghyeon Song, and Kyoungmin Min*","Submitted"],
 ["Domain-Specialized Machine Learning Interatomic Potentials for Reliable Structural Relaxation in Battery Cathodes","Jungjae Hwang+, Minseon Kim+, Woojin Shin, Jonghyuk Kim, Seungpyo Kang, and Kyoungmin Min*","Submitted"],
 ["Heteroatom-Doped Porous Carbon Interphases Enable Stable Zinc Metal Anodes by Regulating Ion Transport and Parasitic Reactions","Sushanta K. Das, Su-Hwan Suk, Sanghyeon Song, Taehyeon Kim, Hye Gyu Cha, Chae-Eun Son, Myeong-Jun Song, JongWoo Hong, Muhaiminul Islam, Rajib Biswal, Kyoungmin Min*, Seong-Min Bak*, Seong Chan Jun*","Submitted"],
-["Engineered Multi-Phase Sulfide/Phosphide Heterostructures via MOF-Derived Ion Exchange for High-Performance Supercapacitor","Junghyun Joo+, Ling Kang+, Seungpyo Kang, Jongwoo Hong, Amar M. Patil, Arti A. Jadhav, Mingony Kim, Chanmin Lee, Hyun June Lee, Sushanta Kumar Das, Kyoungmin Min*, Kyung Yoon Chung* and Seong Chan Jun*","Submitted"],
-["Targeted Doping Strategy for Suppressing Mn-Induced SEI Breakdown and Gas Generation in High-Voltage LMFP/Gr Full-Cell Lithium-Ion Batteries","Youbean Lee, Taemin Kim, Hyemin Jeong, Kyoungmin Min*, and Kwangjin Park*","Submitted"]]],
+["Engineered Multi-Phase Sulfide/Phosphide Heterostructures via MOF-Derived Ion Exchange for High-Performance Supercapacitor","Junghyun Joo+, Ling Kang+, Seungpyo Kang, Jongwoo Hong, Amar M. Patil, Arti A. Jadhav, Mingony Kim, Chanmin Lee, Hyun June Lee, Sushanta Kumar Das, Kyoungmin Min*, Kyung Yoon Chung* and Seong Chan Jun*","Submitted"]]],
 
 ["2026","",[
+["Targeted Doping Strategy for Suppressing Mn-Induced SEI Breakdown and Gas Generation in High-Voltage LMFP/Gr Full-Cell Lithium-Ion Batteries","Youbean Lee, Taemin Kim, Hyemin Jeong, Kyoungmin Min*, and Kwangjin Park*","Chemical Engineering Journal, Accepted"],
 ["Unifying the Thermodynamic, Electronic, and Mechanical Landscapes of Double-Transition-Metal MXenes for Data-Driven Material Design","Sanghyeon Song, Junghyeon Kwon, Jonghyuk Kim, Woojin Shin, and Kyoungmin Min*","Journal of Materials Chemistry A, Accepted","10.1039/d6ta01471b"],
 ["Partially Reduced and Stabilized Phase-Changed MoS₂ Hybrids for Vapor Molecular Absorption at Defects in Edge Sites","Hye Gyu Cha+, Taeseo Ko+, Tae Hyeon Kim, Yun ji Hwang, Sushanta Kumar Das, Kyoungmin Min*, and Seong Chan Jun*","Small Science, 6, 5, e202500605, 2026/05/01","10.1002/smsc.202500605"],
 ["Data-Efficient Training of Machine Learning Interatomic Potential for MAX-Phase Synthesizability Prediction","Jonghyuk Kim, Woojin Shin, Jungjae Hwang, Junghyeon Kwon, Sanghyeon Song, and Kyoungmin Min*","Journal of Materials Chemistry A, 14, 15319, 2026/04/23","10.1039/d5ta09736c"],
@@ -1044,9 +1044,10 @@ function render(filter,query){
       n++; k++;
       const doi=it[3];
       const submitted = label==='Submitted';
+      const nolink = submitted || !doi;      // Submitted, or accepted but no DOI yet
       const href=doi?('https://doi.org/'+doi):scholarURL(it[0]);
-      const btn = submitted ? '' : paperLinks(doi,it[0]);
-      const title = submitted ? esc(it[0])
+      const btn = nolink ? '' : paperLinks(doi,it[0]);
+      const title = nolink ? esc(it[0])
         : '<a href="'+href+'" target="_blank" rel="noopener">'+esc(it[0])+'</a>';
       html+='<article class="pub"><div class="n">'+String(k).padStart(2,'0')+'</div>'+
         '<div><h4>'+title+'</h4><div class="auth">'+esc(it[1])+'</div>'+kwChips(it[0])+'</div>'+
@@ -1188,11 +1189,12 @@ function pubsForTopic(key){
     document.getElementById('modal-sub').textContent=sub;
     document.getElementById('modal-list').innerHTML=rows.map(([yr,it])=>{
       const submitted = yr==='Submitted';
+      const nolink = submitted || !it[3];
       const href=it[3]?('https://doi.org/'+it[3]):scholarURL(it[0]);
-      const btn = submitted ? '' : paperLinks(it[3],it[0]);
+      const btn = nolink ? '' : paperLinks(it[3],it[0]);
       const au=name ? esc(it[1]).replace(new RegExp(esc(name)+'([+*]*)','g'),'<em>'+esc(name)+'$1</em>') : esc(it[1]);
       return '<div class="mrow"><div class="yr">'+esc(yr)+'</div>'+
-        '<h4>'+(submitted ? esc(it[0]) : '<a href="'+href+'" target="_blank" rel="noopener">'+esc(it[0])+'</a>')+'</h4>'+
+        '<h4>'+(nolink ? esc(it[0]) : '<a href="'+href+'" target="_blank" rel="noopener">'+esc(it[0])+'</a>')+'</h4>'+
         '<div class="au">'+au+'</div><div class="jr2">'+venue(it[2])+'</div>'+
         kwChips(it[0])+(btn?'<div class="mlinks">'+btn+'</div>':'')+'</div>';
     }).join('');
