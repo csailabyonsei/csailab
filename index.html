@@ -1299,7 +1299,7 @@ let THEME='dark';   /* 'dark' | 'dim' | 'soft' | 'light' */
    ================================================================== */
 const PUBS = [
 ["Submitted","Under review",[
-["Analysis of Fine-Tuned Foundation Interatomic Potentials and Their Knowledge Distillation into a Cluster Expansion for Ni–Pt Ordering Thermodynamics","Jungjae Hwang+, Jaejun Lee+, Channyung Lee, Elif Ertekin*, and Kyoungmin Min*","Submitted"],
+["Analysis of Fine-Tuned Foundation Interatomic Potentials and Their Knowledge Distillation into a Cluster Expansion for Ni–Pt Ordering Thermodynamics","Jungjae Hwang+, Jaejun Lee+, Channyung Lee, Elif Ertekin*, and Kyoungmin Min*","Submitted","https://chemrxiv.org/doi/full/10.26434/chemrxiv.15009736/v1"],
 ["High-Entropy M-Site Doping Enhances Na-Ion Transport in Na3Fe2(PO4)3 NASICON Cathodes: A High-Throughput Computational Study","Woojin Shin, Jonghyuk Kim, Jungjae Hwang, Junghyeon Kwon, Woon-Hong Yeo, and Kyoungmin Min*","Submitted"],
 ["Surface Domain and Delithiation Effects on Interfacial Adhesion and Debonding in Amorphous-Coated Li-rich Layered Oxides Using Machine Learning Interatomic Potentials","Seungpyo Kang and Kyoungmin Min*","Submitted"],
 ["Hierarchical Oxygen Framework Reinforcement for Sequential Delay of Gas Evolution and Thermal Runaway in Ultra-high-Nickel Cathodes","Youbean Lee, Hyemin Jeong, Chanjoo Park, Kyoungmin Min*, and Kwangjin Park*","Submitted"],
@@ -1542,6 +1542,9 @@ function paperLinks(doi,title){        /* DOI when known, always a Scholar looku
     : '<a class="doi-btn find" href="'+scholarURL(title)+'" target="_blank" rel="noopener">Find \u2197</a>';
   return '<span class="plinks">'+inner+'</span>';
 }
+function preprintLink(url){             /* Submitted papers with a public preprint */
+  return '<span class="plinks"><a class="doi-btn" href="'+url+'" target="_blank" rel="noopener">Preprint \u2197</a></span>';
+}
 function venue(v){                       /* journal name, then volume / pages / date */
   const i=v.indexOf(',');
   return i<0 ? '<b>'+esc(v)+'</b>'
@@ -1564,9 +1567,10 @@ function render(filter,query){
       n++; k++;
       const doi=it[3];
       const submitted = label==='Submitted';
-      const nolink = submitted || !doi;      // Submitted, or accepted but no DOI yet
-      const href=doi?('https://doi.org/'+doi):scholarURL(it[0]);
-      const btn = nolink ? '' : paperLinks(doi,it[0]);
+      const pre = submitted && doi;          // Submitted: 4th field is a preprint URL
+      const nolink = !pre && (submitted || !doi);   // Submitted w/o preprint, or accepted but no DOI yet
+      const href=pre?doi:(doi?('https://doi.org/'+doi):scholarURL(it[0]));
+      const btn = nolink ? '' : (pre ? preprintLink(doi) : paperLinks(doi,it[0]));
       const title = nolink ? esc(it[0])
         : '<a href="'+href+'" target="_blank" rel="noopener">'+esc(it[0])+'</a>';
       html+='<article class="pub"><div class="n">'+String(k).padStart(2,'0')+'</div>'+
@@ -1711,9 +1715,10 @@ function pubsForTopic(key){
     document.getElementById('modal-sub').textContent=sub;
     document.getElementById('modal-list').innerHTML=rows.map(([yr,it])=>{
       const submitted = yr==='Submitted';
-      const nolink = submitted || !it[3];
-      const href=it[3]?('https://doi.org/'+it[3]):scholarURL(it[0]);
-      const btn = nolink ? '' : paperLinks(it[3],it[0]);
+      const pre = submitted && it[3];
+      const nolink = !pre && (submitted || !it[3]);
+      const href=pre?it[3]:(it[3]?('https://doi.org/'+it[3]):scholarURL(it[0]));
+      const btn = nolink ? '' : (pre ? preprintLink(it[3]) : paperLinks(it[3],it[0]));
       const au=name ? esc(it[1]).replace(new RegExp(esc(name)+'([+*]*)','g'),'<em>'+esc(name)+'$1</em>') : esc(it[1]);
       return '<div class="mrow"><div class="yr">'+esc(yr)+'</div>'+
         '<h4>'+(nolink ? esc(it[0]) : '<a href="'+href+'" target="_blank" rel="noopener">'+esc(it[0])+'</a>')+'</h4>'+
