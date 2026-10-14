@@ -774,6 +774,14 @@ h2.sec {line-height:1.12;letter-spacing:-.045em;font-size:clamp(2rem,4.5vw,3.3re
 .shot {width:57px;height:57px;border:1px solid var(--edge-2);background:linear-gradient(140deg,var(--tint),var(--tint-2))}
 .no-photo::after {content:attr(data-initials);position:absolute;inset:0;display:grid;place-items:center;font-family:var(--display);font-size:18px;font-weight:700;letter-spacing:-.03em;color:var(--halo)}
 .pi-shot.no-photo::after {font-size:35px}
+.pi-side{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:12px}
+.pi-links{display:flex;flex-direction:column;gap:6px;width:100%;min-width:118px}
+.pi-links a{display:flex;align-items:center;gap:7px;padding:6px 11px;border:1px solid var(--edge-2);border-radius:999px;
+  font-family:var(--mono);font-weight:500;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);
+  text-decoration:none;transition:color .2s,border-color .2s,background-color .2s}
+.pi-links a:hover,.pi-links a:focus-visible{color:var(--halo);border-color:var(--halo);background:var(--tint)}
+.pi-links svg{width:15px;height:15px;flex:0 0 auto;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+@media (max-width:640px){.pi-side{align-items:flex-start}.pi-links{flex-direction:row;flex-wrap:wrap;width:auto;min-width:0}}
 .person .ko {font-size:.83rem;line-height:1.5}
 .person h5 {font-size:1.05rem;line-height:1.25;overflow-wrap:anywhere}
 .who {flex-wrap:wrap;gap:7px}
@@ -1124,7 +1132,13 @@ footer .mailrow a {min-width:0;overflow-wrap:anywhere}
     <div class="pi">
       <div class="reveal">
         <div class="pi-head">
+          <div class="pi-side">
           <div class="pi-shot" data-initials="KM"><img src="img/kyoungmin-min.png" alt="Kyoungmin Min" onerror="this.hidden=true;this.parentNode.classList.add(&quot;no-photo&quot;)"></div>
+          <div class="pi-links">
+            <a href="https://scholar.google.com/citations?user=V8RaXJ0AAAAJ&amp;hl=en" target="_blank" rel="noopener" title="Google Scholar profile" aria-label="Kyoungmin Min on Google Scholar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 22 9l-10 5L2 9z"/><path d="M6.5 11.3v4.4c0 1.5 2.5 2.8 5.5 2.8s5.5-1.3 5.5-2.8v-4.4"/><path d="M22 9v5.5"/></svg><span>Scholar</span></a>
+            <a href="https://topscinet.com/scientist_profile/Min,%20Kyoungmin/2016/?stype=single_year" target="_blank" rel="noopener" title="TopSciNet scientist profile" aria-label="Kyoungmin Min on TopSciNet"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="9" r="5.5"/><path d="m12 6.4.8 1.7 1.8.2-1.3 1.2.4 1.8-1.7-.9-1.7.9.4-1.8-1.3-1.2 1.8-.2z"/><path d="m8.6 13.4-1.8 7 5.2-2.6 5.2 2.6-1.8-7"/></svg><span>TopSciNet</span></a>
+          </div>
+          </div>
           <div class="pi-id">
         <h3>Kyoungmin Min</h3>
         <div class="role">Associate Professor · School of Mechanical Engineering</div>
@@ -1165,6 +1179,11 @@ footer .mailrow a {min-width:0;overflow-wrap:anywhere}
             <div class="row"><b>Design Optimization</b><span>Graduate</span></div>
             <div class="ko-sub">최적설계공학</div>
             <div class="tags"><i class="tg ml">Machine Learning</i><i class="tg dl">Deep Learning</i><i class="tg llm">LLM</i><i class="tg act">Active Learning</i></div>
+          </li>
+          <li>
+            <div class="row"><b>Introduction to Machine Learning</b><span>Graduate</span></div>
+            <div class="ko-sub">기계학습소개</div>
+            <div class="tags"><i class="tg llm">LLM</i></div>
           </li>
         </ul>
       </div>
